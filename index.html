@@ -228,28 +228,47 @@
         
         .flight-badge i { color: var(--accent-yellow); margin-right: 5px; }
 
-        .cover-title {
-            font-size: 32px;
-            font-weight: 900;
-            line-height: 1.4;
-            color: var(--text-main);
+        .cover-title-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .main-org {
+            font-size: 30px;
+            font-weight: 900;
+            line-height: 1.2;
+            color: var(--text-main);
+            letter-spacing: 1px;
         }
 
         .cover-en-title {
             font-family: 'Poppins', sans-serif;
-            font-size: 11px;
+            font-size: 10px; /* 縮小字體以對齊中文字符寬度 */
             color: var(--accent-blue);
-            letter-spacing: 0.5px;
-            margin: 8px 0 15px;
-            font-weight: 600;
-            line-height: 1.4;
+            letter-spacing: 0.2px;
+            margin: 6px 0 16px;
+            font-weight: 500;
+            line-height: 1.2;
+            white-space: nowrap; /* 強制單行顯示 */
         }
 
-        .cover-title span {
+        .sub-org {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .main-event {
             color: var(--accent-navy);
+            font-size: 40px;
+            font-weight: 900;
+            letter-spacing: 4px;
             display: block;
-            font-size: 38px;
         }
 
         .cover-theme {
@@ -327,7 +346,9 @@
             text-align: center;
         }
 
-        /* 贊助商區塊 */
+        /* =========================================
+           贊助商區塊 (Sponsors Area) - 圖片優化
+           ========================================= */
         .sponsors-container {
             position: relative;
             z-index: 3;
@@ -357,20 +378,35 @@
 
         .sponsor-box {
             background: #FFFFFF;
-            color: var(--text-main);
             border-radius: 8px;
-            height: 42px;
+            height: 48px; /* 稍微增加高度以容納 LOGO */
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 13px;
-            font-weight: 700;
             flex: 1 1 calc(33.333% - 12px);
             min-width: 90px;
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--surface-border);
             transition: transform 0.2s;
+            overflow: hidden; /* 確保圖片不會超出框框 */
+            padding: 5px; /* 給 LOGO 一點留白 */
         }
+
+        /* 讓裡面的圖片自動縮放填滿，但不變形 */
+        .sponsor-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; 
+            display: block;
+        }
+
+        /* 無圖片時顯示的替代文字樣式 (測試用) */
+        .sponsor-box .alt-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
         .sponsor-box:active { transform: scale(0.95); }
         .sponsor-box:nth-child(4), .sponsor-box:nth-child(5) { flex: 0 1 calc(40% - 12px); }
 
@@ -694,24 +730,45 @@
     <section id="cover">
         <div class="cover-overlay"></div>
         <div class="cover-content fade-in">
-            <h1 class="cover-title">
-                桃園市航空城發展協會
-                <div class="cover-en-title">
-                    Taoyuan Aerotropolis Development<br>Association
-                </div>
-                第六屆理事長<br>暨理監事<span>就職典禮</span>
+            <h1 class="cover-title-group">
+                <div class="main-org">桃園市航空城發展協會</div>
+                <div class="cover-en-title">Taoyuan Aerotropolis Development Association</div>
+                <div class="sub-org">第六屆理事長暨理監事</div>
+                <span class="main-event">就職典禮</span>
             </h1>
             <div class="cover-theme">跨域整合 · 築夢航空<br><span class="cover-date">2026.03.22</span></div>
         </div>
         
+        <!-- 贊助商區塊 (封面) -->
         <div class="sponsors-container fade-in">
             <div class="sponsors-title">POWERED BY</div>
             <div class="sponsors-grid">
-                <div class="sponsor-box">贊助商 A</div>
-                <div class="sponsor-box">贊助商 B</div>
-                <div class="sponsor-box">贊助商 C</div>
-                <div class="sponsor-box">贊助商 D</div>
-                <div class="sponsor-box">贊助商 E</div>
+                <!-- 
+                   更換 LOGO 教學：
+                   1. 將您的圖片 (例如 sponsor1.png) 放在與這個 HTML 同一個資料夾內。
+                   2. 將下面 <img src="..."> 裡面的文字改成您的檔名。
+                   3. 如果不需要 5 個版位，可以直接把整段 <div class="sponsor-box">...</div> 刪除。
+                -->
+                <div class="sponsor-box">
+                    <img src="sponsor1.png" alt="贊助商 A" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="alt-text" style="display:none;">贊助商 A</span>
+                </div>
+                <div class="sponsor-box">
+                    <img src="sponsor2.png" alt="贊助商 B" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="alt-text" style="display:none;">贊助商 B</span>
+                </div>
+                <div class="sponsor-box">
+                    <img src="sponsor3.png" alt="贊助商 C" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="alt-text" style="display:none;">贊助商 C</span>
+                </div>
+                <div class="sponsor-box">
+                    <img src="sponsor4.png" alt="贊助商 D" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="alt-text" style="display:none;">贊助商 D</span>
+                </div>
+                <div class="sponsor-box">
+                    <img src="sponsor5.png" alt="贊助商 E" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="alt-text" style="display:none;">贊助商 E</span>
+                </div>
             </div>
         </div>
     </section>
@@ -1009,14 +1066,35 @@
             </div>
         </div>
 
+        <!-- 贊助商區塊 (末頁) -->
         <div class="sponsors-container fade-in">
             <div class="sponsors-title">POWERED BY</div>
             <div class="sponsors-grid">
-                <div class="sponsor-box">贊助商 A</div>
-                <div class="sponsor-box">贊助商 B</div>
-                <div class="sponsor-box">贊助商 C</div>
-                <div class="sponsor-box">贊助商 D</div>
-                <div class="sponsor-box">贊助商 E</div>
+                <!-- 
+                   更換 LOGO 教學 (與封面相同)：
+                   1. 將您的圖片放在同一個資料夾。
+                   2. 更改 src="..." 裡面的檔名。
+                -->
+                <div class="sponsor-box">
+                    <img src="sponsor1.png" alt="贊助商 A" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="alt-text" style="display:none;">贊助商 A</span>
+                </div>
+                <div class="sponsor-box">
+                    <img src="sponsor2.png" alt="贊助商 B" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="alt-text" style="display:none;">贊助商 B</span>
+                </div>
+                <div class="sponsor-box">
+                    <img src="sponsor3.png" alt="贊助商 C" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="alt-text" style="display:none;">贊助商 C</span>
+                </div>
+                <div class="sponsor-box">
+                    <img src="sponsor4.png" alt="贊助商 D" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="alt-text" style="display:none;">贊助商 D</span>
+                </div>
+                <div class="sponsor-box">
+                    <img src="sponsor5.png" alt="贊助商 E" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="alt-text" style="display:none;">贊助商 E</span>
+                </div>
             </div>
         </div>
     </section>
