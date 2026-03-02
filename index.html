@@ -5,28 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>跨域整合 · 築夢航空</title>
 
-    <!-- =========================================
-         SEO 與社群分享預覽 (Open Graph) 設定
-         ========================================= -->
-    <!-- 搜尋引擎顯示描述 -->
     <meta name="description" content="桃園市,中壢,青埔,大園,航空城,航空城計畫,航廈,機場,都市計畫,都更,危老,桃園市航空城發展協會">
     <meta name="keywords" content="桃園市,中壢,青埔,大園,航空城,航空城計畫,航廈,機場,都市計畫,都更,危老,桃園市航空城發展協會">
     
-    <!-- Facebook / LINE / IG 預覽設定 -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="桃園市航空城發展協會 第六屆就職典禮">
     <meta property="og:description" content="桃園市航空城發展協會 (Taoyuan Aerotropolis Development Association) 第六屆理事長暨理監事就職典禮。跨域整合 · 築夢航空｜2026.03.22">
-    <!-- 建議：網站正式上線後，將下方 content 改為完整的絕對路徑網址，例如 https://您的網址.com/TADA2026.jpg -->
     <meta property="og:image" content="TADA2026.jpg"> 
     <meta property="og:site_name" content="跨域整合 · 築夢航空">
 
-    <!-- Twitter 預覽設定 -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="桃園市航空城發展協會 第六屆就職典禮">
     <meta name="twitter:description" content="桃園市航空城發展協會 (Taoyuan Aerotropolis Development Association) 第六屆理事長暨理監事就職典禮。跨域整合 · 築夢航空｜2026.03.22">
     <meta name="twitter:image" content="TADA2026.jpg">
-    <!-- ========================================= -->
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -242,6 +233,75 @@
             z-index: 1;
         }
 
+        /* --- 新增：首頁飛機與捷運動畫設定 --- */
+        .animation-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: 2; /* 介於 overlay 與 content 之間 */
+            pointer-events: none;
+        }
+
+        .plane {
+            position: absolute;
+            opacity: 0; /* 從透明開始 */
+        }
+
+        .plane-1 {
+            bottom: 20%; left: -10%;
+            width: 32px; height: 32px;
+            color: var(--accent-blue);
+            animation: fly1 14s linear infinite;
+        }
+        .plane-2 {
+            bottom: 50%; right: -10%;
+            width: 48px; height: 48px;
+            color: var(--accent-navy);
+            animation: fly2 18s linear infinite 4s;
+        }
+        .plane-3 {
+            bottom: -5%; left: 15%;
+            width: 24px; height: 24px;
+            color: var(--accent-yellow);
+            animation: fly3 16s linear infinite 8s;
+        }
+
+        @keyframes fly1 {
+            0% { transform: translate(0, 0) rotate(50deg) scale(0.8); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translate(120vw, -100vh) rotate(50deg) scale(1.5); opacity: 0; }
+        }
+        @keyframes fly2 {
+            0% { transform: translate(0, 0) rotate(-55deg) scale(0.8); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translate(-120vw, -80vh) rotate(-55deg) scale(1.2); opacity: 0; }
+        }
+        @keyframes fly3 {
+            0% { transform: translate(0, 0) rotate(35deg) scale(0.8); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translate(100vw, -130vh) rotate(35deg) scale(1.3); opacity: 0; }
+        }
+
+        .mrt-train-wrapper {
+            position: absolute;
+            top: -28px; /* 高度剛好站在邊線上 */
+            left: -250px;
+            width: 240px;
+            height: 28px;
+            z-index: 10;
+            pointer-events: none;
+            animation: mrtMove 15s linear infinite;
+        }
+
+        @keyframes mrtMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(100vw + 300px)); }
+        }
+        /* --- 動畫設定結束 --- */
+
         .cover-content, .back-content {
             position: relative;
             z-index: 3;
@@ -289,13 +349,13 @@
 
         .cover-en-title {
             font-family: 'Poppins', sans-serif;
-            font-size: 10px; /* 縮小字體以對齊中文字符寬度 */
+            font-size: 10px;
             color: var(--accent-blue);
             letter-spacing: 0.2px;
             margin: 6px 0 16px;
             font-weight: 500;
             line-height: 1.2;
-            white-space: nowrap; /* 強制單行顯示 */
+            white-space: nowrap; 
         }
 
         .sub-org {
@@ -870,11 +930,9 @@
 </head>
 <body>
 
-    <!-- 導覽列 -->
     <header id="navbar">
         <div class="logo-text">跨域整合 · 築夢航空</div>
         <div class="header-actions">
-            <!-- 後台入口 (齒輪) -->
             <button class="admin-btn" id="admin-entrance" aria-label="後台管理">
                 <i class="fa-solid fa-gear"></i>
             </button>
@@ -884,7 +942,6 @@
         </div>
     </header>
 
-    <!-- 全螢幕選單 -->
     <nav class="fullscreen-menu" id="fs-menu">
         <a href="#cover" class="menu-link"><i class="fa-solid fa-plane-departure"></i> 封面首頁</a>
         <a href="#agenda" class="menu-link"><i class="fa-solid fa-clock"></i> 典禮程序</a>
@@ -897,9 +954,24 @@
         <a href="#back-cover" class="menu-link"><i class="fa-solid fa-address-card"></i> 聯絡我們</a>
     </nav>
 
-    <!-- 1. 封面 -->
     <section id="cover">
         <div class="cover-overlay"></div>
+        
+        <div class="animation-container">
+            <!-- 飛機 1 -->
+            <svg class="plane plane-1" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21,16v-2l-8-5V3.5c0-0.83-0.67-1.5-1.5-1.5S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z"/>
+            </svg>
+            <!-- 飛機 2 -->
+            <svg class="plane plane-2" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21,16v-2l-8-5V3.5c0-0.83-0.67-1.5-1.5-1.5S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z"/>
+            </svg>
+            <!-- 飛機 3 -->
+            <svg class="plane plane-3" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21,16v-2l-8-5V3.5c0-0.83-0.67-1.5-1.5-1.5S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z"/>
+            </svg>
+        </div>
+
         <div class="cover-content fade-in">
             <h1 class="cover-title-group">
                 <div class="main-org">桃園市航空城發展協會</div>
@@ -910,8 +982,48 @@
             <div class="cover-theme">跨域整合 · 築夢航空<br><span class="cover-date">2026.03.22</span></div>
         </div>
         
-        <!-- 贊助商區塊 (封面) -->
         <div class="sponsors-container fade-in">
+            <!-- 捷運列車動畫 (行駛於邊界線上) -->
+            <div class="mrt-train-wrapper">
+                <svg viewBox="0 0 240 28" width="100%" height="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 連接器 -->
+                    <rect x="75" y="18" width="10" height="4" fill="#333"/>
+                    <rect x="155" y="18" width="10" height="4" fill="#333"/>
+
+                    <!-- 車頭 (右側) -->
+                    <path d="M165 4 L 225 4 Q 238 4 240 14 L 240 26 L 165 26 Z" fill="#E2E8F0"/>
+                    <path d="M165 4 L 225 4 Q 235 4 238 10 L 165 10 Z" fill="#8B3A9C"/>
+                    <rect x="165" y="18" width="74" height="2" fill="#8B3A9C"/>
+                    <rect x="172" y="12" width="12" height="5" rx="1" fill="#475569"/>
+                    <rect x="188" y="12" width="12" height="5" rx="1" fill="#475569"/>
+                    <rect x="204" y="12" width="12" height="5" rx="1" fill="#475569"/>
+                    <path d="M220 12 L 232 12 Q 235 12 236 15 L 236 17 L 220 17 Z" fill="#1E293B"/>
+                    <circle cx="180" cy="27" r="3" fill="#1E293B"/>
+                    <circle cx="220" cy="27" r="3" fill="#1E293B"/>
+
+                    <!-- 中間車廂 -->
+                    <path d="M85 4 L 155 4 L 155 26 L 85 26 Z" fill="#E2E8F0"/>
+                    <path d="M85 4 L 155 4 L 155 10 L 85 10 Z" fill="#8B3A9C"/>
+                    <rect x="85" y="18" width="70" height="2" fill="#8B3A9C"/>
+                    <rect x="92" y="12" width="12" height="5" rx="1" fill="#475569"/>
+                    <rect x="114" y="12" width="12" height="5" rx="1" fill="#475569"/>
+                    <rect x="136" y="12" width="12" height="5" rx="1" fill="#475569"/>
+                    <circle cx="100" cy="27" r="3" fill="#1E293B"/>
+                    <circle cx="140" cy="27" r="3" fill="#1E293B"/>
+
+                    <!-- 車尾 (左側) -->
+                    <path d="M75 4 L 15 4 Q 2 4 0 14 L 0 26 L 75 26 Z" fill="#E2E8F0"/>
+                    <path d="M75 4 L 15 4 Q 5 4 2 10 L 75 10 Z" fill="#8B3A9C"/>
+                    <rect x="0" y="18" width="75" height="2" fill="#8B3A9C"/>
+                    <path d="M20 12 L 8 12 Q 5 12 4 15 L 4 17 L 20 17 Z" fill="#1E293B"/>
+                    <rect x="24" y="12" width="12" height="5" rx="1" fill="#475569"/>
+                    <rect x="40" y="12" width="12" height="5" rx="1" fill="#475569"/>
+                    <rect x="56" y="12" width="12" height="5" rx="1" fill="#475569"/>
+                    <circle cx="20" cy="27" r="3" fill="#1E293B"/>
+                    <circle cx="60" cy="27" r="3" fill="#1E293B"/>
+                </svg>
+            </div>
+
             <div class="sponsors-title">POWERED BY</div>
             <div class="sponsors-grid">
                 <div class="sponsor-box">
@@ -948,337 +1060,6 @@
         </div>
     </section>
 
-    <!-- 2. 程序表 -->
-    <section id="agenda">
-        <div class="section-title fade-in"><i class="fa-solid fa-plane-departure"></i> 會員大會程序表</div>
-        <div class="timeline fade-in">
-            <div class="timeline-item">
-                <div class="time"><i class="fa-regular fa-clock"></i> 17:30 ~ 18:00</div>
-                <div class="event-name">貴賓報到聯誼</div>
-                <div class="event-desc">迎賓交流</div>
-            </div>
-            <div class="timeline-item">
-                <div class="time"><i class="fa-regular fa-clock"></i> 18:00 ~ 18:30</div>
-                <div class="event-name">第六屆就職典禮</div>
-            </div>
-            <div class="timeline-item">
-                <div class="time"><i class="fa-regular fa-clock"></i> 18:30 ~ 19:30</div>
-                <div class="event-name">大師專題演講</div>
-                <div class="event-desc">特邀財訊傳媒集團 謝金河董事長蒞臨</div>
-            </div>
-            <div class="timeline-item">
-                <div class="time"><i class="fa-regular fa-clock"></i> 19:30 ~ 21:30</div>
-                <div class="event-name">航空城之夜聯歡晚會</div>
-                <div class="event-desc">科技互動表演 / 跨界產業交流餐會</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. 工作計畫 -->
-    <section id="plan">
-        <div class="section-title fade-in"><i class="fa-solid fa-clipboard-check"></i> 115年度工作計畫</div>
-        
-        <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-icon"><i class="fa-solid fa-users"></i></div>
-                <h3>會務與組織營運</h3>
-            </div>
-            <ul>
-                <li>召開第六屆第一次會員大會及各種臨時會議</li>
-                <li>每三個月舉辦例會與理監事聯席會</li>
-                <li>適時辦理各項會員聯誼活動，凝聚向心力</li>
-            </ul>
-        </div>
-
-        <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-icon"><i class="fa-solid fa-folder-open"></i></div>
-                <h3>行政財務與數位化</h3>
-            </div>
-            <ul>
-                <li>執行各項經費收支、登帳、核銷工作</li>
-                <li>編列下年度經費預算與上年度決算</li>
-                <li>收取會費及處理各項採購出納管理</li>
-            </ul>
-        </div>
-
-        <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-icon"><i class="fa-solid fa-building"></i></div>
-                <h3>跨域建築與國際公關</h3>
-            </div>
-            <ul>
-                <li>舉辦桃園市境內建築美學專題展覽</li>
-                <li>舉辦國際公關聯誼活動拓展全球視野</li>
-                <li>構築產官學研最佳互動平台與政策建言</li>
-            </ul>
-        </div>
-    </section>
-    
-    <!-- 4. 財務預算 -->
-    <section id="budget">
-        <div class="section-title fade-in"><i class="fa-solid fa-chart-pie"></i> 115年度財務預算</div>
-        <div class="chart-wrapper fade-in">
-            <div class="doughnut-mobile"></div>
-        </div>
-        <ul class="legend-list fade-in">
-            <li><div class="color-dot bg-navy"></div> 產業發展與專案推動 (40%)</li>
-            <li><div class="color-dot bg-blue"></div> 組織營運與會務行政 (30%)</li>
-            <li><div class="color-dot bg-cyan"></div> 國內外公共關係聯誼 (20%)</li>
-            <li><div class="color-dot bg-yellow"></div> 社會回饋與品牌傳播 (10%)</li>
-        </ul>
-        <p class="fade-in section-note text-center">※ 詳細預算分配表請參閱書面決算報告。</p>
-    </section>
-
-    <!-- 5. 理監事名錄 -->
-    <section id="directors">
-        <div class="section-title fade-in"><i class="fa-solid fa-address-book"></i> 理監事名錄</div>
-        <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-icon"><i class="fa-solid fa-user-tie"></i></div>
-                <h3>理事會 (Board of Directors)</h3>
-            </div>
-            <ul>
-                <li><strong>理事長：</strong> 廖本生</li>
-                <li><strong>副理事長：</strong> 謝智淵、邱芳琅</li>
-                <li><strong>常務理事：</strong> 周淑真、任怡賓、房麗珠、簡木川</li>
-                <li><strong>理事：</strong> 徐景文、蔡志勇、張指溫、呂榮輝、康博超、楊海霞、李浚霆、林宗德、徐玉郎、吳文輝、陳增逢、林昀霏、陳清淮、孫志堅、臧真豪、蔡旭坤、湯柏齡、陳昌楙</li>
-                <li><strong>候補理事：</strong> 簡文金、田雅華、黃荺婭</li>
-            </ul>
-        </div>
-        <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-icon"><i class="fa-solid fa-user-shield"></i></div>
-                <h3>監事會 (Supervisory Board)</h3>
-            </div>
-            <ul>
-                <li><strong>監事長：</strong> 林萬</li>
-                <li><strong>常務監事：</strong> 劉立宏</li>
-                <li><strong>監事：</strong> 簡材安、韓大富、游健成、蔡博志、黃志鵬</li>
-                <li><strong>榮譽顧問群：</strong> 產官學研界賢達</li>
-            </ul>
-        </div>
-        <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-icon"><i class="fa-solid fa-briefcase"></i></div>
-                <h3>會務幹部 (Executive Staff)</h3>
-            </div>
-            <ul>
-                <li><strong>秘書長：</strong> 周君蔚 Chou Chun-Wei</li>
-                <li><strong>財務長：</strong> 何雅娟 Nana</li>
-                <li><strong>法律顧問：</strong> 鄭仁壽 Counselor</li>
-                <li><strong>特別助理：</strong> 徐雅菁 Queen</li>
-                <li><strong>執行秘書：</strong> 廖亞庭</li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- 6. 委員會 -->
-    <section id="committees">
-        <div class="section-title fade-in"><i class="fa-solid fa-sitemap"></i> 專門委員會編組</div>
-        
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>01. 建築美學委員會</span>
-                    <span class="committee-members">主委：廖仁巍 | 副主委：楊芳羽 Nana</span>
-                </div>
-            </summary>
-            <div class="details-content">推動青埔高鐵特區與航空城之城市建築美學，結合綠能環保概念，打造未來智慧綠色城市風貌。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>02. 國際事務委員會</span>
-                    <span class="committee-members">主委：李泓澔 Ian Li | 副主委：顧源倫 Leo Ku</span>
-                </div>
-            </summary>
-            <div class="details-content">舉辦國際公關聯誼活動，參與國際機關參訪，建構航空城跨國產業與物流發展之交流平台。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>03. 公共關係委員會</span>
-                    <span class="committee-members">主委：江宏瑜 | 副主委：戴子強 Johnny Tai</span>
-                </div>
-            </summary>
-            <div class="details-content">舉辦產官學活動擴大聯誼，構築在地溝通平台，積極協助政府推動航空城各項發展政策。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>04. 產業發展委員會</span>
-                    <span class="committee-members">主委：魏新樺 Martin</span>
-                </div>
-            </summary>
-            <div class="details-content">鏈結各產業、機關社團促進發展，舉辦與參加各種產業參訪、論壇，創造異業結盟機會。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>05. 社區發展委員會</span>
-                    <span class="committee-members">主委：任欣元 Koko</span>
-                </div>
-            </summary>
-            <div class="details-content">拜訪社區機關社團與商家，辦理各項社區活動，拉近產業與商家距離，促進會務推廣。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>06. 航空城事務委員會</span>
-                    <span class="committee-members">主委：李宏澤 Wilson</span>
-                </div>
-            </summary>
-            <div class="details-content">參與及協辦航空城計畫各項活動，協力相關機構與社團，共同促成並推動航空城發展。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>07. 金融服務委員會</span>
-                    <span class="committee-members">主委：鍾政甫 Ray Chung</span>
-                </div>
-            </summary>
-            <div class="details-content">拜訪並結合金融單位以服務會員，舉辦專業論壇活動，強化產業金融服務與業務協助。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>08. 選務委員會</span>
-                    <span class="committee-members">主委：蕭育仁 Aaron Hsiao</span>
-                </div>
-            </summary>
-            <div class="details-content">依據本會組織章程規範，公平公正辦理各項定期改選及相關票務事務。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>09. 會員活動委員會</span>
-                    <span class="committee-members">主委：楊睿槿 Doreen | 副主委：黃舒琳</span>
-                </div>
-            </summary>
-            <div class="details-content">舉辦會內聯誼、國內外旅遊等活動，並關心會員，致贈婚喪喜慶禮儀以促進向心力。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>10. 會員擴展委員會</span>
-                    <span class="committee-members">主委：廖盈騏</span>
-                </div>
-            </summary>
-            <div class="details-content">積極宣揚本會宗旨與各項會務，參與社會活動以吸收新會員，擴大協會組織規模。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>11. 形象傳播委員會</span>
-                    <span class="committee-members">主委：謝清鴻 Steven | 副主委：賴永盛 Clyde</span>
-                </div>
-            </summary>
-            <div class="details-content">負責LOGO、識別系統、活動手冊之規劃設計，並維護網站及進行各項活動影像紀錄以宣揚本會。</div>
-        </details>
-    </section>
-
-    <!-- 7. 活動剪影 -->
-    <section id="gallery">
-        <div class="section-title fade-in"><i class="fa-solid fa-camera-retro"></i> 會務與活動剪影</div>
-        <div class="gallery fade-in">
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop" alt="產官學研論壇">
-                <div class="gallery-caption"><i class="fa-solid fa-chalkboard-user"></i> 產官學研跨域專業論壇</div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=2070&auto=format&fit=crop" alt="都市計畫參訪">
-                <div class="gallery-caption"><i class="fa-solid fa-map-location-dot"></i> 航空城都市計畫與綠能參訪</div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop" alt="國際結盟">
-                <div class="gallery-caption"><i class="fa-solid fa-earth-asia"></i> 推動國際產業鏈與物流結盟</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 8. 組織章程 -->
-    <section id="bylaws">
-        <div class="section-title fade-in"><i class="fa-solid fa-scale-balanced"></i> 組織章程摘要</div>
-        <p class="fade-in section-note">依據114年度修正後章程擷取，完整條款請參閱資料庫。</p>
-        
-        <details class="fade-in">
-            <summary>第一章 總則與任務</summary>
-            <div class="details-content">
-                本會以配合中央實施桃園航空城之發展計畫，並促進青埔高鐵特區城市建築美學及工商發展等相關社會公益活動為宗旨。作為政府與民間之溝通平台，以利政策推動。
-            </div>
-        </details>
-        <details class="fade-in">
-            <summary>第二章 會員資格</summary>
-            <div class="details-content">
-                個人會員：贊同本會宗旨，年滿二十歲，具有中華民國國籍，未受褫奪公權者。會員有表決權、選舉權、被選舉權與罷免權。
-            </div>
-        </details>
-        <details class="fade-in">
-            <summary>第三章 組織及職權</summary>
-            <div class="details-content">
-                以會員大會為最高權力機構。理事會為執行機構，監事會為監察機構。工作人員不得由選任之理事監事擔任。得設各種委員會等內部作業組織。
-            </div>
-        </details>
-        <details class="fade-in">
-            <summary>第四章 會議規範</summary>
-            <div class="details-content">
-                會員大會分定期會議(每年一次)與臨時會議。決議需以會員過半數出席，出席超過半數同意行之；章程變更、財產處分等重大事項需三分之二以上同意。
-            </div>
-        </details>
-    </section>
-
-    <!-- 9. 末頁 -->
-    <section id="back-cover">
-        <div class="back-cover-overlay"></div>
-        
-        <div class="back-content">
-            <h2 class="fade-in back-title-sm">攜手共創</h2>
-            <h2 class="fade-in back-title-md">桃園航空城新未來</h2>
-            <h2 class="fade-in back-title-lg">NEXT GEN</h2>
-        </div>
-
-        <!-- 贊助商區塊 (末頁) -->
-        <div class="sponsors-container fade-in">
-            <div class="sponsors-title">POWERED BY</div>
-            <div class="sponsors-grid">
-                <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="1" target="_blank">
-                        <img src="sponsor1.png" alt="贊助商 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 1</span>
-                    </a>
-                </div>
-                <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="2" target="_blank">
-                        <img src="sponsor2.png" alt="贊助商 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 2</span>
-                    </a>
-                </div>
-                <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="3" target="_blank">
-                        <img src="sponsor3.png" alt="贊助商 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 3</span>
-                    </a>
-                </div>
-                <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="4" target="_blank">
-                        <img src="sponsor4.png" alt="贊助商 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 4</span>
-                    </a>
-                </div>
-                <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="5" target="_blank">
-                        <img src="sponsor5.png" alt="贊助商 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 5</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- =========================================
-         後台登入 Modal 
-         ========================================= -->
     <div id="login-modal" class="modal-overlay">
         <div class="modal-box">
             <button class="modal-close" id="close-login"><i class="fa-solid fa-xmark"></i></button>
@@ -1296,9 +1077,6 @@
         </div>
     </div>
 
-    <!-- =========================================
-         管理贊助商連結 Modal 
-         ========================================= -->
     <div id="admin-modal" class="modal-overlay">
         <div class="modal-box">
             <button class="modal-close" id="close-admin"><i class="fa-solid fa-xmark"></i></button>
@@ -1407,7 +1185,7 @@
         });
 
         // =========================================
-        // 5. 後台登入與贊助商連結管理邏輯 (雲端升級版)
+        // 5. 後台登入與贊助商連結管理邏輯 (雲端 Firebase 升級版)
         // =========================================
         
         // 元素選取
@@ -1441,7 +1219,7 @@
             console.log("目前為本機單機模式 (LocalStorage)");
         }
 
-        // 統一套用網址到 UI 的函式
+        // 統一套用網址到 UI 的函式 (處理跳轉頁面邏輯)
         function applyLinksToUI(linksData) {
             for (let i = 1; i <= 5; i++) {
                 const url = linksData[`link${i}`] || '';
@@ -1450,9 +1228,11 @@
                 linksToUpdate.forEach(linkEl => {
                     if (url && url.trim() !== '') {
                         linkEl.href = url;
+                        // 取消阻止預設行為，讓 target="_blank" 發揮作用進行跳轉
                         linkEl.onclick = null;
                     } else {
                         linkEl.removeAttribute('href');
+                        // 沒有網址時阻止跳轉
                         linkEl.onclick = (e) => e.preventDefault();
                     }
                 });
@@ -1575,7 +1355,7 @@
                     btnSave.textContent = '儲存中...';
                     await setDoc(linksDocRef, newLinks);
                     btnSave.textContent = '儲存連結';
-                    alert('連結已同步至雲端！現在所有人都能看到了。');
+                    alert('連結已同步至雲端！現在所有人都能看到。');
                     adminModal.classList.remove('active');
                 } catch(e) {
                     console.error('儲存失敗', e);
