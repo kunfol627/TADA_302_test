@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>桃園市航空城發展協會 第六屆就職典禮 - 線上手冊</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* =========================================
+           1. CSS 變數與全域設定 (Global Variables)
+           ========================================= */
+        :root {
+            --bg-color: #F4F7F9;
+            --surface: #FFFFFF;
+            --surface-border: #E2E8F0;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --accent-blue: #0284C7;
+            --accent-navy: #1E3A8A;
+            --accent-yellow: #F59E0B;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-color);
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#CBD5E1 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* 工具類別 (Utility Classes) */
+        .poppins-font { font-family: 'Poppins', sans-serif; font-weight: 500; }
+        .text-center { text-align: center; }
+        .section-note { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+
+        /* 背景顏色工具 */
+        .bg-navy { background-color: var(--accent-navy); }
+        .bg-blue { background-color: var(--accent-blue); }
+        .bg-cyan { background-color: #38BDF8; }
+        .bg-yellow { background-color: var(--accent-yellow); }
+
+        /* =========================================
+           2. 導覽列與選單 (Navbar & Menu)
+           ========================================= */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--surface-border);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-text {
+            font-family: 'Poppins', 'Noto Sans TC', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--accent-navy);
+            letter-spacing: 1px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--accent-navy);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .fullscreen-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(30, 58, 138, 0.98);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .fullscreen-menu.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .fullscreen-menu a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 22px;
+            margin: 15px 0;
+            font-weight: 500;
+            transition: all 0.2s;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .fullscreen-menu a i { color: var(--accent-yellow); font-size: 18px; }
+        .fullscreen-menu a:active { color: var(--accent-yellow); }
+
+        /* =========================================
+           3. 共用區塊與標題 (Sections & Headings)
+           ========================================= */
+        section {
+            padding: 90px 20px 40px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .section-title {
+            background-color: var(--accent-navy);
+            color: #FFFFFF;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 700;
+            box-shadow: var(--shadow-md);
+            letter-spacing: 1px;
+            margin-bottom: 35px;
+            align-self: flex-start;
+        }
+        
+        .section-title i { color: var(--accent-yellow); font-size: 22px; }
+
+        /* 漸顯動畫 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================
+           4. 首頁與末頁背景 (Cover & Back Cover)
+           ========================================= */
+        #cover, #back-cover {
+            background-image: url('TADA2026.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 0;
+            justify-content: space-between;
+        }
+
+        .cover-overlay {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(244,247,249,1) 100%);
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .back-cover-overlay {
+            background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.85) 100%);
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .cover-content, .back-content {
+            position: relative;
+            z-index: 3;
+            padding: 100px 25px 40px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .cover-content { text-align: center; }
+        .back-content { align-items: center; width: 100%; }
+
+        /* 封面元素 */
+        .flight-badge {
+            display: inline-block;
+            background-color: var(--accent-navy);
+            color: #FFF;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin: 0 auto 20px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .flight-badge i { color: var(--accent-yellow); margin-right: 5px; }
+
+        .cover-title {
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1.4;
+            color: var(--text-main);
+            margin-bottom: 20px;
+        }
+
+        .cover-en-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 11px;
+            color: var(--accent-blue);
+            letter-spacing: 0.5px;
+            margin: 8px 0 15px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .cover-title span {
+            color: var(--accent-navy);
+            display: block;
+            font-size: 38px;
+        }
+
+        .cover-theme {
+            font-family: 'Poppins', 'Noto Sans TC', sans-serif;
+            font-size: 16px;
+            color: var(--accent-navy);
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            background: #FFFFFF;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow-sm);
+            font-weight: 700;
+        }
+
+        .cover-date { color: var(--accent-blue); font-size: 14px; }
+
+        /* 末頁文字與聯絡資訊 */
+        .back-title-sm {
+            font-size: 22px;
+            color: var(--accent-navy);
+            margin-bottom: 5px;
+            letter-spacing: 4px;
+        }
+        
+        .back-title-md {
+            font-size: 32px;
+            color: var(--accent-navy);
+            font-weight: 900;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        
+        .back-title-lg {
+            font-size: 38px;
+            color: var(--accent-blue);
+            font-weight: 900;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        .contact-box {
+            background: #FFFFFF;
+            border: 1px solid var(--surface-border);
+            border-radius: 16px;
+            padding: 30px 20px;
+            margin: 30px 0;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+            margin-bottom: 18px;
+            font-size: 15px;
+            color: var(--text-main);
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .contact-item:last-child { margin-bottom: 0; }
+
+        .contact-item i {
+            color: var(--accent-navy);
+            font-size: 18px;
+            background: var(--bg-color);
+            padding: 10px;
+            border-radius: 8px;
+            width: 40px;
+            text-align: center;
+        }
+
+        /* 贊助商區塊 */
+        .sponsors-container {
+            position: relative;
+            z-index: 3;
+            padding: 25px 20px;
+            background: rgba(255, 255, 255, 0.6);
+            border-top: 1px solid var(--surface-border);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        .sponsors-title {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .sponsors-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .sponsor-box {
+            background: #FFFFFF;
+            color: var(--text-main);
+            border-radius: 8px;
+            height: 42px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 700;
+            flex: 1 1 calc(33.333% - 12px);
+            min-width: 90px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--surface-border);
+            transition: transform 0.2s;
+        }
+        .sponsor-box:active { transform: scale(0.95); }
+        .sponsor-box:nth-child(4), .sponsor-box:nth-child(5) { flex: 0 1 calc(40% - 12px); }
+
+        /* =========================================
+           5. 時間軸 (Timeline / Agenda)
+           ========================================= */
+        .timeline {
+            position: relative;
+            padding-left: 35px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--surface-border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            padding: 18px 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 24px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            border: 3px solid #FFF;
+            box-shadow: 0 0 0 1px var(--surface-border);
+            z-index: 1;
+        }
+
+        .time {
+            font-family: 'Poppins', sans-serif;
+            color: var(--accent-blue);
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .time i { font-size: 14px; color: var(--text-muted); }
+        .event-name { font-size: 18px; font-weight: 700; color: var(--text-main); }
+        .event-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            background: var(--bg-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        /* =========================================
+           6. 卡片設計 (Cards for Plan & Directors)
+           ========================================= */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            border-radius: 16px;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 5px; height: 100%;
+            background: var(--accent-navy);
+        }
+
+        .card-header { display: flex; align-items: center; margin-bottom: 15px; }
+        
+        .card-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: var(--bg-color);
+            color: var(--accent-navy);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            margin-right: 15px;
+            border: 1px solid var(--surface-border);
+        }
+
+        .card h3 { font-size: 18px; color: var(--text-main); font-weight: 700; }
+        .card ul { list-style: none; padding-left: 0; }
+        
+        .card li {
+            position: relative;
+            padding-left: 22px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .card li::before {
+            content: '\f0da';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+            font-size: 14px;
+            top: 2px;
+        }
+
+        #directors strong { color: var(--accent-navy); }
+
+        /* =========================================
+           7. 圖表與圖例 (Chart & Legends)
+           ========================================= */
+        .chart-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 35px;
+            position: relative;
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--surface-border);
+        }
+        
+        .chart-wrapper::after {
+            content: 'BUDGET';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Poppins';
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--accent-navy);
+        }
+
+        .doughnut-mobile {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--accent-navy) 0% 40%, 
+                var(--accent-blue) 40% 70%, 
+                #38BDF8 70% 90%, 
+                #F59E0B 90% 100%
+            );
+            box-shadow: var(--shadow-sm);
+            -webkit-mask: radial-gradient(circle, transparent 55%, black 56%);
+            mask: radial-gradient(circle, transparent 55%, black 56%);
+        }
+        
+        .legend-list {
+            list-style: none;
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .legend-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+        
+        .legend-list li:last-child { margin-bottom: 0; }
+        
+        .color-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        /* =========================================
+           8. 折疊面板 (Accordion for Committees & Bylaws)
+           ========================================= */
+        details {
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+        }
+        details[open] {
+            border-color: var(--accent-blue);
+            box-shadow: var(--shadow-md);
+        }
+        summary {
+            padding: 18px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-navy);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            list-style: none;
+            background: #FFF;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::after {
+            content: '\f067';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--accent-blue);
+            transition: transform 0.3s;
+            background: var(--bg-color);
+            padding: 5px 6px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        details[open] summary::after { content: '\f068'; transform: rotate(180deg); }
+        
+        .details-content {
+            padding: 0 20px 20px;
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            border-top: 1px solid var(--surface-border);
+            margin-top: 5px;
+            padding-top: 15px;
+            background: #FFF;
+        }
+
+        .committee-header { display: flex; flex-direction: column; }
+        
+        .committee-members {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* =========================================
+           9. 圖片庫 (Gallery)
+           ========================================= */
+        .gallery { display: flex; flex-direction: column; gap: 20px; }
+        
+        .gallery-item {
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow-md);
+            background: #FFF;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .gallery-caption {
+            padding: 15px 20px;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .gallery-caption i { color: var(--accent-blue); }
+
+    </style>
+</head>
+<body>
+
+    <!-- 導覽列 -->
+    <header id="navbar">
+        <div class="logo-text">T.A.D.A. 2026</div>
+        <button class="menu-btn" id="menu-toggle" aria-label="開啟選單">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+    </header>
+
+    <!-- 全螢幕選單 -->
+    <nav class="fullscreen-menu" id="fs-menu">
+        <a href="#cover" class="menu-link"><i class="fa-solid fa-plane-departure"></i> 封面首頁</a>
+        <a href="#agenda" class="menu-link"><i class="fa-solid fa-clock"></i> 典禮程序</a>
+        <a href="#plan" class="menu-link"><i class="fa-solid fa-list-check"></i> 工作計畫</a>
+        <a href="#budget" class="menu-link"><i class="fa-solid fa-chart-pie"></i> 財務預算</a>
+        <a href="#directors" class="menu-link"><i class="fa-solid fa-users"></i> 理監事名錄</a>
+        <a href="#committees" class="menu-link"><i class="fa-solid fa-sitemap"></i> 委員會名錄</a>
+        <a href="#gallery" class="menu-link"><i class="fa-solid fa-images"></i> 活動剪影</a>
+        <a href="#bylaws" class="menu-link"><i class="fa-solid fa-book"></i> 組織章程</a>
+        <a href="#back-cover" class="menu-link"><i class="fa-solid fa-address-card"></i> 聯絡我們</a>
+    </nav>
+
+    <!-- 1. 封面 -->
+    <section id="cover">
+        <div class="cover-overlay"></div>
+        <div class="cover-content fade-in">
+            <h1 class="cover-title">
+                桃園市航空城發展協會
+                <div class="cover-en-title">
+                    Taoyuan Aerotropolis Development<br>Association
+                </div>
+                第六屆理事長<br>暨理監事<span>就職典禮</span>
+            </h1>
+            <div class="cover-theme">跨域整合 · 築夢航空<br><span class="cover-date">2026.03.22</span></div>
+        </div>
+        
+        <div class="sponsors-container fade-in">
+            <div class="sponsors-title">POWERED BY</div>
+            <div class="sponsors-grid">
+                <div class="sponsor-box">贊助商 A</div>
+                <div class="sponsor-box">贊助商 B</div>
+                <div class="sponsor-box">贊助商 C</div>
+                <div class="sponsor-box">贊助商 D</div>
+                <div class="sponsor-box">贊助商 E</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. 程序表 -->
+    <section id="agenda">
+        <div class="section-title fade-in"><i class="fa-solid fa-plane-arrival"></i> 會員大會程序表</div>
+        <div class="timeline fade-in">
+            <div class="timeline-item">
+                <div class="time"><i class="fa-regular fa-clock"></i> 17:30 ~ 18:00</div>
+                <div class="event-name">貴賓報到聯誼</div>
+                <div class="event-desc">智慧人臉辨識報到 / 迎賓交流</div>
+            </div>
+            <div class="timeline-item">
+                <div class="time"><i class="fa-regular fa-clock"></i> 18:00 ~ 18:30</div>
+                <div class="event-name">第六屆就職典禮</div>
+                <div class="event-desc">印信交接 / 理監事授證儀式</div>
+            </div>
+            <div class="timeline-item">
+                <div class="time"><i class="fa-regular fa-clock"></i> 18:30 ~ 19:30</div>
+                <div class="event-name">大師專題演講</div>
+                <div class="event-desc">特邀財訊傳媒集團 謝金河董事長蒞臨</div>
+            </div>
+            <div class="timeline-item">
+                <div class="time"><i class="fa-regular fa-clock"></i> 19:30 ~ 21:30</div>
+                <div class="event-name">航空城之夜聯歡晚會</div>
+                <div class="event-desc">科技互動表演 / 跨界產業交流餐會</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 工作計畫 -->
+    <section id="plan">
+        <div class="section-title fade-in"><i class="fa-solid fa-clipboard-check"></i> 115年度工作計畫</div>
+        
+        <div class="card fade-in">
+            <div class="card-header">
+                <div class="card-icon"><i class="fa-solid fa-users"></i></div>
+                <h3>會務與組織營運</h3>
+            </div>
+            <ul>
+                <li>召開第六屆第一次會員大會及各種臨時會議</li>
+                <li>每三個月舉辦例會與理監事聯席會</li>
+                <li>適時辦理各項會員聯誼活動，凝聚向心力</li>
+            </ul>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-header">
+                <div class="card-icon"><i class="fa-solid fa-folder-open"></i></div>
+                <h3>行政財務與數位化</h3>
+            </div>
+            <ul>
+                <li>執行各項經費收支、登帳、核銷工作</li>
+                <li>編列下年度經費預算與上年度決算</li>
+                <li>收取會費及處理各項採購出納管理</li>
+            </ul>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-header">
+                <div class="card-icon"><i class="fa-solid fa-building"></i></div>
+                <h3>跨域建築與國際公關</h3>
+            </div>
+            <ul>
+                <li>舉辦桃園市境內建築美學專題展覽</li>
+                <li>舉辦國際公關聯誼活動拓展全球視野</li>
+                <li>構築產官學研最佳互動平台與政策建言</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- 4. 財務預算 -->
+    <section id="budget">
+        <div class="section-title fade-in"><i class="fa-solid fa-chart-pie"></i> 115年度財務預算</div>
+        <div class="chart-wrapper fade-in">
+            <div class="doughnut-mobile"></div>
+        </div>
+        <ul class="legend-list fade-in">
+            <li><div class="color-dot bg-navy"></div> 產業發展與專案推動 (40%)</li>
+            <li><div class="color-dot bg-blue"></div> 組織營運與會務行政 (30%)</li>
+            <li><div class="color-dot bg-cyan"></div> 國內外公共關係聯誼 (20%)</li>
+            <li><div class="color-dot bg-yellow"></div> 社會回饋與品牌傳播 (10%)</li>
+        </ul>
+        <p class="fade-in section-note text-center">※ 詳細預算分配表請參閱書面決算報告。</p>
+    </section>
+
+    <!-- 5. 理監事名錄 -->
+    <section id="directors">
+        <div class="section-title fade-in"><i class="fa-solid fa-address-book"></i> 理監事名錄</div>
+        <div class="card fade-in">
+            <div class="card-header">
+                <div class="card-icon"><i class="fa-solid fa-user-tie"></i></div>
+                <h3>理事會 (Board of Directors)</h3>
+            </div>
+            <ul>
+                <li><strong>理事長：</strong> 廖本生</li>
+                <li><strong>副理事長：</strong> 謝智淵、邱芳琅</li>
+                <li><strong>常務理事：</strong> 周淑真、任怡賓、房麗珠、簡木川</li>
+                <li><strong>理事：</strong> 徐景文、蔡志勇、張指溫、呂榮輝、康博超、楊海霞、李浚霆、林宗德、徐玉郎、吳文輝、陳增逢、林昀霏、陳清淮、孫志堅、臧真豪、蔡旭坤、湯柏齡、陳昌楙</li>
+                <li><strong>候補理事：</strong> 簡文金、田雅華、黃荺婭</li>
+            </ul>
+        </div>
+        <div class="card fade-in">
+            <div class="card-header">
+                <div class="card-icon"><i class="fa-solid fa-user-shield"></i></div>
+                <h3>監事會 (Supervisory Board)</h3>
+            </div>
+            <ul>
+                <li><strong>監事長：</strong> 林萬</li>
+                <li><strong>常務監事：</strong> 劉立宏</li>
+                <li><strong>監事：</strong> 簡材安、韓大富、游健成、蔡博志、黃志鵬</li>
+                <li><strong>榮譽顧問群：</strong> 產官學研界賢達</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 6. 委員會 -->
+    <section id="committees">
+        <div class="section-title fade-in"><i class="fa-solid fa-sitemap"></i> 專門委員會編組</div>
+        
+        <details class="fade-in">
+            <summary>
+                <div class="committee-header">
+                    <span>01. 建築美學委員會</span>
+                    <span class="committee-members">主委：廖仁魏 Counselor | 副主委：楊芳羽 Nana</span>
+                </div>
+            </summary>
+            <div class="details-content">推動青埔高鐵特區與航空城之城市建築美學，結合綠能環保概念，打造未來智慧綠色城市風貌。</div>
+        </details>
+        <details class="fade-in">
+            <summary>
+                <div class="committee-header">
+                    <span>02. 國際事務委員會</span>
+                    <span class="committee-members">主委：李泓澔 Ian | 副主委：顧源倫 Leo</span>
+                </div>
+            </summary>
+            <div class="details-content">舉辦國際公關聯誼活動，參與國際機關參訪，建構航空城跨國產業與物流發展之交流平台。</div>
+        </details>
+        <details class="fade-in">
+            <summary>
+                <div class="committee-header">
+                    <span>03. 公共關係委員會</span>
+                    <span class="committee-members">主委：江宏瑜 | 副主委：戴子強 Johnny</span>
+                </div>
+            </summary>
+            <div class="details-content">舉辦產官學活動擴大聯誼，構築在地溝通平台，積極協助政府推動航空城各項發展政策。</div>
+        </details>
+        <details class="fade-in">
+            <summary>
+                <div class="committee-header">
+                    <span>04. 產業發展委員會</span>
+                    <span class="committee-members">主委：魏新樺 Martin</span>
+                </div>
+            </summary>
+            <div class="details-content">鏈結各產業、機關社團促進發展，舉辦與參加各種產業參訪、論壇，創造異業結盟機會。</div>
+        </details>
+        <details class="fade-in">
+            <summary>
+                <div class="committee-header">
+                    <span>05. 社區活動委員會</span>
+                    <span class="committee-members">主委：任欣元 Koko</span>
+                </div>
+            </summary>
+            <div class="details-content">拜訪社區機關社團與商家，辦理各項社區活動，拉近產業與商家距離，促進會務推廣。</div>
+        </details>
+        <details class="fade-in">
+            <summary>
+                <div class="committee-header">
+                    <span>06. 航空城事務委員會</span>
+                    <span class="committee-members">主委：李宏澤</span>
+                </div>
+            </summary>
+            <div class="details-content">參與及協辦航空城計畫各項活動，協力相關機構與社團，共同促成並推動航空城發展。</div>
+        </details>
+        <details class="fade-in">
+            <summary>
+                <div class="committee-header">
+                    <span>07. 金融服務委員會</span>
+                    <span class="committee-members">主委：鍾政甫 Ray</span>
+                </div>
+            </summary>
+            <div class="details-content">拜訪並結合金融單位以服務會員，舉辦專業論壇活動，強化產業金融服務與業務協助。</div>
+        </details>
+        <details class="fade-in">
+            <summary>
+                <div class="committee-header">
+                    <span>08. 選舉事務委員會</span>
+                    <span class="committee-members">主委：蕭育仁 Aaron</span>
+                </div>
+            </summary>
+            <div class="details-content">依據本會組織章程規範，公平公正辦理各項定期改選及相關票務事務。</div>
+        </details>
+        <details class="fade-in">
+            <summary>
+                <div class="committee-header">
+                    <span>09. 會員活動委員會</span>
+                    <span class="committee-members">主委：楊睿槿 Doreen | 副主委：黃舒琳 Joyce</span>
+                </div>
+            </summary>
+            <div class="details-content">舉辦會內聯誼、國內外旅遊等活動，並關心會員，致贈婚喪喜慶禮儀以促進向心力。</div>
+        </details>
+        <details class="fade-in">
+            <summary>
+                <div class="committee-header">
+                    <span>10. 會員擴展委員會</span>
+                    <span class="committee-members">主委：廖玥琪</span>
+                </div>
+            </summary>
+            <div class="details-content">積極宣揚本會宗旨與各項會務，參與社會活動以吸收新會員，擴大協會組織規模。</div>
+        </details>
+        <details class="fade-in">
+            <summary>
+                <div class="committee-header">
+                    <span>11. 形象傳播委員會</span>
+                    <span class="committee-members">主委：謝清鴻 Steven | 副主委：賴永盛 Clyde</span>
+                </div>
+            </summary>
+            <div class="details-content">負責LOGO、識別系統、活動手冊之規劃設計，並維護網站及進行各項活動影像紀錄以宣揚本會。</div>
+        </details>
+    </section>
+
+    <!-- 7. 活動剪影 -->
+    <section id="gallery">
+        <div class="section-title fade-in"><i class="fa-solid fa-camera-retro"></i> 會務與活動剪影</div>
+        <div class="gallery fade-in">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop" alt="產官學研論壇">
+                <div class="gallery-caption"><i class="fa-solid fa-chalkboard-user"></i> 產官學研跨域專業論壇</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=2070&auto=format&fit=crop" alt="都市計畫參訪">
+                <div class="gallery-caption"><i class="fa-solid fa-map-location-dot"></i> 航空城都市計畫與綠能參訪</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop" alt="國際結盟">
+                <div class="gallery-caption"><i class="fa-solid fa-earth-asia"></i> 推動國際產業鏈與物流結盟</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. 組織章程 -->
+    <section id="bylaws">
+        <div class="section-title fade-in"><i class="fa-solid fa-scale-balanced"></i> 組織章程摘要</div>
+        <p class="fade-in section-note">依據114年度修正後章程擷取，完整條款請參閱資料庫。</p>
+        
+        <details class="fade-in">
+            <summary>第一章 總則與任務</summary>
+            <div class="details-content">
+                本會以配合中央實施桃園航空城之發展計畫，並促進青埔高鐵特區城市建築美學及工商發展等相關社會公益活動為宗旨。作為政府與民間之溝通平台，以利政策推動。
+            </div>
+        </details>
+        <details class="fade-in">
+            <summary>第二章 會員資格</summary>
+            <div class="details-content">
+                個人會員：贊同本會宗旨，年滿二十歲，具有中華民國國籍，未受褫奪公權者。會員有表決權、選舉權、被選舉權與罷免權。
+            </div>
+        </details>
+        <details class="fade-in">
+            <summary>第三章 組織及職權</summary>
+            <div class="details-content">
+                以會員大會為最高權力機構。理事會為執行機構，監事會為監察機構。工作人員不得由選任之理事監事擔任。得設各種委員會等內部作業組織。
+            </div>
+        </details>
+        <details class="fade-in">
+            <summary>第四章 會議規範</summary>
+            <div class="details-content">
+                會員大會分定期會議(每年一次)與臨時會議。決議需以會員過半數出席，出席超過半數同意行之；章程變更、財產處分等重大事項需三分之二以上同意。
+            </div>
+        </details>
+    </section>
+
+    <!-- 9. 末頁 -->
+    <section id="back-cover">
+        <div class="back-cover-overlay"></div>
+        
+        <div class="back-content">
+            <h2 class="fade-in back-title-sm">攜手共創</h2>
+            <h2 class="fade-in back-title-md">桃園航空城新未來</h2>
+            <h2 class="fade-in back-title-lg">NEXT GEN</h2>
+            
+            <div class="contact-box fade-in">
+                <div class="contact-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>桃園市協會辦公室地址 (待補充)</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>(待補充)</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fa-solid fa-globe"></i>
+                    <span class="poppins-font">www.taoyuan-aerotropolis.org</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sponsors-container fade-in">
+            <div class="sponsors-title">POWERED BY</div>
+            <div class="sponsors-grid">
+                <div class="sponsor-box">贊助商 A</div>
+                <div class="sponsor-box">贊助商 B</div>
+                <div class="sponsor-box">贊助商 C</div>
+                <div class="sponsor-box">贊助商 D</div>
+                <div class="sponsor-box">贊助商 E</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 1. 漢堡選單邏輯
+        const menuBtn = document.getElementById('menu-toggle');
+        const fsMenu = document.getElementById('fs-menu');
+        const menuLinks = document.querySelectorAll('.menu-link');
+
+        menuBtn.addEventListener('click', () => {
+            const isActive = fsMenu.classList.toggle('active');
+            menuBtn.innerHTML = isActive ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars-staggered"></i>';
+            menuBtn.style.color = isActive ? '#FFF' : 'var(--accent-navy)';
+        });
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                fsMenu.classList.remove('active');
+                menuBtn.innerHTML = '<i class="fa-solid fa-bars-staggered"></i>';
+                menuBtn.style.color = 'var(--accent-navy)';
+            });
+        });
+
+        // 2. 導覽列滾動動態效果
+        let lastScroll = 0;
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.9)';
+                navbar.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+            }
+
+            if (currentScroll <= 0) {
+                navbar.style.transform = "translateY(0)";
+            } else if (currentScroll > lastScroll && !fsMenu.classList.contains('active')) {
+                navbar.style.transform = "translateY(-100%)";
+            } else {
+                navbar.style.transform = "translateY(0)";
+            }
+            lastScroll = currentScroll;
+        });
+
+        // 3. 滾動漸顯動畫
+        const faders = document.querySelectorAll('.fade-in');
+        const appearOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -20px 0px"
+        };
+
+        const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+
+        // 4. Accordion 單一展開邏輯
+        const details = document.querySelectorAll('details');
+        details.forEach(targetDetail => {
+            targetDetail.addEventListener('click', () => {
+                details.forEach(detail => {
+                    if (detail !== targetDetail) {
+                        detail.removeAttribute('open');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
