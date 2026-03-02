@@ -1327,7 +1327,11 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
         // 1. 漢堡選單邏輯
         const menuBtn = document.getElementById('menu-toggle');
         const fsMenu = document.getElementById('fs-menu');
@@ -1403,7 +1407,7 @@
         });
 
         // =========================================
-        // 5. 後台登入與贊助商連結管理邏輯
+        // 5. 後台登入與贊助商連結管理邏輯 (雲端升級版)
         // =========================================
         
         // 元素選取
@@ -1416,28 +1420,91 @@
         const btnSave = document.getElementById('btn-save');
         const loginError = document.getElementById('login-error');
 
-        // 讀取並套用已存的連結
-        function loadSponsorLinks() {
+        // 初始化雲端資料庫 (如果環境支援)
+        let db = null;
+        let auth = null;
+        let currentUser = null;
+        let appId = 'default-app-id';
+        let useCloudStorage = false;
+
+        try {
+            if (typeof __firebase_config !== 'undefined') {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                useCloudStorage = true;
+                console.log("已啟用雲端資料庫模式");
+            }
+        } catch(e) {
+            console.log("目前為本機單機模式 (LocalStorage)");
+        }
+
+        // 統一套用網址到 UI 的函式
+        function applyLinksToUI(linksData) {
             for (let i = 1; i <= 5; i++) {
-                const savedLink = localStorage.getItem(`sponsor_link_${i}`);
+                const url = linksData[`link${i}`] || '';
                 const linksToUpdate = document.querySelectorAll(`.sponsor-link[data-index="${i}"]`);
                 
                 linksToUpdate.forEach(linkEl => {
-                    if (savedLink && savedLink.trim() !== '') {
-                        linkEl.href = savedLink;
-                        // 取消阻止預設行為 (因為如果有網址，就要可以點擊跳轉)
+                    if (url && url.trim() !== '') {
+                        linkEl.href = url;
                         linkEl.onclick = null;
                     } else {
                         linkEl.removeAttribute('href');
-                        // 如果沒有網址，點擊不要跳轉到頁首
                         linkEl.onclick = (e) => e.preventDefault();
                     }
                 });
+                
+                // 若後台正在開啟，也同步更新輸入框
+                const inputEl = document.getElementById(`input-link-${i}`);
+                if (inputEl && document.activeElement !== inputEl) {
+                    inputEl.value = url;
+                }
             }
         }
 
-        // 頁面載入時先執行一次套用
-        loadSponsorLinks();
+        // 讀取資料的邏輯
+        if (useCloudStorage) {
+            // 雲端模式：進行匿名登入並即時監聽資料庫
+            const initAuth = async () => {
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                } catch(e) {
+                    console.error("驗證失敗", e);
+                }
+            };
+            initAuth();
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                    // 監聽公用資料集中的贊助商連結
+                    const linksDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'sponsorLinks');
+                    onSnapshot(linksDocRef, (snapshot) => {
+                        if (snapshot.exists()) {
+                            applyLinksToUI(snapshot.data());
+                        } else {
+                            applyLinksToUI({});
+                        }
+                    }, (error) => {
+                        console.error("即時同步錯誤", error);
+                    });
+                }
+            });
+        } else {
+            // 單機模式：從 localStorage 讀取 (備用方案)
+            const localData = {};
+            for (let i = 1; i <= 5; i++) {
+                localData[`link${i}`] = localStorage.getItem(`sponsor_link_${i}`) || '';
+            }
+            applyLinksToUI(localData);
+        }
 
         // 開啟登入彈窗
         adminBtn.addEventListener('click', () => {
@@ -1472,15 +1539,14 @@
                 // 登入成功
                 loginModal.classList.remove('active');
                 
-                // 載入目前設定的網址到輸入框
-                for (let i = 1; i <= 5; i++) {
-                    document.getElementById(`input-link-${i}`).value = localStorage.getItem(`sponsor_link_${i}`) || '';
+                // 開啟管理介面前，單機模式需要手動再塞一次確保正確
+                if (!useCloudStorage) {
+                     for (let i = 1; i <= 5; i++) {
+                        document.getElementById(`input-link-${i}`).value = localStorage.getItem(`sponsor_link_${i}`) || '';
+                    }
                 }
-                
-                // 開啟管理介面
                 adminModal.classList.add('active');
             } else {
-                // 登入失敗
                 loginError.style.display = 'block';
             }
         });
@@ -1493,18 +1559,38 @@
         });
 
         // 處理儲存連結
-        btnSave.addEventListener('click', () => {
-            for (let i = 1; i <= 5; i++) {
-                const linkVal = document.getElementById(`input-link-${i}`).value;
-                localStorage.setItem(`sponsor_link_${i}`, linkVal);
+        btnSave.addEventListener('click', async () => {
+            const newLinks = {
+                link1: document.getElementById('input-link-1').value,
+                link2: document.getElementById('input-link-2').value,
+                link3: document.getElementById('input-link-3').value,
+                link4: document.getElementById('input-link-4').value,
+                link5: document.getElementById('input-link-5').value,
+            };
+
+            if (useCloudStorage && currentUser) {
+                // 儲存到雲端 Firestore
+                const linksDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'sponsorLinks');
+                try {
+                    btnSave.textContent = '儲存中...';
+                    await setDoc(linksDocRef, newLinks);
+                    btnSave.textContent = '儲存連結';
+                    alert('連結已同步至雲端！現在所有人都能看到了。');
+                    adminModal.classList.remove('active');
+                } catch(e) {
+                    console.error('儲存失敗', e);
+                    alert('儲存失敗，請確認網路連線。');
+                    btnSave.textContent = '儲存連結';
+                }
+            } else {
+                // 儲存到本機 localStorage (備用方案)
+                for (let i = 1; i <= 5; i++) {
+                    localStorage.setItem(`sponsor_link_${i}`, newLinks[`link${i}`]);
+                }
+                applyLinksToUI(newLinks);
+                alert('連結已儲存！(目前環境無雲端資料庫支援，僅單機有效)');
+                adminModal.classList.remove('active');
             }
-            
-            // 重新套用連結到畫面上
-            loadSponsorLinks();
-            
-            // 簡單提示儲存成功並關閉
-            alert('連結已儲存並更新！');
-            adminModal.classList.remove('active');
         });
     </script>
 </body>
