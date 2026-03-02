@@ -88,12 +88,31 @@
             white-space: nowrap;
         }
 
-        .menu-btn {
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-btn, .admin-btn {
             background: none;
             border: none;
             color: var(--accent-navy);
             font-size: 24px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+        
+        .admin-btn {
+            font-size: 20px;
+            color: var(--text-muted);
+        }
+
+        .admin-btn:hover {
+            color: var(--accent-navy);
         }
 
         .fullscreen-menu {
@@ -380,7 +399,7 @@
         .sponsor-box {
             background: #FFFFFF;
             border-radius: 8px;
-            height: 48px; /* 稍微增加高度以容納 LOGO */
+            height: 48px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -389,11 +408,19 @@
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--surface-border);
             transition: transform 0.2s;
-            overflow: hidden; /* 確保圖片不會超出框框 */
-            padding: 5px; /* 給 LOGO 一點留白 */
+            overflow: hidden;
+            padding: 5px;
+        }
+        
+        .sponsor-link {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
         }
 
-        /* 讓裡面的圖片自動縮放填滿，但不變形 */
         .sponsor-box img {
             max-width: 100%;
             max-height: 100%;
@@ -401,7 +428,6 @@
             display: block;
         }
 
-        /* 無圖片時顯示的替代文字樣式 (測試用) */
         .sponsor-box .alt-text {
             font-size: 12px;
             color: var(--text-muted);
@@ -702,6 +728,121 @@
         }
         .gallery-caption i { color: var(--accent-blue); }
 
+        /* =========================================
+           10. 後台管理 Modal 樣式
+           ========================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-box {
+            background: #FFF;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            color: var(--text-muted);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .modal-title {
+            color: var(--accent-navy);
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--surface-border);
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--accent-blue);
+            color: #FFF;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: var(--accent-navy);
+        }
+        
+        .error-msg {
+            color: #EF4444;
+            font-size: 13px;
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            display: none;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -709,9 +850,15 @@
     <!-- 導覽列 -->
     <header id="navbar">
         <div class="logo-text">跨域整合 · 築夢航空</div>
-        <button class="menu-btn" id="menu-toggle" aria-label="開啟選單">
-            <i class="fa-solid fa-bars-staggered"></i>
-        </button>
+        <div class="header-actions">
+            <!-- 後台入口 (齒輪) -->
+            <button class="admin-btn" id="admin-entrance" aria-label="後台管理">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+            <button class="menu-btn" id="menu-toggle" aria-label="開啟選單">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
     </header>
 
     <!-- 全螢幕選單 -->
@@ -744,31 +891,35 @@
         <div class="sponsors-container fade-in">
             <div class="sponsors-title">POWERED BY</div>
             <div class="sponsors-grid">
-                <!-- 
-                   更換 LOGO 教學：
-                   1. 將您的圖片 (例如 sponsor1.png) 放在與這個 HTML 同一個資料夾內。
-                   2. 將下面 <img src="..."> 裡面的文字改成您的檔名。
-                   3. 如果不需要 5 個版位，可以直接把整段 <div class="sponsor-box">...</div> 刪除。
-                -->
                 <div class="sponsor-box">
-                    <img src="sponsor1.png" alt="贊助商 A" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span class="alt-text" style="display:none;">贊助商 A</span>
+                    <a href="#" class="sponsor-link" data-index="1" target="_blank">
+                        <img src="sponsor1.png" alt="贊助商 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="alt-text" style="display:none;">贊助商 1</span>
+                    </a>
                 </div>
                 <div class="sponsor-box">
-                    <img src="sponsor2.png" alt="贊助商 B" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span class="alt-text" style="display:none;">贊助商 B</span>
+                    <a href="#" class="sponsor-link" data-index="2" target="_blank">
+                        <img src="sponsor2.png" alt="贊助商 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="alt-text" style="display:none;">贊助商 2</span>
+                    </a>
                 </div>
                 <div class="sponsor-box">
-                    <img src="sponsor3.png" alt="贊助商 C" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span class="alt-text" style="display:none;">贊助商 C</span>
+                    <a href="#" class="sponsor-link" data-index="3" target="_blank">
+                        <img src="sponsor3.png" alt="贊助商 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="alt-text" style="display:none;">贊助商 3</span>
+                    </a>
                 </div>
                 <div class="sponsor-box">
-                    <img src="sponsor4.png" alt="贊助商 D" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span class="alt-text" style="display:none;">贊助商 D</span>
+                    <a href="#" class="sponsor-link" data-index="4" target="_blank">
+                        <img src="sponsor4.png" alt="贊助商 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="alt-text" style="display:none;">贊助商 4</span>
+                    </a>
                 </div>
                 <div class="sponsor-box">
-                    <img src="sponsor5.png" alt="贊助商 E" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span class="alt-text" style="display:none;">贊助商 E</span>
+                    <a href="#" class="sponsor-link" data-index="5" target="_blank">
+                        <img src="sponsor5.png" alt="贊助商 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="alt-text" style="display:none;">贊助商 5</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -1068,34 +1219,90 @@
         <div class="sponsors-container fade-in">
             <div class="sponsors-title">POWERED BY</div>
             <div class="sponsors-grid">
-                <!-- 
-                   更換 LOGO 教學 (與封面相同)：
-                   1. 將您的圖片放在同一個資料夾。
-                   2. 更改 src="..." 裡面的檔名。
-                -->
                 <div class="sponsor-box">
-                    <img src="sponsor1.png" alt="贊助商 A" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span class="alt-text" style="display:none;">贊助商 A</span>
+                    <a href="#" class="sponsor-link" data-index="1" target="_blank">
+                        <img src="sponsor1.png" alt="贊助商 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="alt-text" style="display:none;">贊助商 1</span>
+                    </a>
                 </div>
                 <div class="sponsor-box">
-                    <img src="sponsor2.png" alt="贊助商 B" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span class="alt-text" style="display:none;">贊助商 B</span>
+                    <a href="#" class="sponsor-link" data-index="2" target="_blank">
+                        <img src="sponsor2.png" alt="贊助商 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="alt-text" style="display:none;">贊助商 2</span>
+                    </a>
                 </div>
                 <div class="sponsor-box">
-                    <img src="sponsor3.png" alt="贊助商 C" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span class="alt-text" style="display:none;">贊助商 C</span>
+                    <a href="#" class="sponsor-link" data-index="3" target="_blank">
+                        <img src="sponsor3.png" alt="贊助商 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="alt-text" style="display:none;">贊助商 3</span>
+                    </a>
                 </div>
                 <div class="sponsor-box">
-                    <img src="sponsor4.png" alt="贊助商 D" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span class="alt-text" style="display:none;">贊助商 D</span>
+                    <a href="#" class="sponsor-link" data-index="4" target="_blank">
+                        <img src="sponsor4.png" alt="贊助商 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="alt-text" style="display:none;">贊助商 4</span>
+                    </a>
                 </div>
                 <div class="sponsor-box">
-                    <img src="sponsor5.png" alt="贊助商 E" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span class="alt-text" style="display:none;">贊助商 E</span>
+                    <a href="#" class="sponsor-link" data-index="5" target="_blank">
+                        <img src="sponsor5.png" alt="贊助商 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="alt-text" style="display:none;">贊助商 5</span>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- =========================================
+         後台登入 Modal 
+         ========================================= -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-box">
+            <button class="modal-close" id="close-login"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-title"><i class="fa-solid fa-lock"></i> 後台登入</div>
+            <div class="error-msg" id="login-error">帳號或密碼錯誤</div>
+            <div class="form-group">
+                <label>帳號</label>
+                <input type="text" id="admin-user" placeholder="請輸入帳號">
+            </div>
+            <div class="form-group">
+                <label>密碼</label>
+                <input type="password" id="admin-pass" placeholder="請輸入密碼">
+            </div>
+            <button id="btn-login" class="btn-submit">登入</button>
+        </div>
+    </div>
+
+    <!-- =========================================
+         管理贊助商連結 Modal 
+         ========================================= -->
+    <div id="admin-modal" class="modal-overlay">
+        <div class="modal-box">
+            <button class="modal-close" id="close-admin"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-title"><i class="fa-solid fa-link"></i> 管理贊助商連結</div>
+            <div class="form-group">
+                <label>贊助商 1 網址</label>
+                <input type="text" id="input-link-1" placeholder="https://...">
+            </div>
+            <div class="form-group">
+                <label>贊助商 2 網址</label>
+                <input type="text" id="input-link-2" placeholder="https://...">
+            </div>
+            <div class="form-group">
+                <label>贊助商 3 網址</label>
+                <input type="text" id="input-link-3" placeholder="https://...">
+            </div>
+            <div class="form-group">
+                <label>贊助商 4 網址</label>
+                <input type="text" id="input-link-4" placeholder="https://...">
+            </div>
+            <div class="form-group">
+                <label>贊助商 5 網址</label>
+                <input type="text" id="input-link-5" placeholder="https://...">
+            </div>
+            <button id="btn-save" class="btn-submit">儲存連結</button>
+        </div>
+    </div>
 
     <script>
         // 1. 漢堡選單邏輯
@@ -1170,6 +1377,111 @@
                     }
                 });
             });
+        });
+
+        // =========================================
+        // 5. 後台登入與贊助商連結管理邏輯
+        // =========================================
+        
+        // 元素選取
+        const adminBtn = document.getElementById('admin-entrance');
+        const loginModal = document.getElementById('login-modal');
+        const adminModal = document.getElementById('admin-modal');
+        const closeLoginBtn = document.getElementById('close-login');
+        const closeAdminBtn = document.getElementById('close-admin');
+        const btnLogin = document.getElementById('btn-login');
+        const btnSave = document.getElementById('btn-save');
+        const loginError = document.getElementById('login-error');
+
+        // 讀取並套用已存的連結
+        function loadSponsorLinks() {
+            for (let i = 1; i <= 5; i++) {
+                const savedLink = localStorage.getItem(`sponsor_link_${i}`);
+                const linksToUpdate = document.querySelectorAll(`.sponsor-link[data-index="${i}"]`);
+                
+                linksToUpdate.forEach(linkEl => {
+                    if (savedLink && savedLink.trim() !== '') {
+                        linkEl.href = savedLink;
+                        // 取消阻止預設行為 (因為如果有網址，就要可以點擊跳轉)
+                        linkEl.onclick = null;
+                    } else {
+                        linkEl.removeAttribute('href');
+                        // 如果沒有網址，點擊不要跳轉到頁首
+                        linkEl.onclick = (e) => e.preventDefault();
+                    }
+                });
+            }
+        }
+
+        // 頁面載入時先執行一次套用
+        loadSponsorLinks();
+
+        // 開啟登入彈窗
+        adminBtn.addEventListener('click', () => {
+            loginError.style.display = 'none';
+            document.getElementById('admin-user').value = '';
+            document.getElementById('admin-pass').value = '';
+            loginModal.classList.add('active');
+        });
+
+        // 關閉登入彈窗
+        closeLoginBtn.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+        });
+
+        // 關閉管理彈窗
+        closeAdminBtn.addEventListener('click', () => {
+            adminModal.classList.remove('active');
+        });
+
+        // 點擊背景關閉彈窗
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) loginModal.classList.remove('active');
+            if (e.target === adminModal) adminModal.classList.remove('active');
+        });
+
+        // 處理登入
+        btnLogin.addEventListener('click', () => {
+            const user = document.getElementById('admin-user').value;
+            const pass = document.getElementById('admin-pass').value;
+
+            if (user === 'steven' && pass === '2uriijai') {
+                // 登入成功
+                loginModal.classList.remove('active');
+                
+                // 載入目前設定的網址到輸入框
+                for (let i = 1; i <= 5; i++) {
+                    document.getElementById(`input-link-${i}`).value = localStorage.getItem(`sponsor_link_${i}`) || '';
+                }
+                
+                // 開啟管理介面
+                adminModal.classList.add('active');
+            } else {
+                // 登入失敗
+                loginError.style.display = 'block';
+            }
+        });
+
+        // 支援 Enter 鍵登入
+        document.getElementById('admin-pass').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                btnLogin.click();
+            }
+        });
+
+        // 處理儲存連結
+        btnSave.addEventListener('click', () => {
+            for (let i = 1; i <= 5; i++) {
+                const linkVal = document.getElementById(`input-link-${i}`).value;
+                localStorage.setItem(`sponsor_link_${i}`, linkVal);
+            }
+            
+            // 重新套用連結到畫面上
+            loadSponsorLinks();
+            
+            // 簡單提示儲存成功並關閉
+            alert('連結已儲存並更新！');
+            adminModal.classList.remove('active');
         });
     </script>
 </body>
