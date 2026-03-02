@@ -251,39 +251,39 @@
             bottom: 20%; left: -10%;
             width: 32px; height: 32px;
             color: var(--accent-blue);
-            animation: fly1 20s linear infinite;
+            animation: fly1 40s linear infinite;
         }
         .plane-2 {
             bottom: 50%; right: -10%;
             width: 48px; height: 48px;
             color: var(--accent-navy);
-            animation: fly2 26s linear infinite 4s;
+            animation: fly2 50s linear infinite 4s;
         }
         .plane-3 {
             bottom: -5%; left: 15%;
             width: 24px; height: 24px;
             color: var(--accent-yellow);
-            animation: fly3 23s linear infinite 8s;
+            animation: fly3 60s linear infinite 8s;
         }
 
-        /* 根據飛行軌跡調整飛機旋轉角度(機頭導向) */
+        /* 根據飛行軌跡調整飛機旋轉角度(機頭導向)，使用 vmax 確保各裝置比例與角度完美吻合 */
         @keyframes fly1 {
-            0% { transform: translate(0, 0) rotate(50deg) scale(0.8); opacity: 0; }
+            0% { transform: translate(0, 0) rotate(50.2deg) scale(0.8); opacity: 0; }
             10% { opacity: 0.7; }
             90% { opacity: 0.7; }
-            100% { transform: translate(120vw, -100vh) rotate(50deg) scale(1.5); opacity: 0; }
+            100% { transform: translate(120vmax, -100vmax) rotate(50.2deg) scale(1.5); opacity: 0; }
         }
         @keyframes fly2 {
-            0% { transform: translate(0, 0) rotate(-55deg) scale(0.8); opacity: 0; }
+            0% { transform: translate(0, 0) rotate(-56.3deg) scale(0.8); opacity: 0; }
             10% { opacity: 0.4; }
             90% { opacity: 0.4; }
-            100% { transform: translate(-120vw, -80vh) rotate(-55deg) scale(1.2); opacity: 0; }
+            100% { transform: translate(-120vmax, -80vmax) rotate(-56.3deg) scale(1.2); opacity: 0; }
         }
         @keyframes fly3 {
-            0% { transform: translate(0, 0) rotate(35deg) scale(0.8); opacity: 0; }
+            0% { transform: translate(0, 0) rotate(37.5deg) scale(0.8); opacity: 0; }
             10% { opacity: 0.6; }
             90% { opacity: 0.6; }
-            100% { transform: translate(100vw, -130vh) rotate(35deg) scale(1.3); opacity: 0; }
+            100% { transform: translate(100vmax, -130vmax) rotate(37.5deg) scale(1.3); opacity: 0; }
         }
 
         .mrt-train-wrapper {
@@ -294,7 +294,7 @@
             height: 14px; /* 高度縮小50% */
             z-index: 10;
             pointer-events: none;
-            animation: mrtMove 30s linear infinite;
+            animation: mrtMove 120s linear infinite;
         }
 
         @keyframes mrtMove {
@@ -886,7 +886,7 @@
             font-weight: 600;
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid var(--surface-border);
@@ -894,9 +894,11 @@
             font-size: 15px;
             outline: none;
             transition: border-color 0.2s;
+            background: #FFF;
+            color: var(--text-main);
         }
 
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus {
             border-color: var(--accent-blue);
         }
 
@@ -1421,7 +1423,14 @@
                 <label>贊助商 5 網址</label>
                 <input type="text" id="input-link-5" placeholder="https://...">
             </div>
-            <button id="btn-save" class="btn-submit">儲存連結</button>
+            <div class="form-group">
+                <label>首頁動畫開關</label>
+                <select id="input-animation-toggle">
+                    <option value="on">開啟 (飛機與捷運)</option>
+                    <option value="off">關閉</option>
+                </select>
+            </div>
+            <button id="btn-save" class="btn-submit">儲存連結與設定</button>
         </div>
     </div>
 
@@ -1563,6 +1572,17 @@
                     inputEl.value = url;
                 }
             }
+
+            // 同步處理動畫開關
+            const animToggle = linksData.animations || 'on';
+            const animContainer = document.querySelector('.animation-container');
+            if (animContainer) {
+                animContainer.style.display = animToggle === 'on' ? 'block' : 'none';
+            }
+            const inputAnim = document.getElementById('input-animation-toggle');
+            if (inputAnim && document.activeElement !== inputAnim) {
+                inputAnim.value = animToggle;
+            }
         }
 
         // 讀取資料的邏輯
@@ -1603,6 +1623,7 @@
             for (let i = 1; i <= 5; i++) {
                 localData[`link${i}`] = localStorage.getItem(`sponsor_link_${i}`) || '';
             }
+            localData.animations = localStorage.getItem('anim_toggle') || 'on';
             applyLinksToUI(localData);
         }
 
@@ -1644,6 +1665,7 @@
                      for (let i = 1; i <= 5; i++) {
                         document.getElementById(`input-link-${i}`).value = localStorage.getItem(`sponsor_link_${i}`) || '';
                     }
+                    document.getElementById('input-animation-toggle').value = localStorage.getItem('anim_toggle') || 'on';
                 }
                 adminModal.classList.add('active');
             } else {
@@ -1666,6 +1688,7 @@
                 link3: document.getElementById('input-link-3').value,
                 link4: document.getElementById('input-link-4').value,
                 link5: document.getElementById('input-link-5').value,
+                animations: document.getElementById('input-animation-toggle').value,
             };
 
             if (useCloudStorage && currentUser) {
@@ -1674,21 +1697,22 @@
                 try {
                     btnSave.textContent = '儲存中...';
                     await setDoc(linksDocRef, newLinks);
-                    btnSave.textContent = '儲存連結';
-                    alert('連結已同步至雲端！現在所有人都能看到。');
+                    btnSave.textContent = '儲存連結與設定';
+                    alert('設定已同步至雲端！現在所有人都能看到。');
                     adminModal.classList.remove('active');
                 } catch(e) {
                     console.error('儲存失敗', e);
                     alert('儲存失敗，請確認網路連線。');
-                    btnSave.textContent = '儲存連結';
+                    btnSave.textContent = '儲存連結與設定';
                 }
             } else {
                 // 儲存到本機 localStorage (備用方案)
                 for (let i = 1; i <= 5; i++) {
                     localStorage.setItem(`sponsor_link_${i}`, newLinks[`link${i}`]);
                 }
+                localStorage.setItem('anim_toggle', newLinks.animations);
                 applyLinksToUI(newLinks);
-                alert('連結已儲存！(目前環境無雲端資料庫支援，僅單機有效)');
+                alert('設定已儲存！(目前環境無雲端資料庫支援，僅單機有效)');
                 adminModal.classList.remove('active');
             }
         });
