@@ -1037,7 +1037,7 @@
 
         <!-- 替換過後的標題設計 (專為黑色系遮罩調整文字顏色) -->
         <h1 class="cover-title-group" style="position:relative; z-index:10; margin-bottom: 40px; text-shadow: var(--shadow-md);">
-            <img src="桃園航空城發展協會_LOGO_優化_去背.png" alt="TADA Logo" class="cover-logo-locked">
+            <img src="https://raw.githubusercontent.com/kunfol627/TADA_302_test/main/%E6%A1%83%E5%9C%92%E8%88%AA%E7%A9%BA%E5%9F%8E%E7%99%BC%E5%B1%95%E5%8D%94%E6%9C%83_LOGO_%E5%84%AA%E5%8C%96_%E5%8E%BB%E8%83%8C.png" alt="TADA Logo" class="cover-logo-locked">
             <div class="main-org" style="color: #ffffff;">桃園市航空城發展協會</div>
             <div class="cover-en-title" style="color: #00f0ff; letter-spacing: 1px;">Taoyuan Aerotropolis Development Association</div>
             <div class="sub-org" style="color: #e2e8f0;">第六屆理事長暨理監事</div>
@@ -1172,7 +1172,7 @@
     <!-- ==================== 以下為您提供的原始網站內容 ==================== -->
     <header id="navbar">
         <div class="logo-text">
-            <img src="桃園航空城發展協會_LOGO_優化_去背.png" alt="TADA Logo" class="logo-img">
+            <img src="https://raw.githubusercontent.com/kunfol627/TADA_302_test/main/%E6%A1%83%E5%9C%92%E8%88%AA%E7%A9%BA%E5%9F%8E%E7%99%BC%E5%B1%95%E5%8D%94%E6%9C%83_LOGO_%E5%84%AA%E5%8C%96_%E5%8E%BB%E8%83%8C.png" alt="TADA Logo" class="logo-img">
             跨域整合 · 築夢航空
         </div>
         <div class="header-actions">
@@ -1217,7 +1217,7 @@
 
         <div class="cover-content fade-in">
             <h1 class="cover-title-group">
-                <img src="桃園航空城發展協會_LOGO_優化_去背.png" alt="TADA Logo" class="cover-logo">
+                <img src="https://raw.githubusercontent.com/kunfol627/TADA_302_test/main/%E6%A1%83%E5%9C%92%E8%88%AA%E7%A9%BA%E5%9F%8E%E7%99%BC%E5%B1%95%E5%8D%94%E6%9C%83_LOGO_%E5%84%AA%E5%8C%96_%E5%8E%BB%E8%83%8C.png" alt="TADA Logo" class="cover-logo">
                 <div class="main-org">桃園市航空城發展協會</div>
                 <div class="cover-en-title">Taoyuan Aerotropolis Development Association</div>
                 <div class="sub-org">第六屆理事長暨理監事</div>
@@ -1678,7 +1678,8 @@
     <!-- 遮罩與密碼鎖邏輯 -->
     <script>
         /* ================= 1. 倒數計時邏輯 ================= */
-        const targetDate = new Date('2026-03-22T18:00:00+08:00').getTime();
+        // 使用 UTC 時間 (Z) 確保所有瀏覽器(包含蘋果 iOS/Safari) 皆能正確解析。18:00 GMT+8 = 10:00 Z
+        const targetDate = new Date('2026-03-22T10:00:00Z').getTime();
         let countdownInterval;
 
         function initCountdown() {
