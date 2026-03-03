@@ -351,14 +351,28 @@
             width: 100%;
         }
 
+        .title-top-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 15px;
+        }
+
+        .title-text-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .title-logo {
-            height: 36px;
+            height: 56px;
             width: auto;
             display: block;
         }
 
         .title-logo-locked {
-            height: 36px;
+            height: 56px;
             width: auto;
             display: block;
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
@@ -370,10 +384,6 @@
             line-height: 1.2;
             color: var(--text-main);
             letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
         }
 
         .cover-en-title {
@@ -381,7 +391,7 @@
             font-size: 10px;
             color: var(--accent-blue);
             letter-spacing: 0.2px;
-            margin: 6px 0 16px;
+            margin: 4px 0 0 0;
             font-weight: 500;
             line-height: 1.2;
             white-space: nowrap; 
@@ -1041,11 +1051,13 @@
 
         <!-- 替換過後的標題設計 (專為黑色系遮罩調整文字顏色) -->
         <h1 class="cover-title-group" style="position:relative; z-index:10; margin-bottom: 40px; text-shadow: var(--shadow-md);">
-            <div class="main-org" style="color: #ffffff;">
+            <div class="title-top-section">
                 <img src="https://raw.githubusercontent.com/kunfol627/TADA_302_test/main/%E6%A1%83%E5%9C%92%E8%88%AA%E7%A9%BA%E5%9F%8E%E7%99%BC%E5%B1%95%E5%8D%94%E6%9C%83_LOGO_%E5%84%AA%E5%8C%96_%E5%8E%BB%E8%83%8C.png" alt="TADA Logo" class="title-logo-locked">
-                桃園市航空城發展協會
+                <div class="title-text-section">
+                    <div class="main-org" style="color: #ffffff;">桃園市航空城發展協會</div>
+                    <div class="cover-en-title" style="color: #00f0ff; letter-spacing: 1px;">Taoyuan Aerotropolis Development Association</div>
+                </div>
             </div>
-            <div class="cover-en-title" style="color: #00f0ff; letter-spacing: 1px;">Taoyuan Aerotropolis Development Association</div>
             <div class="sub-org" style="color: #e2e8f0;">第六屆理事長暨理監事</div>
             <span class="main-event" style="color: #00f0ff; text-shadow: 0 0 15px rgba(0,240,255,0.6);">就職典禮</span>
         </h1>
@@ -1223,11 +1235,13 @@
 
         <div class="cover-content fade-in">
             <h1 class="cover-title-group">
-                <div class="main-org">
+                <div class="title-top-section">
                     <img src="https://raw.githubusercontent.com/kunfol627/TADA_302_test/main/%E6%A1%83%E5%9C%92%E8%88%AA%E7%A9%BA%E5%9F%8E%E7%99%BC%E5%B1%95%E5%8D%94%E6%9C%83_LOGO_%E5%84%AA%E5%8C%96_%E5%8E%BB%E8%83%8C.png" alt="TADA Logo" class="title-logo">
-                    桃園市航空城發展協會
+                    <div class="title-text-section">
+                        <div class="main-org">桃園市航空城發展協會</div>
+                        <div class="cover-en-title">Taoyuan Aerotropolis Development Association</div>
+                    </div>
                 </div>
-                <div class="cover-en-title">Taoyuan Aerotropolis Development Association</div>
                 <div class="sub-org">第六屆理事長暨理監事</div>
                 <span class="main-event">就職典禮</span>
             </h1>
