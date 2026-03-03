@@ -103,6 +103,14 @@
             color: var(--accent-navy);
             letter-spacing: 1px;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            height: 32px;
+            width: auto;
         }
 
         .header-actions {
@@ -341,6 +349,19 @@
             align-items: center;
             margin-bottom: 20px;
             width: 100%;
+        }
+
+        .cover-logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .cover-logo-locked {
+            width: 80px;
+            height: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
         }
 
         .main-org {
@@ -1016,6 +1037,7 @@
 
         <!-- 替換過後的標題設計 (專為黑色系遮罩調整文字顏色) -->
         <h1 class="cover-title-group" style="position:relative; z-index:10; margin-bottom: 40px; text-shadow: var(--shadow-md);">
+            <img src="桃園航空城發展協會_LOGO_優化_去背.png" alt="TADA Logo" class="cover-logo-locked">
             <div class="main-org" style="color: #ffffff;">桃園市航空城發展協會</div>
             <div class="cover-en-title" style="color: #00f0ff; letter-spacing: 1px;">Taoyuan Aerotropolis Development Association</div>
             <div class="sub-org" style="color: #e2e8f0;">第六屆理事長暨理監事</div>
@@ -1149,7 +1171,10 @@
 
     <!-- ==================== 以下為您提供的原始網站內容 ==================== -->
     <header id="navbar">
-        <div class="logo-text">跨域整合 · 築夢航空</div>
+        <div class="logo-text">
+            <img src="桃園航空城發展協會_LOGO_優化_去背.png" alt="TADA Logo" class="logo-img">
+            跨域整合 · 築夢航空
+        </div>
         <div class="header-actions">
             <button class="admin-btn" id="admin-entrance" aria-label="後台管理">
                 <i class="fa-solid fa-gear"></i>
@@ -1192,6 +1217,7 @@
 
         <div class="cover-content fade-in">
             <h1 class="cover-title-group">
+                <img src="桃園航空城發展協會_LOGO_優化_去背.png" alt="TADA Logo" class="cover-logo">
                 <div class="main-org">桃園市航空城發展協會</div>
                 <div class="cover-en-title">Taoyuan Aerotropolis Development Association</div>
                 <div class="sub-org">第六屆理事長暨理監事</div>
