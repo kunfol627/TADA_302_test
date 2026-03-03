@@ -20,7 +20,7 @@
     <meta name="twitter:image" content="TADA2026.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Poppins:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* =========================================
@@ -61,6 +61,9 @@
             background-image: radial-gradient(#CBD5E1 1px, transparent 1px);
             background-size: 40px 40px;
         }
+
+        /* 遮罩鎖定畫面專用 */
+        .locked-body { overflow: hidden !important; }
 
         /* 工具類別 (Utility Classes) */
         .poppins-font { font-family: 'Poppins', sans-serif; font-weight: 500; }
@@ -929,10 +932,222 @@
             display: none;
             font-weight: 500;
         }
+
+        /* =========================================
+           11. 倒數計時遮罩與密碼鎖專用樣式 (純 CSS 版無依賴 Tailwind)
+           ========================================= */
+        #countdown-overlay {
+            position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 4000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background-color: rgba(0, 0, 0, 0.7); 
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            transition: opacity 0.5s ease;
+        }
+        
+        #btn-open-lock {
+            position: absolute; top: 24px; right: 24px; padding: 12px;
+            color: rgba(255, 255, 255, 0.6); background: transparent; border: none; cursor: pointer;
+            transition: color 0.3s;
+        }
+        #btn-open-lock:hover { color: rgba(255, 255, 255, 1); }
+        #btn-open-lock svg { width: 32px; height: 32px; transition: transform 0.3s; }
+        #btn-open-lock:hover svg { transform: scale(1.1); }
+
+        .led-dashboard { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; }
+        @media (min-width: 768px) { .led-dashboard { gap: 40px; } }
+        .led-item { display: flex; flex-direction: column; align-items: center; }
+        .led-circle-wrap { position: relative; width: 128px; height: 128px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+        .led-circle-wrap svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+        .led-val-wrap { z-index: 10; display: flex; align-items: center; justify-content: center; }
+        
+        .font-led { font-family: 'Share Tech Mono', monospace; }
+        .glow-text {
+            color: #00f0ff;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.7), 0 0 20px rgba(0, 240, 255, 0.5);
+            font-size: 36px;
+        }
+        .shadow-glow { filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.8)); }
+        .led-label { font-size: 12px; color: #06b6d4; font-weight: 700; letter-spacing: 0.2em; }
+
+        #passcode-modal {
+            position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 5000;
+            display: none; align-items: center; justify-content: center;
+            background-color: rgba(0,0,0,0.65); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .passcode-container { display: flex; flex-direction: column; align-items: center; padding: 24px; width: 100%; max-width: 320px; margin: 0 auto; }
+        .passcode-title { color: white; font-size: 17px; margin-bottom: 24px; font-weight: 500; letter-spacing: 0.05em; }
+        .dots-container { display: flex; gap: 20px; margin-bottom: 48px; height: 16px; align-items: center; }
+        .passcode-dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid white; background-color: transparent; transition: background-color 0.1s; }
+        .passcode-dot.filled { background-color: white; }
+        .keypad-grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 24px; row-gap: 16px; width: 100%; }
+        
+        .keypad-btn {
+            width: 72px; height: 72px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.25);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, 0.05); color: white; transition: all 0.2s ease; cursor: pointer; margin: 0 auto;
+        }
+        .keypad-btn:active { background: rgba(255, 255, 255, 0.3); }
+        .keypad-text-main { font-size: 32px; line-height: 1; font-weight: 300; }
+        .keypad-text-sub { font-size: 10px; letter-spacing: 1.5px; margin-top: 2px; color: rgba(255, 255, 255, 0.7); }
+        
+        .keypad-action-btn { color: white; font-size: 16px; font-weight: 500; background: none; border: none; cursor: pointer; transition: color 0.2s; display: flex; align-items: center; justify-content: center;}
+        .keypad-action-btn:active { color: rgba(255,255,255,0.5); }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-12px); }
+            40%, 80% { transform: translateX(12px); }
+        }
+        .shake-animation { animation: shake 0.4s ease-in-out; }
     </style>
 </head>
-<body>
+<body class="locked-body">
 
+    <!-- ==================== 遮罩區塊 (覆蓋於最上方) ==================== -->
+    <div id="countdown-overlay">
+        
+        <!-- 右上角關閉(解鎖)按鈕 -->
+        <button id="btn-open-lock">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+        </button>
+
+        <!-- 替換過後的標題設計 (專為黑色系遮罩調整文字顏色) -->
+        <h1 class="cover-title-group" style="position:relative; z-index:10; margin-bottom: 40px; text-shadow: var(--shadow-md);">
+            <div class="main-org" style="color: #ffffff;">桃園市航空城發展協會</div>
+            <div class="cover-en-title" style="color: #00f0ff; letter-spacing: 1px;">Taoyuan Aerotropolis Development Association</div>
+            <div class="sub-org" style="color: #e2e8f0;">第六屆理事長暨理監事</div>
+            <span class="main-event" style="color: #00f0ff; text-shadow: 0 0 15px rgba(0,240,255,0.6);">就職典禮</span>
+        </h1>
+
+        <!-- LED 倒數環形儀表板 -->
+        <div class="led-dashboard">
+            <!-- 天 (DAYS) -->
+            <div class="led-item">
+                <div class="led-circle-wrap">
+                    <svg>
+                        <circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" />
+                        <circle id="days-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" />
+                    </svg>
+                    <div class="led-val-wrap">
+                        <span class="font-led glow-text" id="days-val">00</span>
+                    </div>
+                </div>
+                <span class="led-label">DAYS</span>
+            </div>
+
+            <!-- 時 (HOURS) -->
+            <div class="led-item">
+                <div class="led-circle-wrap">
+                    <svg>
+                        <circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" />
+                        <circle id="hours-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" />
+                    </svg>
+                    <div class="led-val-wrap">
+                        <span class="font-led glow-text" id="hours-val">00</span>
+                    </div>
+                </div>
+                <span class="led-label">HOURS</span>
+            </div>
+
+            <!-- 分 (MINUTES) -->
+            <div class="led-item">
+                <div class="led-circle-wrap">
+                    <svg>
+                        <circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" />
+                        <circle id="minutes-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" />
+                    </svg>
+                    <div class="led-val-wrap">
+                        <span class="font-led glow-text" id="minutes-val">00</span>
+                    </div>
+                </div>
+                <span class="led-label">MINUTES</span>
+            </div>
+
+            <!-- 秒 (SECONDS) -->
+            <div class="led-item">
+                <div class="led-circle-wrap">
+                    <svg>
+                        <circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" />
+                        <circle id="seconds-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" />
+                    </svg>
+                    <div class="led-val-wrap">
+                        <span class="font-led glow-text" id="seconds-val">00</span>
+                    </div>
+                </div>
+                <span class="led-label">SECONDS</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 密碼鎖彈窗 (iOS 觸控風格) -->
+    <div id="passcode-modal">
+        <div class="passcode-container">
+            
+            <h2 class="passcode-title">Touch ID or Enter Passcode</h2>
+            
+            <!-- 密碼輸入圓點指示器 -->
+            <div id="dots-container" class="dots-container">
+                <div class="passcode-dot"></div>
+                <div class="passcode-dot"></div>
+                <div class="passcode-dot"></div>
+                <div class="passcode-dot"></div>
+            </div>
+
+            <!-- 數字鍵盤 -->
+            <div class="keypad-grid">
+                <button class="keypad-btn" onclick="handleKeypress('1')">
+                    <span class="keypad-text-main">1</span>
+                    <span class="keypad-text-sub" style="opacity: 0;">ABC</span>
+                </button>
+                <button class="keypad-btn" onclick="handleKeypress('2')">
+                    <span class="keypad-text-main">2</span>
+                    <span class="keypad-text-sub">ABC</span>
+                </button>
+                <button class="keypad-btn" onclick="handleKeypress('3')">
+                    <span class="keypad-text-main">3</span>
+                    <span class="keypad-text-sub">DEF</span>
+                </button>
+                <button class="keypad-btn" onclick="handleKeypress('4')">
+                    <span class="keypad-text-main">4</span>
+                    <span class="keypad-text-sub">GHI</span>
+                </button>
+                <button class="keypad-btn" onclick="handleKeypress('5')">
+                    <span class="keypad-text-main">5</span>
+                    <span class="keypad-text-sub">JKL</span>
+                </button>
+                <button class="keypad-btn" onclick="handleKeypress('6')">
+                    <span class="keypad-text-main">6</span>
+                    <span class="keypad-text-sub">MNO</span>
+                </button>
+                <button class="keypad-btn" onclick="handleKeypress('7')">
+                    <span class="keypad-text-main">7</span>
+                    <span class="keypad-text-sub">PQRS</span>
+                </button>
+                <button class="keypad-btn" onclick="handleKeypress('8')">
+                    <span class="keypad-text-main">8</span>
+                    <span class="keypad-text-sub">TUV</span>
+                </button>
+                <button class="keypad-btn" onclick="handleKeypress('9')">
+                    <span class="keypad-text-main">9</span>
+                    <span class="keypad-text-sub">WXYZ</span>
+                </button>
+                
+                <!-- 底部按鈕列 -->
+                <button class="keypad-action-btn" onclick="closePasscodeModal()">Cancel</button>
+                <button class="keypad-btn" onclick="handleKeypress('0')">
+                    <span class="keypad-text-main">0</span>
+                    <span class="keypad-text-sub" style="opacity: 0;">ABC</span>
+                </button>
+                <button class="keypad-action-btn" onclick="handleDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==================== 以下為您提供的原始網站內容 ==================== -->
     <header id="navbar">
         <div class="logo-text">跨域整合 · 築夢航空</div>
         <div class="header-actions">
@@ -1434,6 +1649,142 @@
         </div>
     </div>
 
+    <!-- 遮罩與密碼鎖邏輯 -->
+    <script>
+        /* ================= 1. 倒數計時邏輯 ================= */
+        const targetDate = new Date('2026-03-22T18:00:00+08:00').getTime();
+        let countdownInterval;
+
+        function initCountdown() {
+            countdownInterval = setInterval(updateTimer, 1000);
+            updateTimer(); 
+        }
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            const overlay = document.getElementById('countdown-overlay');
+
+            if (distance <= 0) {
+                clearInterval(countdownInterval);
+                overlay.style.opacity = '0';
+                setTimeout(() => { 
+                    overlay.style.display = 'none'; 
+                    document.body.classList.remove('locked-body');
+                }, 500);
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days-val').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours-val').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes-val').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds-val').innerText = String(seconds).padStart(2, '0');
+
+            setProgress('days-progress', days, 30);    
+            setProgress('hours-progress', hours, 24);  
+            setProgress('minutes-progress', minutes, 60); 
+            setProgress('seconds-progress', seconds, 60); 
+        }
+
+        function setProgress(elementId, value, maxValue) {
+            const circle = document.getElementById(elementId);
+            if (!circle) return;
+            const radius = circle.r.baseVal.value;
+            const circumference = radius * 2 * Math.PI;
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            const safeValue = Math.min(value, maxValue);
+            const offset = circumference - (safeValue / maxValue) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        /* ================= 2. 密碼鎖邏輯 ================= */
+        const CORRECT_PASSCODE = '0503';
+        let currentPasscode = '';
+        let hideMaskTimer = null; 
+
+        const overlayElement = document.getElementById('countdown-overlay');
+        const modalElement = document.getElementById('passcode-modal');
+        const dotsContainer = document.getElementById('dots-container');
+        const dots = document.querySelectorAll('.passcode-dot');
+
+        document.getElementById('btn-open-lock').addEventListener('click', () => {
+            modalElement.style.display = 'flex';
+            setTimeout(() => modalElement.style.opacity = '1', 10);
+        });
+
+        window.closePasscodeModal = function() {
+            modalElement.style.opacity = '0';
+            setTimeout(() => {
+                modalElement.style.display = 'none';
+                resetPasscode();
+            }, 300);
+        };
+
+        window.handleKeypress = function(num) {
+            if (currentPasscode.length < 4) {
+                currentPasscode += num;
+                updateDotsUI();
+                if (currentPasscode.length === 4) {
+                    setTimeout(verifyPasscode, 150);
+                }
+            }
+        };
+
+        window.handleDelete = function() {
+            if (currentPasscode.length > 0) {
+                currentPasscode = currentPasscode.slice(0, -1);
+                updateDotsUI();
+            }
+        };
+
+        function updateDotsUI() {
+            dots.forEach((dot, index) => {
+                if (index < currentPasscode.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
+
+        function verifyPasscode() {
+            if (currentPasscode === CORRECT_PASSCODE) {
+                closePasscodeModal();
+                overlayElement.style.opacity = '0';
+                setTimeout(() => {
+                    overlayElement.style.display = 'none';
+                    document.body.classList.remove('locked-body');
+                }, 500);
+
+                if (hideMaskTimer) clearTimeout(hideMaskTimer);
+                hideMaskTimer = setTimeout(() => {
+                    document.body.classList.add('locked-body'); 
+                    overlayElement.style.display = 'flex';
+                    setTimeout(() => overlayElement.style.opacity = '1', 10);
+                }, 5 * 60 * 1000);
+            } else {
+                dotsContainer.classList.add('shake-animation');
+                setTimeout(() => {
+                    dotsContainer.classList.remove('shake-animation');
+                    resetPasscode();
+                }, 400);
+            }
+        }
+
+        function resetPasscode() {
+            currentPasscode = '';
+            updateDotsUI();
+        }
+
+        initCountdown();
+    </script>
+
+    <!-- 您原本網站的核心邏輯腳本 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
