@@ -11,17 +11,21 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="桃園市航空城發展協會 第六屆就職典禮">
     <meta property="og:description" content="桃園市航空城發展協會 (Taoyuan Aerotropolis Development Association) 第六屆理事長暨理監事就職典禮。跨域整合 · 築夢航空｜2026.03.22">
-    <meta property="og:image" content="TADA2026.jpg"> 
+    <meta property="og:image" content="images/TADA2026.jpg"> 
     <meta property="og:site_name" content="跨域整合 · 築夢航空">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="桃園市航空城發展協會 第六屆就職典禮">
     <meta name="twitter:description" content="桃園市航空城發展協會 (Taoyuan Aerotropolis Development Association) 第六屆理事長暨理監事就職典禮。跨域整合 · 築夢航空｜2026.03.22">
-    <meta name="twitter:image" content="TADA2026.jpg">
+    <meta name="twitter:image" content="images/TADA2026.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Poppins:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- 引入 Swiper.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
     <style>
         /* =========================================
            1. CSS 變數與全域設定 (Global Variables)
@@ -226,7 +230,7 @@
            4. 首頁與末頁背景 (Cover & Back Cover)
            ========================================= */
         #cover, #back-cover {
-            background-image: url('TADA2026.jpg');
+            background-image: url('images/TADA2026.jpg');
             background-size: cover;
             background-position: center;
             padding: 0;
@@ -830,9 +834,12 @@
         }
 
         /* =========================================
-           9. 圖片庫 (Gallery)
+           9. 圖片庫 (Gallery - Swiper Carousel)
            ========================================= */
-        .gallery { display: flex; flex-direction: column; gap: 20px; }
+        .gallerySwiper {
+            width: 100%;
+            padding-bottom: 50px; /* 給分頁圓點留空間 */
+        }
         
         .gallery-item {
             border-radius: 16px;
@@ -841,10 +848,11 @@
             border: 1px solid var(--surface-border);
             box-shadow: var(--shadow-md);
             background: #FFF;
+            width: 100%;
         }
         .gallery-item img {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
             display: block;
         }
@@ -858,6 +866,24 @@
             gap: 10px;
         }
         .gallery-caption i { color: var(--accent-blue); }
+
+        /* 客製化 Swiper 的導航與分頁外觀 */
+        .swiper-pagination-bullet-active {
+            background-color: var(--accent-blue) !important;
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: var(--accent-blue) !important;
+            background-color: rgba(255, 255, 255, 0.85);
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 50%;
+            box-shadow: var(--shadow-md);
+            top: 45% !important;
+        }
+        .swiper-button-next::after, .swiper-button-prev::after {
+            font-size: 16px !important;
+            font-weight: 900;
+        }
 
         /* =========================================
            10. 後台管理 Modal 樣式
@@ -1048,20 +1074,18 @@
 </head>
 <body class="locked-body">
 
-    <!-- ==================== 遮罩區塊 (覆蓋於最上方) ==================== -->
+    <!-- ==================== 遮罩區塊 ==================== -->
     <div id="countdown-overlay">
-        
-        <!-- 右上角關閉(解鎖)按鈕 -->
         <button id="btn-open-lock">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
         </button>
 
-        <!-- 替換過後的標題設計 (專為黑色系遮罩調整文字顏色) -->
         <h1 class="cover-title-group" style="position:relative; z-index:10; margin-bottom: 40px; text-shadow: var(--shadow-md);">
             <div class="title-top-section">
-                <img src="https://raw.githubusercontent.com/kunfol627/TADA_302_test/main/%E6%A1%83%E5%9C%92%E8%88%AA%E7%A9%BA%E5%9F%8E%E7%99%BC%E5%B1%95%E5%8D%94%E6%9C%83_LOGO_%E5%84%AA%E5%8C%96_%E5%8E%BB%E8%83%8C.png" alt="TADA Logo" class="title-logo-locked">
+                <!-- 更新遮罩畫面的 LOGO 路徑 -->
+                <img src="images/logo.png" alt="TADA Logo" class="title-logo-locked">
                 <div class="title-text-section">
                     <div class="main-org" style="color: #ffffff;">桃園市航空城發展協會</div>
                     <div class="cover-en-title" style="color: #00f0ff; letter-spacing: 1px;">Taoyuan Aerotropolis Development Association</div>
@@ -1073,142 +1097,71 @@
 
         <!-- LED 倒數環形儀表板 -->
         <div class="led-dashboard">
-            <!-- 天 (DAYS) -->
             <div class="led-item">
                 <div class="led-circle-wrap">
-                    <svg>
-                        <circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" />
-                        <circle id="days-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" />
-                    </svg>
-                    <div class="led-val-wrap">
-                        <span class="font-led glow-text" id="days-val">00</span>
-                    </div>
+                    <svg><circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" /><circle id="days-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" /></svg>
+                    <div class="led-val-wrap"><span class="font-led glow-text" id="days-val">00</span></div>
                 </div>
                 <span class="led-label">DAYS</span>
             </div>
-
-            <!-- 時 (HOURS) -->
             <div class="led-item">
                 <div class="led-circle-wrap">
-                    <svg>
-                        <circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" />
-                        <circle id="hours-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" />
-                    </svg>
-                    <div class="led-val-wrap">
-                        <span class="font-led glow-text" id="hours-val">00</span>
-                    </div>
+                    <svg><circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" /><circle id="hours-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" /></svg>
+                    <div class="led-val-wrap"><span class="font-led glow-text" id="hours-val">00</span></div>
                 </div>
                 <span class="led-label">HOURS</span>
             </div>
-
-            <!-- 分 (MINUTES) -->
             <div class="led-item">
                 <div class="led-circle-wrap">
-                    <svg>
-                        <circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" />
-                        <circle id="minutes-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" />
-                    </svg>
-                    <div class="led-val-wrap">
-                        <span class="font-led glow-text" id="minutes-val">00</span>
-                    </div>
+                    <svg><circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" /><circle id="minutes-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" /></svg>
+                    <div class="led-val-wrap"><span class="font-led glow-text" id="minutes-val">00</span></div>
                 </div>
                 <span class="led-label">MINUTES</span>
             </div>
-
-            <!-- 秒 (SECONDS) -->
             <div class="led-item">
                 <div class="led-circle-wrap">
-                    <svg>
-                        <circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" />
-                        <circle id="seconds-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" />
-                    </svg>
-                    <div class="led-val-wrap">
-                        <span class="font-led glow-text" id="seconds-val">00</span>
-                    </div>
+                    <svg><circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" /><circle id="seconds-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" /></svg>
+                    <div class="led-val-wrap"><span class="font-led glow-text" id="seconds-val">00</span></div>
                 </div>
                 <span class="led-label">SECONDS</span>
             </div>
         </div>
     </div>
 
-    <!-- 密碼鎖彈窗 (iOS 觸控風格) -->
+    <!-- 密碼鎖彈窗 -->
     <div id="passcode-modal">
         <div class="passcode-container">
-            
             <h2 class="passcode-title">Touch ID or Enter Passcode</h2>
-            
-            <!-- 密碼輸入圓點指示器 -->
             <div id="dots-container" class="dots-container">
-                <div class="passcode-dot"></div>
-                <div class="passcode-dot"></div>
-                <div class="passcode-dot"></div>
-                <div class="passcode-dot"></div>
+                <div class="passcode-dot"></div><div class="passcode-dot"></div><div class="passcode-dot"></div><div class="passcode-dot"></div>
             </div>
-
-            <!-- 數字鍵盤 -->
             <div class="keypad-grid">
-                <button class="keypad-btn" onclick="handleKeypress('1')">
-                    <span class="keypad-text-main">1</span>
-                    <span class="keypad-text-sub" style="opacity: 0;">ABC</span>
-                </button>
-                <button class="keypad-btn" onclick="handleKeypress('2')">
-                    <span class="keypad-text-main">2</span>
-                    <span class="keypad-text-sub">ABC</span>
-                </button>
-                <button class="keypad-btn" onclick="handleKeypress('3')">
-                    <span class="keypad-text-main">3</span>
-                    <span class="keypad-text-sub">DEF</span>
-                </button>
-                <button class="keypad-btn" onclick="handleKeypress('4')">
-                    <span class="keypad-text-main">4</span>
-                    <span class="keypad-text-sub">GHI</span>
-                </button>
-                <button class="keypad-btn" onclick="handleKeypress('5')">
-                    <span class="keypad-text-main">5</span>
-                    <span class="keypad-text-sub">JKL</span>
-                </button>
-                <button class="keypad-btn" onclick="handleKeypress('6')">
-                    <span class="keypad-text-main">6</span>
-                    <span class="keypad-text-sub">MNO</span>
-                </button>
-                <button class="keypad-btn" onclick="handleKeypress('7')">
-                    <span class="keypad-text-main">7</span>
-                    <span class="keypad-text-sub">PQRS</span>
-                </button>
-                <button class="keypad-btn" onclick="handleKeypress('8')">
-                    <span class="keypad-text-main">8</span>
-                    <span class="keypad-text-sub">TUV</span>
-                </button>
-                <button class="keypad-btn" onclick="handleKeypress('9')">
-                    <span class="keypad-text-main">9</span>
-                    <span class="keypad-text-sub">WXYZ</span>
-                </button>
-                
-                <!-- 底部按鈕列 -->
+                <button class="keypad-btn" onclick="handleKeypress('1')"><span class="keypad-text-main">1</span><span class="keypad-text-sub" style="opacity: 0;">ABC</span></button>
+                <button class="keypad-btn" onclick="handleKeypress('2')"><span class="keypad-text-main">2</span><span class="keypad-text-sub">ABC</span></button>
+                <button class="keypad-btn" onclick="handleKeypress('3')"><span class="keypad-text-main">3</span><span class="keypad-text-sub">DEF</span></button>
+                <button class="keypad-btn" onclick="handleKeypress('4')"><span class="keypad-text-main">4</span><span class="keypad-text-sub">GHI</span></button>
+                <button class="keypad-btn" onclick="handleKeypress('5')"><span class="keypad-text-main">5</span><span class="keypad-text-sub">JKL</span></button>
+                <button class="keypad-btn" onclick="handleKeypress('6')"><span class="keypad-text-main">6</span><span class="keypad-text-sub">MNO</span></button>
+                <button class="keypad-btn" onclick="handleKeypress('7')"><span class="keypad-text-main">7</span><span class="keypad-text-sub">PQRS</span></button>
+                <button class="keypad-btn" onclick="handleKeypress('8')"><span class="keypad-text-main">8</span><span class="keypad-text-sub">TUV</span></button>
+                <button class="keypad-btn" onclick="handleKeypress('9')"><span class="keypad-text-main">9</span><span class="keypad-text-sub">WXYZ</span></button>
                 <button class="keypad-action-btn" onclick="closePasscodeModal()">Cancel</button>
-                <button class="keypad-btn" onclick="handleKeypress('0')">
-                    <span class="keypad-text-main">0</span>
-                    <span class="keypad-text-sub" style="opacity: 0;">ABC</span>
-                </button>
+                <button class="keypad-btn" onclick="handleKeypress('0')"><span class="keypad-text-main">0</span><span class="keypad-text-sub" style="opacity: 0;">ABC</span></button>
                 <button class="keypad-action-btn" onclick="handleDelete()">Delete</button>
             </div>
         </div>
     </div>
 
-
-    <!-- ==================== 以下為您提供的原始網站內容 ==================== -->
+    <!-- ==================== 網站內容 ==================== -->
     <header id="navbar">
         <div class="logo-text">
-            <img src="https://raw.githubusercontent.com/kunfol627/TADA_302_test/main/%E6%A1%83%E5%9C%92%E8%88%AA%E7%A9%BA%E5%9F%8E%E7%99%BC%E5%B1%95%E5%8D%94%E6%9C%83_LOGO_%E5%84%AA%E5%8C%96_%E5%8E%BB%E8%83%8C.png" alt="TADA Logo" class="logo-img">
+            <!-- 更新導覽列的 LOGO 路徑 -->
+            <img src="images/logo.png" alt="TADA Logo" class="logo-img">
             跨域整合 · 築夢航空
         </div>
         <div class="header-actions">
-            <button class="admin-btn" id="admin-entrance" aria-label="後台管理">
-                <i class="fa-solid fa-gear"></i>
-            </button>
-            <button class="menu-btn" id="menu-toggle" aria-label="開啟選單">
-                <i class="fa-solid fa-bars-staggered"></i>
-            </button>
+            <button class="admin-btn" id="admin-entrance" aria-label="後台管理"><i class="fa-solid fa-gear"></i></button>
+            <button class="menu-btn" id="menu-toggle" aria-label="開啟選單"><i class="fa-solid fa-bars-staggered"></i></button>
         </div>
     </header>
 
@@ -1226,26 +1179,16 @@
 
     <section id="cover">
         <div class="cover-overlay"></div>
-        
         <div class="animation-container">
-            <!-- 飛機 1 -->
-            <svg class="plane plane-1" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21,16v-2l-8-5V3.5c0-0.83-0.67-1.5-1.5-1.5S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z"/>
-            </svg>
-            <!-- 飛機 2 -->
-            <svg class="plane plane-2" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21,16v-2l-8-5V3.5c0-0.83-0.67-1.5-1.5-1.5S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z"/>
-            </svg>
-            <!-- 飛機 3 -->
-            <svg class="plane plane-3" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21,16v-2l-8-5V3.5c0-0.83-0.67-1.5-1.5-1.5S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z"/>
-            </svg>
+            <svg class="plane plane-1" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M21,16v-2l-8-5V3.5c0-0.83-0.67-1.5-1.5-1.5S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z"/></svg>
+            <svg class="plane plane-2" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M21,16v-2l-8-5V3.5c0-0.83-0.67-1.5-1.5-1.5S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z"/></svg>
+            <svg class="plane plane-3" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M21,16v-2l-8-5V3.5c0-0.83-0.67-1.5-1.5-1.5S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5 L21,16z"/></svg>
         </div>
-
         <div class="cover-content fade-in">
             <h1 class="cover-title-group">
                 <div class="title-top-section">
-                    <img src="https://raw.githubusercontent.com/kunfol627/TADA_302_test/main/%E6%A1%83%E5%9C%92%E8%88%AA%E7%A9%BA%E5%9F%8E%E7%99%BC%E5%B1%95%E5%8D%94%E6%9C%83_LOGO_%E5%84%AA%E5%8C%96_%E5%8E%BB%E8%83%8C.png" alt="TADA Logo" class="title-logo">
+                    <!-- 更新首頁封面的 LOGO 路徑 -->
+                    <img src="images/logo.png" alt="TADA Logo" class="title-logo">
                     <div class="title-text-section">
                         <div class="main-org">桃園市航空城發展協會</div>
                         <div class="cover-en-title">Taoyuan Aerotropolis Development Association</div>
@@ -1258,14 +1201,10 @@
         </div>
         
         <div class="sponsors-container fade-in">
-            <!-- 捷運列車動畫 (行駛於邊界線上，比例縮小至50%) -->
             <div class="mrt-train-wrapper">
                 <svg viewBox="0 0 240 28" width="100%" height="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- 連接器 -->
                     <rect x="75" y="18" width="10" height="4" fill="#333"/>
                     <rect x="155" y="18" width="10" height="4" fill="#333"/>
-
-                    <!-- 車頭 (右側) -->
                     <path d="M165 4 L 225 4 Q 238 4 240 14 L 240 26 L 165 26 Z" fill="#E2E8F0"/>
                     <path d="M165 4 L 225 4 Q 235 4 238 10 L 165 10 Z" fill="#8B3A9C"/>
                     <rect x="165" y="18" width="74" height="2" fill="#8B3A9C"/>
@@ -1275,8 +1214,6 @@
                     <path d="M220 12 L 232 12 Q 235 12 236 15 L 236 17 L 220 17 Z" fill="#1E293B"/>
                     <circle cx="180" cy="27" r="3" fill="#1E293B"/>
                     <circle cx="220" cy="27" r="3" fill="#1E293B"/>
-
-                    <!-- 中間車廂 -->
                     <path d="M85 4 L 155 4 L 155 26 L 85 26 Z" fill="#E2E8F0"/>
                     <path d="M85 4 L 155 4 L 155 10 L 85 10 Z" fill="#8B3A9C"/>
                     <rect x="85" y="18" width="70" height="2" fill="#8B3A9C"/>
@@ -1285,8 +1222,6 @@
                     <rect x="136" y="12" width="12" height="5" rx="1" fill="#475569"/>
                     <circle cx="100" cy="27" r="3" fill="#1E293B"/>
                     <circle cx="140" cy="27" r="3" fill="#1E293B"/>
-
-                    <!-- 車尾 (左側) -->
                     <path d="M75 4 L 15 4 Q 2 4 0 14 L 0 26 L 75 26 Z" fill="#E2E8F0"/>
                     <path d="M75 4 L 15 4 Q 5 4 2 10 L 75 10 Z" fill="#8B3A9C"/>
                     <rect x="0" y="18" width="75" height="2" fill="#8B3A9C"/>
@@ -1298,38 +1233,22 @@
                     <circle cx="60" cy="27" r="3" fill="#1E293B"/>
                 </svg>
             </div>
-
             <div class="sponsors-title">POWERED BY</div>
             <div class="sponsors-grid">
                 <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="1" target="_blank">
-                        <img src="sponsor1.png" alt="贊助商 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 1</span>
-                    </a>
+                    <a href="#" class="sponsor-link" data-index="1" target="_blank"><img src="images/sponsors/sponsor1.png" alt="贊助商 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="alt-text" style="display:none;">贊助商 1</span></a>
                 </div>
                 <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="2" target="_blank">
-                        <img src="sponsor2.png" alt="贊助商 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 2</span>
-                    </a>
+                    <a href="#" class="sponsor-link" data-index="2" target="_blank"><img src="images/sponsors/sponsor2.png" alt="贊助商 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="alt-text" style="display:none;">贊助商 2</span></a>
                 </div>
                 <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="3" target="_blank">
-                        <img src="sponsor3.png" alt="贊助商 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 3</span>
-                    </a>
+                    <a href="#" class="sponsor-link" data-index="3" target="_blank"><img src="images/sponsors/sponsor3.png" alt="贊助商 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="alt-text" style="display:none;">贊助商 3</span></a>
                 </div>
                 <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="4" target="_blank">
-                        <img src="sponsor4.png" alt="贊助商 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 4</span>
-                    </a>
+                    <a href="#" class="sponsor-link" data-index="4" target="_blank"><img src="images/sponsors/sponsor4.png" alt="贊助商 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="alt-text" style="display:none;">贊助商 4</span></a>
                 </div>
                 <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="5" target="_blank">
-                        <img src="sponsor5.png" alt="贊助商 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 5</span>
-                    </a>
+                    <a href="#" class="sponsor-link" data-index="5" target="_blank"><img src="images/sponsors/sponsor5.png" alt="贊助商 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="alt-text" style="display:none;">贊助商 5</span></a>
                 </div>
             </div>
         </div>
@@ -1354,6 +1273,7 @@
             </div>
             <div class="timeline-item">
                 <div class="time"><i class="fa-regular fa-clock"></i> 19:30 ~ 21:30</div>
+                <div class="event-name">航空城之夜聯歡晚會</div>
                 <div class="event-desc">跨界產業交流餐會</div>
             </div>
         </div>
@@ -1361,36 +1281,24 @@
 
     <section id="plan">
         <div class="section-title fade-in"><i class="fa-solid fa-clipboard-check"></i> 115年度工作計畫</div>
-        
         <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-icon"><i class="fa-solid fa-users"></i></div>
-                <h3>會務與組織營運</h3>
-            </div>
+            <div class="card-header"><div class="card-icon"><i class="fa-solid fa-users"></i></div><h3>會務與組織營運</h3></div>
             <ul>
                 <li>召開第六屆第一次會員大會及各種臨時會議</li>
                 <li>每三個月舉辦例會與理監事聯席會</li>
                 <li>適時辦理各項會員聯誼活動，凝聚向心力</li>
             </ul>
         </div>
-
         <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-icon"><i class="fa-solid fa-folder-open"></i></div>
-                <h3>行政財務與數位化</h3>
-            </div>
+            <div class="card-header"><div class="card-icon"><i class="fa-solid fa-folder-open"></i></div><h3>行政財務與數位化</h3></div>
             <ul>
                 <li>執行各項經費收支、登帳、核銷工作</li>
                 <li>編列下年度經費預算與上年度決算</li>
                 <li>收取會費及處理各項採購出納管理</li>
             </ul>
         </div>
-
         <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-icon"><i class="fa-solid fa-building"></i></div>
-                <h3>跨域建築與國際公關</h3>
-            </div>
+            <div class="card-header"><div class="card-icon"><i class="fa-solid fa-building"></i></div><h3>跨域建築與國際公關</h3></div>
             <ul>
                 <li>舉辦桃園市境內建築美學專題展覽</li>
                 <li>舉辦國際公關聯誼活動拓展全球視野</li>
@@ -1401,9 +1309,7 @@
     
     <section id="budget">
         <div class="section-title fade-in"><i class="fa-solid fa-chart-pie"></i> 115年度財務預算</div>
-        <div class="chart-wrapper fade-in">
-            <div class="doughnut-mobile"></div>
-        </div>
+        <div class="chart-wrapper fade-in"><div class="doughnut-mobile"></div></div>
         <ul class="legend-list fade-in">
             <li><div class="color-dot bg-navy"></div> 產業發展與專案推動 (40%)</li>
             <li><div class="color-dot bg-blue"></div> 組織營運與會務行政 (30%)</li>
@@ -1416,10 +1322,7 @@
     <section id="directors">
         <div class="section-title fade-in"><i class="fa-solid fa-address-book"></i> 理監事名錄</div>
         <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-icon"><i class="fa-solid fa-user-tie"></i></div>
-                <h3>理事會 (Board of Directors)</h3>
-            </div>
+            <div class="card-header"><div class="card-icon"><i class="fa-solid fa-user-tie"></i></div><h3>理事會 (Board of Directors)</h3></div>
             <ul>
                 <li><strong>理事長：</strong> <span class="name-wrap">廖本生</span></li>
                 <li><strong>副理事長：</strong> <span class="name-wrap">謝智淵、</span><span class="name-wrap">邱芳琅</span></li>
@@ -1429,10 +1332,7 @@
             </ul>
         </div>
         <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-icon"><i class="fa-solid fa-user-shield"></i></div>
-                <h3>監事會 (Supervisory Board)</h3>
-            </div>
+            <div class="card-header"><div class="card-icon"><i class="fa-solid fa-user-shield"></i></div><h3>監事會 (Supervisory Board)</h3></div>
             <ul>
                 <li><strong>監事長：</strong> <span class="name-wrap">林萬</span></li>
                 <li><strong>常務監事：</strong> <span class="name-wrap">劉立宏</span></li>
@@ -1441,10 +1341,7 @@
             </ul>
         </div>
         <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-icon"><i class="fa-solid fa-briefcase"></i></div>
-                <h3>會務幹部 (Executive Staff)</h3>
-            </div>
+            <div class="card-header"><div class="card-icon"><i class="fa-solid fa-briefcase"></i></div><h3>會務幹部 (Executive Staff)</h3></div>
             <ul>
                 <li><strong>秘書長：</strong> 周君蔚 Chou Chun-Wei</li>
                 <li><strong>財務長：</strong> 何雅娟 Nana</li>
@@ -1457,198 +1354,177 @@
 
     <section id="committees">
         <div class="section-title fade-in"><i class="fa-solid fa-sitemap"></i> 專門委員會編組</div>
-        
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>01. 建築美學委員會</span>
-                    <span class="committee-members">主委：廖仁巍 | 副主委：楊芳羽 Nana</span>
-                </div>
-            </summary>
-            <div class="details-content">推動青埔高鐵特區與航空城之城市建築美學，結合綠能環保概念，打造未來智慧綠色城市風貌。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>02. 國際事務委員會</span>
-                    <span class="committee-members">主委：李泓澔 Ian Li | 副主委：顧源倫 Leo Ku</span>
-                </div>
-            </summary>
-            <div class="details-content">舉辦國際公關聯誼活動，參與國際機關參訪，建構航空城跨國產業與物流發展之交流平台。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>03. 公共關係委員會</span>
-                    <span class="committee-members">主委：江宏瑜 | 副主委：戴子強 Johnny Tai</span>
-                </div>
-            </summary>
-            <div class="details-content">舉辦產官學活動擴大聯誼，構築在地溝通平台，積極協助政府推動航空城各項發展政策。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>04. 產業發展委員會</span>
-                    <span class="committee-members">主委：魏新樺 Martin</span>
-                </div>
-            </summary>
-            <div class="details-content">鏈結各產業、機關社團促進發展，舉辦與參加各種產業參訪、論壇，創造異業結盟機會。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>05. 社區發展委員會</span>
-                    <span class="committee-members">主委：任欣元 Koko</span>
-                </div>
-            </summary>
-            <div class="details-content">拜訪社區機關社團與商家，辦理各項社區活動，拉近產業與商家距離，促進會務推廣。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>06. 航空城事務委員會</span>
-                    <span class="committee-members">主委：李宏澤 Wilson</span>
-                </div>
-            </summary>
-            <div class="details-content">參與及協辦航空城計畫各項活動，協力相關機構與社團，共同促成並推動航空城發展。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>07. 金融服務委員會</span>
-                    <span class="committee-members">主委：鍾政甫 Ray Chung</span>
-                </div>
-            </summary>
-            <div class="details-content">拜訪並結合金融單位以服務會員，舉辦專業論壇活動，強化產業金融服務與業務協助。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>08. 選務委員會</span>
-                    <span class="committee-members">主委：蕭育仁 Aaron Hsiao</span>
-                </div>
-            </summary>
-            <div class="details-content">依據本會組織章程規範，公平公正辦理各項定期改選及相關票務事務。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>09. 會員活動委員會</span>
-                    <span class="committee-members">主委：楊睿槿 Doreen | 副主委：黃舒琳</span>
-                </div>
-            </summary>
-            <div class="details-content">舉辦會內聯誼、國內外旅遊等活動，並關心會員，致贈婚喪喜慶禮儀以促進向心力。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>10. 會員擴展委員會</span>
-                    <span class="committee-members">主委：廖盈騏</span>
-                </div>
-            </summary>
-            <div class="details-content">積極宣揚本會宗旨與各項會務，參與社會活動以吸收新會員，擴大協會組織規模。</div>
-        </details>
-        <details class="fade-in">
-            <summary>
-                <div class="committee-header">
-                    <span>11. 形象傳播委員會</span>
-                    <span class="committee-members">主委：謝清鴻 Steven | 副主委：賴永盛 Clyde</span>
-                </div>
-            </summary>
-            <div class="details-content">負責LOGO、識別系統、活動手冊之規劃設計，並維護網站及進行各項活動影像紀錄以宣揚本會。</div>
-        </details>
+        <details class="fade-in"><summary><div class="committee-header"><span>01. 建築美學委員會</span><span class="committee-members">主委：廖仁巍 | 副主委：楊芳羽 Nana</span></div></summary><div class="details-content">推動青埔高鐵特區與航空城之城市建築美學，結合綠能環保概念，打造未來智慧綠色城市風貌。</div></details>
+        <details class="fade-in"><summary><div class="committee-header"><span>02. 國際事務委員會</span><span class="committee-members">主委：李泓澔 Ian Li | 副主委：顧源倫 Leo Ku</span></div></summary><div class="details-content">舉辦國際公關聯誼活動，參與國際機關參訪，建構航空城跨國產業與物流發展之交流平台。</div></details>
+        <details class="fade-in"><summary><div class="committee-header"><span>03. 公共關係委員會</span><span class="committee-members">主委：江宏瑜 | 副主委：戴子強 Johnny Tai</span></div></summary><div class="details-content">舉辦產官學活動擴大聯誼，構築在地溝通平台，積極協助政府推動航空城各項發展政策。</div></details>
+        <details class="fade-in"><summary><div class="committee-header"><span>04. 產業發展委員會</span><span class="committee-members">主委：魏新樺 Martin</span></div></summary><div class="details-content">鏈結各產業、機關社團促進發展，舉辦與參加各種產業參訪、論壇，創造異業結盟機會。</div></details>
+        <details class="fade-in"><summary><div class="committee-header"><span>05. 社區發展委員會</span><span class="committee-members">主委：任欣元 Koko</span></div></summary><div class="details-content">拜訪社區機關社團與商家，辦理各項社區活動，拉近產業與商家距離，促進會務推廣。</div></details>
+        <details class="fade-in"><summary><div class="committee-header"><span>06. 航空城事務委員會</span><span class="committee-members">主委：李宏澤 Wilson</span></div></summary><div class="details-content">參與及協辦航空城計畫各項活動，協力相關機構與社團，共同促成並推動航空城發展。</div></details>
+        <details class="fade-in"><summary><div class="committee-header"><span>07. 金融服務委員會</span><span class="committee-members">主委：鍾政甫 Ray Chung</span></div></summary><div class="details-content">拜訪並結合金融單位以服務會員，舉辦專業論壇活動，強化產業金融服務與業務協助。</div></details>
+        <details class="fade-in"><summary><div class="committee-header"><span>08. 選務委員會</span><span class="committee-members">主委：蕭育仁 Aaron Hsiao</span></div></summary><div class="details-content">依據本會組織章程規範，公平公正辦理各項定期改選及相關票務事務。</div></details>
+        <details class="fade-in"><summary><div class="committee-header"><span>09. 會員活動委員會</span><span class="committee-members">主委：楊睿槿 Doreen | 副主委：黃舒琳</span></div></summary><div class="details-content">舉辦會內聯誼、國內外旅遊等活動，並關心會員，致贈婚喪喜慶禮儀以促進向心力。</div></details>
+        <details class="fade-in"><summary><div class="committee-header"><span>10. 會員擴展委員會</span><span class="committee-members">主委：廖盈騏</span></div></summary><div class="details-content">積極宣揚本會宗旨與各項會務，參與社會活動以吸收新會員，擴大協會組織規模。</div></details>
+        <details class="fade-in"><summary><div class="committee-header"><span>11. 形象傳播委員會</span><span class="committee-members">主委：謝清鴻 Steven | 副主委：賴永盛 Clyde</span></div></summary><div class="details-content">負責LOGO、識別系統、活動手冊之規劃設計，並維護網站及進行各項活動影像紀錄以宣揚本會。</div></details>
     </section>
 
+    <!-- ==================== 升級後的多組 Swiper 輪播圖區塊 ==================== -->
     <section id="gallery">
-        <div class="section-title fade-in"><i class="fa-solid fa-camera-retro"></i> 會務與活動剪影</div>
-        <div class="gallery fade-in">
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop" alt="產官學研論壇">
-                <div class="gallery-caption"><i class="fa-solid fa-chalkboard-user"></i> 產官學研跨域專業論壇</div>
+        <!-- 第一組：市長公關拜訪 -->
+        <div class="section-title fade-in"><i class="fa-solid fa-handshake"></i> 桃園市張善政市長公關拜訪</div>
+        
+        <div class="swiper gallerySwiper fade-in" style="margin-bottom: 60px;">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/visit/01-01.jpg" alt="致贈紀念錦旗">
+                        <div class="gallery-caption"><i class="fa-solid fa-handshake"></i> 致贈紀念錦旗合影</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/visit/01-02.jpg" alt="雙方意見交流">
+                        <div class="gallery-caption"><i class="fa-solid fa-comments"></i> 雙方意見交流探討</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/visit/01-03.jpg" alt="市府團隊拜會">
+                        <div class="gallery-caption"><i class="fa-solid fa-users"></i> 市府團隊拜會會議</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/visit/01-04.jpg" alt="理事長致詞">
+                        <div class="gallery-caption"><i class="fa-solid fa-microphone"></i> 廖理事長致詞建言</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/visit/01-05.jpg" alt="張市長與秘書長周君蔚,產業意見交流">
+                        <div class="gallery-caption"><i class="fa-solid fa-user-tie"></i> 張市長與秘書長周君蔚,產業意見交流</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/visit/01-06.jpg" alt="張市長與秘書長周君蔚,主委謝清鴻 圓滿交流合影">
+                        <div class="gallery-caption"><i class="fa-solid fa-users"></i> 張市長與秘書長周君蔚,主委謝清鴻 圓滿交流合影</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/visit/01-07.jpg" alt="張市長與常務監事劉立宏圓滿交流合影">
+                        <div class="gallery-caption"><i class="fa-solid fa-user-shield"></i> 張市長與常務監事劉立宏圓滿交流合影</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/visit/01-08.jpg" alt="張市長與協會各部會主委、副主委合影">
+                        <div class="gallery-caption"><i class="fa-solid fa-camera-retro"></i> 張市長與協會各部會主委、副主委合影</div>
+                    </div>
+                </div>
             </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=2070&auto=format&fit=crop" alt="都市計畫參訪">
-                <div class="gallery-caption"><i class="fa-solid fa-map-location-dot"></i> 航空城都市計畫與綠能參訪</div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+
+        <!-- 第二組：理監事會暨尾牙餐會 -->
+        <div class="section-title fade-in"><i class="fa-solid fa-camera-retro"></i> 第六屆第二次理監事會暨尾牙餐會</div>
+        
+        <div class="swiper gallerySwiper fade-in">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/gallery/02_01.jpg" alt="貴賓合影">
+                        <div class="gallery-caption"><i class="fa-solid fa-users"></i> 貴賓歡喜合影</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/gallery/02_02.jpg" alt="貴賓致詞">
+                        <div class="gallery-caption"><i class="fa-solid fa-microphone"></i> 第一郵聯通運 駱董事長致詞</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/gallery/02_03.jpg" alt="桃園市政府 溫代欣 秘書長致詞">
+                        <div class="gallery-caption"><i class="fa-solid fa-microphone"></i> 桃園市政府 溫代欣 秘書長致詞</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/gallery/02_04.jpg" alt="贊助儀式">
+                        <div class="gallery-caption"><i class="fa-solid fa-hand-holding-dollar"></i> 贊助款項致贈儀式</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/gallery/02_05.jpg" alt="頒贈錦旗">
+                        <div class="gallery-caption"><i class="fa-solid fa-flag"></i> 頒贈協會紀念錦旗</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/gallery/02_06.jpg" alt="專題簡報">
+                        <div class="gallery-caption"><i class="fa-solid fa-person-chalkboard"></i> 桃園發展主軸專題簡報</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/gallery/02_07.jpg" alt="餐敘聯誼">
+                        <div class="gallery-caption"><i class="fa-solid fa-utensils"></i> 尾牙餐會 歡樂聯誼</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/gallery/02_08.jpg" alt="餐敘聯誼">
+                        <div class="gallery-caption"><i class="fa-solid fa-champagne-glasses"></i> 理監事與貴賓合影</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/gallery/02_09.jpg" alt="舉杯歡慶">
+                        <div class="gallery-caption"><i class="fa-solid fa-glass-cheers"></i> 舉杯歡慶 圓滿成功</div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="gallery-item">
+                        <img src="images/gallery/02_10.jpg" alt="交流互動">
+                        <div class="gallery-caption"><i class="fa-regular fa-comments"></i> 歲末年終 交流互動</div>
+                    </div>
+                </div>
             </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop" alt="國際結盟">
-                <div class="gallery-caption"><i class="fa-solid fa-earth-asia"></i> 推動國際產業鏈與物流結盟</div>
-            </div>
+            
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
         </div>
     </section>
 
     <section id="bylaws">
         <div class="section-title fade-in"><i class="fa-solid fa-scale-balanced"></i> 組織章程摘要</div>
         <p class="fade-in section-note">依據114年度修正後章程擷取，完整條款請參閱資料庫。</p>
-        
-        <details class="fade-in">
-            <summary>第一章 總則與任務</summary>
-            <div class="details-content">
-                本會以配合中央實施桃園航空城之發展計畫，並促進青埔高鐵特區城市建築美學及工商發展等相關社會公益活動為宗旨。作為政府與民間之溝通平台，以利政策推動。
-            </div>
-        </details>
-        <details class="fade-in">
-            <summary>第二章 會員資格</summary>
-            <div class="details-content">
-                個人會員：贊同本會宗旨，年滿二十歲，具有中華民國國籍，未受褫奪公權者。會員有表決權、選舉權、被選舉權與罷免權。
-            </div>
-        </details>
-        <details class="fade-in">
-            <summary>第三章 組織及職權</summary>
-            <div class="details-content">
-                以會員大會為最高權力機構。理事會為執行機構，監事會為監察機構。工作人員不得由選任之理事監事擔任。得設各種委員會等內部作業組織。
-            </div>
-        </details>
-        <details class="fade-in">
-            <summary>第四章 會議規範</summary>
-            <div class="details-content">
-                會員大會分定期會議(每年一次)與臨時會議。決議需以會員過半數出席，出席超過半數同意行之；章程變更、財產處分等重大事項需三分之二以上同意。
-            </div>
-        </details>
+        <details class="fade-in"><summary>第一章 總則與任務</summary><div class="details-content">本會以配合中央實施桃園航空城之發展計畫，並促進青埔高鐵特區城市建築美學及工商發展等相關社會公益活動為宗旨。作為政府與民間之溝通平台，以利政策推動。</div></details>
+        <details class="fade-in"><summary>第二章 會員資格</summary><div class="details-content">個人會員：贊同本會宗旨，年滿二十歲，具有中華民國國籍，未受褫奪公權者。會員有表決權、選舉權、被選舉權與罷免權。</div></details>
+        <details class="fade-in"><summary>第三章 組織及職權</summary><div class="details-content">以會員大會為最高權力機構。理事會為執行機構，監事會為監察機構。工作人員不得由選任之理事監事擔任。得設各種委員會等內部作業組織。</div></details>
+        <details class="fade-in"><summary>第四章 會議規範</summary><div class="details-content">會員大會分定期會議(每年一次)與臨時會議。決議需以會員過半數出席，出席超過半數同意行之；章程變更、財產處分等重大事項需三分之二以上同意。</div></details>
     </section>
 
     <section id="back-cover">
         <div class="back-cover-overlay"></div>
-        
         <div class="back-content">
             <h2 class="fade-in back-title-sm">攜手共創</h2>
             <h2 class="fade-in back-title-md">桃園航空城新未來</h2>
             <h2 class="fade-in back-title-lg">NEXT GEN</h2>
         </div>
-
         <div class="sponsors-container fade-in">
             <div class="sponsors-title">POWERED BY</div>
             <div class="sponsors-grid">
-                <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="1" target="_blank">
-                        <img src="sponsor1.png" alt="贊助商 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 1</span>
-                    </a>
-                </div>
-                <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="2" target="_blank">
-                        <img src="sponsor2.png" alt="贊助商 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 2</span>
-                    </a>
-                </div>
-                <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="3" target="_blank">
-                        <img src="sponsor3.png" alt="贊助商 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 3</span>
-                    </a>
-                </div>
-                <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="4" target="_blank">
-                        <img src="sponsor4.png" alt="贊助商 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 4</span>
-                    </a>
-                </div>
-                <div class="sponsor-box">
-                    <a href="#" class="sponsor-link" data-index="5" target="_blank">
-                        <img src="sponsor5.png" alt="贊助商 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <span class="alt-text" style="display:none;">贊助商 5</span>
-                    </a>
-                </div>
+                <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="1" target="_blank"><img src="images/sponsors/sponsor1.png" alt="贊助商 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="alt-text" style="display:none;">贊助商 1</span></a></div>
+                <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="2" target="_blank"><img src="images/sponsors/sponsor2.png" alt="贊助商 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="alt-text" style="display:none;">贊助商 2</span></a></div>
+                <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="3" target="_blank"><img src="images/sponsors/sponsor3.png" alt="贊助商 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="alt-text" style="display:none;">贊助商 3</span></a></div>
+                <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="4" target="_blank"><img src="images/sponsors/sponsor4.png" alt="贊助商 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="alt-text" style="display:none;">贊助商 4</span></a></div>
+                <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="5" target="_blank"><img src="images/sponsors/sponsor5.png" alt="贊助商 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="alt-text" style="display:none;">贊助商 5</span></a></div>
             </div>
         </div>
     </section>
@@ -1658,14 +1534,8 @@
             <button class="modal-close" id="close-login"><i class="fa-solid fa-xmark"></i></button>
             <div class="modal-title"><i class="fa-solid fa-lock"></i> 後台登入</div>
             <div class="error-msg" id="login-error">帳號或密碼錯誤</div>
-            <div class="form-group">
-                <label>帳號</label>
-                <input type="text" id="admin-user" placeholder="請輸入帳號">
-            </div>
-            <div class="form-group">
-                <label>密碼</label>
-                <input type="password" id="admin-pass" placeholder="請輸入密碼">
-            </div>
+            <div class="form-group"><label>帳號</label><input type="text" id="admin-user" placeholder="請輸入帳號"></div>
+            <div class="form-group"><label>密碼</label><input type="password" id="admin-pass" placeholder="請輸入密碼"></div>
             <button id="btn-login" class="btn-submit">登入</button>
         </div>
     </div>
@@ -1674,26 +1544,11 @@
         <div class="modal-box">
             <button class="modal-close" id="close-admin"><i class="fa-solid fa-xmark"></i></button>
             <div class="modal-title"><i class="fa-solid fa-link"></i> 管理贊助商連結</div>
-            <div class="form-group">
-                <label>贊助商 1 網址</label>
-                <input type="text" id="input-link-1" placeholder="https://...">
-            </div>
-            <div class="form-group">
-                <label>贊助商 2 網址</label>
-                <input type="text" id="input-link-2" placeholder="https://...">
-            </div>
-            <div class="form-group">
-                <label>贊助商 3 網址</label>
-                <input type="text" id="input-link-3" placeholder="https://...">
-            </div>
-            <div class="form-group">
-                <label>贊助商 4 網址</label>
-                <input type="text" id="input-link-4" placeholder="https://...">
-            </div>
-            <div class="form-group">
-                <label>贊助商 5 網址</label>
-                <input type="text" id="input-link-5" placeholder="https://...">
-            </div>
+            <div class="form-group"><label>贊助商 1 網址</label><input type="text" id="input-link-1" placeholder="https://..."></div>
+            <div class="form-group"><label>贊助商 2 網址</label><input type="text" id="input-link-2" placeholder="https://..."></div>
+            <div class="form-group"><label>贊助商 3 網址</label><input type="text" id="input-link-3" placeholder="https://..."></div>
+            <div class="form-group"><label>贊助商 4 網址</label><input type="text" id="input-link-4" placeholder="https://..."></div>
+            <div class="form-group"><label>贊助商 5 網址</label><input type="text" id="input-link-5" placeholder="https://..."></div>
             <div class="form-group">
                 <label>首頁動畫開關</label>
                 <select id="input-animation-toggle">
@@ -1705,10 +1560,48 @@
         </div>
     </div>
 
+    <!-- 引入 Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // 初始化 Swiper 輪播圖 (支援多組獨立運行)
+        document.addEventListener("DOMContentLoaded", function() {
+            var swipers = document.querySelectorAll(".gallerySwiper");
+            
+            swipers.forEach(function(swiperContainer) {
+                new Swiper(swiperContainer, {
+                    slidesPerView: 1,      // 手機版顯示一張卡片
+                    spaceBetween: 20,      // 卡片之間的間距
+                    loop: true,            // 循環輪播
+                    grabCursor: true,      // 顯示抓取鼠標
+                    autoplay: {
+                        delay: 3500,       // 自動播放間隔 (毫秒)
+                        disableOnInteraction: false,
+                    },
+                    // 將導航綁定在各自的容器內，避免控制到別組
+                    pagination: {
+                        el: swiperContainer.querySelector(".swiper-pagination"),
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: swiperContainer.querySelector(".swiper-button-next"),
+                        prevEl: swiperContainer.querySelector(".swiper-button-prev"),
+                    },
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 2, // 平板尺寸顯示兩張
+                        },
+                        1024: {
+                            slidesPerView: 3, // 電腦尺寸顯示三張
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
     <!-- 遮罩與密碼鎖邏輯 -->
     <script>
         /* ================= 1. 倒數計時邏輯 ================= */
-        // 使用 UTC 時間 (Z) 確保所有瀏覽器(包含蘋果 iOS/Safari) 皆能正確解析。18:00 GMT+8 = 10:00 Z
         const targetDate = new Date('2026-03-22T10:00:00Z').getTime();
         let countdownInterval;
 
