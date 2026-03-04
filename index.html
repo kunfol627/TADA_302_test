@@ -93,6 +93,8 @@
             transform-origin: center center;
             will-change: transform;
             min-height: 100vh;
+            /* 嚴格隱藏橫向溢出，防止列車動畫撐開手機版網頁寬度 */
+            overflow-x: hidden; 
         }
 
         /* 遮罩鎖定畫面專用 */
@@ -209,6 +211,8 @@
             background-image: url('images/TADA2026.jpg');
             background-size: cover; background-position: center;
             padding: 0; justify-content: space-between;
+            /* 確保首尾頁內的動畫元素（如飛機、列車）超出邊界時立刻裁切 */
+            overflow-x: hidden;
         }
 
         .cover-overlay {
@@ -358,7 +362,7 @@
 
         /* 講者名單獨立行距設定，避免手機誤觸 */
         .speaker-list-item {
-            margin-bottom: 14px; /* 增加行距，提供充足的點擊安全範圍 */
+            margin-bottom: 14px;
             line-height: 1.8;
             display: block;
         }
@@ -369,7 +373,7 @@
             align-items: center;
             color: var(--accent-yellow);
             background: rgba(30, 58, 138, 0.05);
-            padding: 6px 12px; /* 增加上下左右 padding，放大點擊熱區 */
+            padding: 6px 12px;
             border-radius: 6px;
             font-weight: 700;
             text-decoration: none;
@@ -545,7 +549,7 @@
         }
         
         .side-panel {
-            /* 關鍵修正 1：將 right 加深退到 -110%，確保隱藏時徹底退出手機螢幕邊界，杜絕黑條 */
+            /* 將 right 加深退到 -110%，確保隱藏時徹底退出手機螢幕邊界，杜絕黑條 */
             position: fixed; top: 0; right: -110%; width: 100%; max-width: 480px; height: 100vh;
             background-color: var(--panel-bg); color: var(--panel-silver);
             /* 加入 box-shadow 的漸變效果，並移除常駐的陰影設定 */
@@ -553,10 +557,10 @@
             overflow-y: auto; display: flex; flex-direction: column;
         }
 
-        /* 關鍵修正 2：恢復 PC 版側邊面板為約 30% 的優雅比例 */
+        /* 恢復 PC 版側邊面板為約 30% 的優雅比例 */
         @media (min-width: 1024px) {
             .side-panel {
-                max-width: 480px; /* 恢復原本的尺寸，確保閱讀舒適度 */
+                max-width: 480px; 
             }
         }
         
@@ -583,12 +587,12 @@
         .panel-hero {
             height: 45vh; min-height: 350px; position: relative;
             background-color: #8C949D; /* 加入質感灰底色，若使用去背PNG可完美融合 */
-            background-size: contain; /* 關鍵修正：改為 contain，避免人像被過度放大裁切 */
-            background-position: right bottom; /* 關鍵修正：靠右且靠底對齊，維持半身像在右側 */
+            background-size: contain; /* 改為 contain，避免人像被過度放大裁切 */
+            background-position: right bottom; /* 靠右且靠底對齊，維持半身像在右側 */
             background-repeat: no-repeat;
         }
 
-        /* 針對手機版做最佳化，讓人物置中靠底，如市長範例圖的平衡感 */
+        /* 針對手機版做最佳化，讓人物置中靠底 */
         @media (max-width: 768px) {
             .panel-hero {
                 background-position: center bottom;
@@ -627,13 +631,13 @@
         .panel-hook-line:last-child { margin-bottom: 0; }
         .panel-hook-line i { 
             color: var(--panel-gold); font-size: 14px; margin-top: 6px; 
-            opacity: 0.8; flex-shrink: 0; /* 避免引號被擠壓 */
+            opacity: 0.8; flex-shrink: 0; 
         }
         .panel-hook-line span {
-            font-size: clamp(18px, 5.5vw, 24px); /* 手機端自動縮小字體以防斷行，最大至 24px */
+            font-size: clamp(18px, 5.5vw, 24px);
             font-weight: 700; color: #FFFFFF; line-height: 1.5;
             letter-spacing: 1px; font-family: 'Noto Serif TC', serif; 
-            word-break: keep-all; /* 保持中文字詞不被切斷 */
+            word-break: keep-all; 
         }
 
         /* 核心要點區 (Key Takeaways) */
@@ -846,7 +850,7 @@
                         <div style="margin-top: 16px;"></div>
                         <strong style="color: var(--accent-navy); display: inline-block; margin-bottom: 10px;">貴賓致詞</strong>
                         
-                        <!-- 其他 6 位嘉賓側欄觸發按鈕 -->
+                        <!-- 其他嘉賓側欄觸發按鈕 -->
                         <div class="speaker-list-item">
                             - 桃園市市長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-02"><i class="fa-solid fa-award"></i> 張善政</a> 致詞
                         </div>
@@ -1192,7 +1196,7 @@
     <!-- 講者面板 04：駱啟明 總顧問 -->
     <div class="side-panel" id="speaker-panel-04">
         <button class="panel-close-btn" aria-label="關閉面板"><i class="fa-solid fa-xmark"></i></button>
-        <div class="panel-hero" style="background-image: url('images/speaker/speaker04.png');">
+        <div class="panel-hero" style="background-image: url('images/speaker/speaker04.jpg');">
             <h2 class="panel-name">駱啟明</h2>
         </div>
         <div class="panel-body">
@@ -1273,7 +1277,7 @@
     <!-- 講者面板 07：林萬 監事長 -->
     <div class="side-panel" id="speaker-panel-07">
         <button class="panel-close-btn" aria-label="關閉面板"><i class="fa-solid fa-xmark"></i></button>
-        <div class="panel-hero" style="background-image: url('images/speaker/speaker07.png');">
+        <div class="panel-hero" style="background-image: url('images/speaker/speaker07.jpg');">
             <h2 class="panel-name">林萬</h2>
         </div>
         <div class="panel-body">
@@ -1300,7 +1304,7 @@
     <!-- 講者面板 08：謝金河 董事長 -->
     <div class="side-panel" id="speaker-panel-08">
         <button class="panel-close-btn" aria-label="關閉面板"><i class="fa-solid fa-xmark"></i></button>
-        <div class="panel-hero" style="background-image: url('images/speaker/speaker08.png');">
+        <div class="panel-hero" style="background-image: url('images/speaker/speaker08.jpg');">
             <h2 class="panel-name">謝金河</h2>
         </div>
         <div class="panel-body">
