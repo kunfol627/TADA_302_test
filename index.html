@@ -356,19 +356,26 @@
             background: var(--bg-color); padding: 8px 12px; border-radius: 6px;
         }
 
+        /* 講者名單獨立行距設定，避免手機誤觸 */
+        .speaker-list-item {
+            margin-bottom: 14px; /* 增加行距，提供充足的點擊安全範圍 */
+            line-height: 1.8;
+            display: block;
+        }
+
         /* 講者面板觸發按鈕樣式 */
         .speaker-trigger {
             display: inline-flex;
             align-items: center;
             color: var(--accent-yellow);
             background: rgba(30, 58, 138, 0.05);
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 6px 12px; /* 增加上下左右 padding，放大點擊熱區 */
+            border-radius: 6px;
             font-weight: 700;
             text-decoration: none;
             transition: all 0.2s ease;
             border: 1px solid rgba(245, 158, 11, 0.3);
-            margin: 0 2px;
+            margin: 0 6px;
             cursor: pointer;
         }
         .speaker-trigger:hover, .speaker-trigger:active {
@@ -828,28 +835,42 @@
                 <div class="timeline-item">
                     <div class="time"><i class="fa-regular fa-clock"></i> 18:00 ~ 18:30</div>
                     <div class="event-name">第六屆就職典禮</div>
-                    <div class="event-desc" style="line-height: 1.8;">
-                        <strong style="color: var(--accent-navy);">主席致詞</strong><br>
+                    <div class="event-desc">
+                        <strong style="color: var(--accent-navy); display: inline-block; margin-bottom: 10px;">主席致詞</strong>
                         
                         <!-- 理事長 廖本生 側欄觸發按鈕 -->
-                        - 理事長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-01"><i class="fa-solid fa-award"></i> 廖本生</a> 致詞<br>
+                        <div class="speaker-list-item">
+                            - 理事長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-01"><i class="fa-solid fa-award"></i> 廖本生</a> 致詞
+                        </div>
                         
-                        <div style="margin-top: 8px;"></div>
-                        <strong style="color: var(--accent-navy);">貴賓致詞</strong><br>
+                        <div style="margin-top: 16px;"></div>
+                        <strong style="color: var(--accent-navy); display: inline-block; margin-bottom: 10px;">貴賓致詞</strong>
                         
                         <!-- 其他 6 位嘉賓側欄觸發按鈕 -->
-                        - 桃園市市長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-02"><i class="fa-solid fa-award"></i> 張善政</a> 致詞<br>
-                        - 桃園市議長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-03"><i class="fa-solid fa-award"></i> 邱奕勝</a> 致詞<br>
-                        - 總顧問 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-04"><i class="fa-solid fa-award"></i> 駱啟明</a> 致詞<br>
-                        - 桃園市航空城公司前董事長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-05"><i class="fa-solid fa-award"></i> 王義川</a> 致詞<br>
-                        - 本會創會理事長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-06"><i class="fa-solid fa-award"></i> 黃德華</a> 致詞<br>
-                        - 本會監事長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-07"><i class="fa-solid fa-award"></i> 林 萬</a> 致詞
+                        <div class="speaker-list-item">
+                            - 桃園市市長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-02"><i class="fa-solid fa-award"></i> 張善政</a> 致詞
+                        </div>
+                        <div class="speaker-list-item">
+                            - 桃園市議長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-03"><i class="fa-solid fa-award"></i> 邱奕勝</a> 致詞
+                        </div>
+                        <div class="speaker-list-item">
+                            - 總顧問 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-04"><i class="fa-solid fa-award"></i> 駱啟明</a> 致詞
+                        </div>
+                        <div class="speaker-list-item">
+                            - 桃園市航空城公司前董事長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-05"><i class="fa-solid fa-award"></i> 王義川</a> 致詞
+                        </div>
+                        <div class="speaker-list-item">
+                            - 本會創會理事長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-06"><i class="fa-solid fa-award"></i> 黃德華</a> 致詞
+                        </div>
+                        <div class="speaker-list-item" style="margin-bottom: 0;">
+                            - 本會監事長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-07"><i class="fa-solid fa-award"></i> 林 萬</a> 致詞
+                        </div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="time"><i class="fa-regular fa-clock"></i> 18:30 ~ 19:30</div>
                     <div class="event-name">專題演講</div>
-                    <div class="event-desc" style="line-height: 1.8;">
+                    <div class="event-desc" style="line-height: 1.8; padding-top: 14px; padding-bottom: 14px;">
                         <!-- 新增 謝金河董事長 觸發按鈕 -->
                         特邀財訊傳媒集團 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-08"><i class="fa-solid fa-award"></i> 謝金河</a> 董事長蒞臨
                     </div>
