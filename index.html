@@ -540,9 +540,9 @@
         .side-panel {
             position: fixed; top: 0; right: -100%; width: 100%; max-width: 480px; height: 100vh;
             background-color: var(--panel-bg); color: var(--panel-silver);
-            z-index: 2001; transition: right 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* 加入 box-shadow 的漸變效果，並移除常駐的陰影設定 */
+            z-index: 2001; transition: right 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
             overflow-y: auto; display: flex; flex-direction: column;
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6);
         }
 
         /* 讓 PC 版側邊面板佔總寬度 75% */
@@ -554,7 +554,11 @@
         
         /* 狀態控制 */
         .side-panel-overlay.open { opacity: 1; pointer-events: auto; }
-        .side-panel.open { right: 0; }
+        .side-panel.open { 
+            right: 0; 
+            /* 只有在面板開啟時，才加上陰影，避免隱藏時陰影溢出螢幕 */
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6); 
+        }
         
         /* 關閉按鈕 */
         .panel-close-btn {
