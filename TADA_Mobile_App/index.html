@@ -1000,7 +1000,6 @@
                         <span class="alt-text" style="display:none;">贊助商 5</span>
                     </a>
                 </div>
-                <!-- 新增第 6 個贊助商區塊 -->
                 <div class="sponsor-box">
                     <a href="#" class="sponsor-link" data-index="6" target="_blank">
                         <img src="images/sponsors/sponsor6.png" alt="贊助商 6" style="display:block;">
@@ -1033,7 +1032,7 @@
                     - 總顧問 <span style="white-space: nowrap;">駱啟明 致詞</span><br>
                     - 桃園市航空城公司前董事長 <span style="white-space: nowrap;">王義川 致詞</span><br>
                     - 本會創會理事長 <span style="white-space: nowrap;">黃德華 致詞</span><br>
-                    - 本會監事長 <span style="white-space: nowrap;">林&nbsp;萬 致詞</span>
+                    - 本會監事長 <span style="white-space: nowrap;">林 萬 致詞</span>
                 </div>
             </div>
             <div class="timeline-item">
@@ -1160,7 +1159,7 @@
             <div class="swiper-button-prev"></div>
         </div>
 
-        <!-- 新增：議長拜訪區塊 -->
+        <!-- 議長拜訪區塊 -->
         <h3 class="fade-in" style="color: var(--accent-navy); margin-bottom: 20px; font-weight: 700;"><i class="fa-solid fa-building-user"></i> 桃園市議會 邱奕勝議長拜訪</h3>
         
         <div class="swiper visit02-swiper fade-in" style="margin-bottom: 40px;">
@@ -1298,7 +1297,6 @@
                         <span class="alt-text" style="display:none;">贊助商 5</span>
                     </a>
                 </div>
-                <!-- 新增第 6 個贊助商區塊 -->
                 <div class="sponsor-box">
                     <a href="#" class="sponsor-link" data-index="6" target="_blank">
                         <img src="images/sponsors/sponsor6.png" alt="贊助商 6" style="display:block;">
@@ -1472,7 +1470,7 @@
             // 初始化市長拜訪輪播圖
             new Swiper('.visit-swiper', swiperOptions);
             
-            // 初始化議長拜訪輪播圖 (新增)
+            // 初始化議長拜訪輪播圖
             new Swiper('.visit02-swiper', swiperOptions);
 
             // 初始化尾牙餐會輪播圖
@@ -1585,7 +1583,7 @@
 
         // 統一套用網址到 UI 的函式
         function applyLinksToUI(linksData) {
-            for (let i = 1; i <= 6; i++) { // 修改為 6
+            for (let i = 1; i <= 6; i++) { // 6 個贊助商
                 const url = linksData[`link${i}`] || '';
                 const linksToUpdate = document.querySelectorAll(`.sponsor-link[data-index="${i}"]`);
                 
@@ -1654,7 +1652,7 @@
         } else {
             // 本機備援模式
             const localData = {};
-            for (let i = 1; i <= 6; i++) localData[`link${i}`] = localStorage.getItem(`sponsor_link_${i}`) || ''; // 修改為 6
+            for (let i = 1; i <= 6; i++) localData[`link${i}`] = localStorage.getItem(`sponsor_link_${i}`) || '';
             localData.animations = localStorage.getItem('anim_toggle') || 'on';
             applyLinksToUI(localData);
         }
