@@ -11,17 +11,19 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="桃園市航空城發展協會 第六屆就職典禮">
     <meta property="og:description" content="桃園市航空城發展協會 (Taoyuan Aerotropolis Development Association) 第六屆理事長暨理監事就職典禮。跨域整合 · 築夢航空｜2026.03.22">
-    <meta property="og:image" content="TADA2026.jpg"> 
+    <meta property="og:image" content="images/TADA2026.jpg"> 
     <meta property="og:site_name" content="跨域整合 · 築夢航空">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="桃園市航空城發展協會 第六屆就職典禮">
     <meta name="twitter:description" content="桃園市航空城發展協會 (Taoyuan Aerotropolis Development Association) 第六屆理事長暨理監事就職典禮。跨域整合 · 築夢航空｜2026.03.22">
-    <meta name="twitter:image" content="TADA2026.jpg">
+    <meta name="twitter:image" content="images/TADA2026.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Poppins:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- 新增 Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         /* =========================================
            1. CSS 變數與全域設定 (Global Variables)
@@ -217,7 +219,7 @@
            4. 首頁與末頁背景 (Cover & Back Cover)
            ========================================= */
         #cover, #back-cover {
-            background-image: url('TADA2026.jpg');
+            background-image: url('images/TADA2026.jpg');
             background-size: cover;
             background-position: center;
             padding: 0;
@@ -629,19 +631,38 @@
         .committee-members { font-size: 13px; font-weight: 500; color: var(--text-muted); margin-top: 4px; }
 
         /* =========================================
-           9. 圖片庫 (Gallery)
+           9. 圖片庫 (Gallery - 升級為輪播圖)
            ========================================= */
-        .gallery { display: flex; flex-direction: column; gap: 20px; }
+        .swiper {
+            width: 100%;
+            padding-bottom: 40px !important; /* 留空間給底部的分頁圓點 */
+        }
         .gallery-item {
             border-radius: 16px; overflow: hidden; position: relative;
             border: 1px solid var(--surface-border); box-shadow: var(--shadow-md); background: #FFF;
+            height: auto;
         }
-        .gallery-item img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .gallery-item img { width: 100%; height: 250px; object-fit: cover; display: block; }
         .gallery-caption {
             padding: 15px 20px; font-size: 15px; font-weight: 700; color: var(--text-main);
             display: flex; align-items: center; gap: 10px;
         }
         .gallery-caption i { color: var(--accent-blue); }
+
+        /* Swiper 自訂樣式 */
+        .swiper-pagination-bullet-active { background-color: var(--accent-blue) !important; }
+        .swiper-button-next, .swiper-button-prev {
+            color: var(--accent-navy) !important;
+            background: rgba(255, 255, 255, 0.85);
+            width: 40px !important; height: 40px !important;
+            border-radius: 50%; box-shadow: var(--shadow-md);
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+        }
+        .swiper-button-next::after, .swiper-button-prev::after {
+            font-size: 16px !important; font-weight: 900;
+        }
+        .swiper-button-prev { left: 10px !important; }
+        .swiper-button-next { right: 10px !important; }
 
         /* 自訂 Toast 提示浮窗 */
         #toast-container {
@@ -740,7 +761,7 @@
 
         <h1 class="cover-title-group" style="position:relative; z-index:10; margin-bottom: 40px; text-shadow: var(--shadow-md);">
             <div class="title-top-section">
-                <img src="https://raw.githubusercontent.com/kunfol627/TADA_302_test/main/%E6%A1%83%E5%9C%92%E8%88%AA%E7%A9%BA%E5%9F%8E%E7%99%BC%E5%B1%95%E5%8D%94%E6%9C%83_LOGO_%E5%84%AA%E5%8C%96_%E5%8E%BB%E8%83%8C.png" alt="TADA Logo" class="title-logo-locked">
+                <img src="images/logo.png" alt="TADA Logo" class="title-logo-locked">
                 <div class="title-text-section">
                     <div class="main-org" style="color: #ffffff;">桃園市航空城發展協會</div>
                     <div class="cover-en-title" style="color: #00f0ff; letter-spacing: 1px;">Taoyuan Aerotropolis Development Association</div>
@@ -868,7 +889,7 @@
     <!-- ==================== 網站主要內容 ==================== -->
     <header id="navbar">
         <div class="logo-text">
-            <img src="https://raw.githubusercontent.com/kunfol627/TADA_302_test/main/%E6%A1%83%E5%9C%92%E8%88%AA%E7%A9%BA%E5%9F%8E%E7%99%BC%E5%B1%95%E5%8D%94%E6%9C%83_LOGO_%E5%84%AA%E5%8C%96_%E5%8E%BB%E8%83%8C.png" alt="TADA Logo" class="logo-img">
+            <img src="images/logo.png" alt="TADA Logo" class="logo-img">
             跨域整合 · 築夢航空
         </div>
         <div class="header-actions">
@@ -908,7 +929,7 @@
         <div class="cover-content fade-in">
             <h1 class="cover-title-group">
                 <div class="title-top-section">
-                    <img src="https://raw.githubusercontent.com/kunfol627/TADA_302_test/main/%E6%A1%83%E5%9C%92%E8%88%AA%E7%A9%BA%E5%9F%8E%E7%99%BC%E5%B1%95%E5%8D%94%E6%9C%83_LOGO_%E5%84%AA%E5%8C%96_%E5%8E%BB%E8%83%8C.png" alt="TADA Logo" class="title-logo">
+                    <img src="images/logo.png" alt="TADA Logo" class="title-logo">
                     <div class="title-text-section">
                         <div class="main-org">桃園市航空城發展協會</div>
                         <div class="cover-en-title">Taoyuan Aerotropolis Development Association</div>
@@ -958,31 +979,31 @@
             <div class="sponsors-grid">
                 <div class="sponsor-box">
                     <a href="#" class="sponsor-link" data-index="1" target="_blank">
-                        <img src="sponsor1.png" alt="贊助商 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <img src="images/sponsors/sponsor1.png" alt="贊助商 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="alt-text" style="display:none;">贊助商 1</span>
                     </a>
                 </div>
                 <div class="sponsor-box">
                     <a href="#" class="sponsor-link" data-index="2" target="_blank">
-                        <img src="sponsor2.png" alt="贊助商 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <img src="images/sponsors/sponsor2.png" alt="贊助商 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="alt-text" style="display:none;">贊助商 2</span>
                     </a>
                 </div>
                 <div class="sponsor-box">
                     <a href="#" class="sponsor-link" data-index="3" target="_blank">
-                        <img src="sponsor3.png" alt="贊助商 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <img src="images/sponsors/sponsor3.png" alt="贊助商 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="alt-text" style="display:none;">贊助商 3</span>
                     </a>
                 </div>
                 <div class="sponsor-box">
                     <a href="#" class="sponsor-link" data-index="4" target="_blank">
-                        <img src="sponsor4.png" alt="贊助商 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <img src="images/sponsors/sponsor4.png" alt="贊助商 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="alt-text" style="display:none;">贊助商 4</span>
                     </a>
                 </div>
                 <div class="sponsor-box">
                     <a href="#" class="sponsor-link" data-index="5" target="_blank">
-                        <img src="sponsor5.png" alt="贊助商 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <img src="images/sponsors/sponsor5.png" alt="贊助商 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="alt-text" style="display:none;">贊助商 5</span>
                     </a>
                 </div>
@@ -1079,19 +1100,101 @@
 
     <section id="gallery">
         <div class="section-title fade-in"><i class="fa-solid fa-camera-retro"></i> 會務與活動剪影</div>
-        <div class="gallery fade-in">
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop" alt="產官學研論壇">
-                <div class="gallery-caption"><i class="fa-solid fa-chalkboard-user"></i> 產官學研跨域專業論壇</div>
+        
+        <!-- 市長拜訪區塊 -->
+        <h3 class="fade-in" style="color: var(--accent-navy); margin-bottom: 20px; font-weight: 700;"><i class="fa-solid fa-landmark"></i> 桃園市政府 張善政市長拜訪</h3>
+        
+        <div class="swiper visit-swiper fade-in" style="margin-bottom: 40px;">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide gallery-item">
+                    <img src="images/visit/01-01.jpg" alt="溫代欣秘書長合影" loading="lazy">
+                    <div class="gallery-caption"><i class="fa-solid fa-handshake"></i> 與溫代欣 秘書長合影</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/visit/01-02.jpg" alt="意見交流" loading="lazy">
+                    <div class="gallery-caption"><i class="fa-solid fa-comments"></i> 產業意見交流與政策探討</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/visit/01-03.jpg" alt="拜會會議" loading="lazy">
+                    <div class="gallery-caption"><i class="fa-solid fa-people-group"></i> 桃園市政府拜會座談</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/visit/01-04.jpg" alt="會議交流" loading="lazy">
+                    <div class="gallery-caption"><i class="fa-solid fa-microphone-lines"></i> 航空城發展願景交流</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/visit/01-05.jpg" alt="張市長與秘書長周君蔚" loading="lazy">
+                    <div class="gallery-caption"><i class="fa-solid fa-business-time"></i> 張市長與秘書長周君蔚 產業意見交流</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/visit/01-06.jpg" alt="張市長、秘書長周君蔚、主委謝清鴻" loading="lazy">
+                    <div class="gallery-caption"><i class="fa-solid fa-camera"></i> 張市長與秘書長周君蔚、主委謝清鴻 圓滿交流合影</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/visit/01-07.jpg" alt="張市長與常務監事劉立宏" loading="lazy">
+                    <div class="gallery-caption"><i class="fa-solid fa-camera"></i> 張市長與常務監事劉立宏 圓滿交流合影</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/visit/01-08.jpg" alt="大合照" loading="lazy">
+                    <div class="gallery-caption"><i class="fa-solid fa-users"></i> 拜會行程圓滿大合影</div>
+                </div>
             </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=2070&auto=format&fit=crop" alt="都市計畫參訪">
-                <div class="gallery-caption"><i class="fa-solid fa-map-location-dot"></i> 航空城都市計畫與綠能參訪</div>
+            <!-- Swiper 導航與分頁組件 -->
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+        <!-- 尾牙餐會區塊 -->
+        <h3 class="fade-in" style="color: var(--accent-navy); margin-bottom: 20px; font-weight: 700;"><i class="fa-solid fa-glass-cheers"></i> 第六屆第二次理監事會暨尾牙餐會</h3>
+        
+        <div class="swiper party-swiper fade-in">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide gallery-item">
+                    <img src="images/gallery/02_01.jpg" alt="理監事與貴賓合影" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop';">
+                    <div class="gallery-caption"><i class="fa-solid fa-users"></i> 理事長與貴賓合影</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/gallery/02_02.jpg" alt="總顧問致詞" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=2070&auto=format&fit=crop';">
+                    <div class="gallery-caption"><i class="fa-solid fa-microphone"></i> 總顧問 駱董事長致詞</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/gallery/02_03.jpg" alt="秘書長致詞" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop';">
+                    <div class="gallery-caption"><i class="fa-solid fa-microphone-lines"></i> 桃園市政府 溫代欣秘書長致詞</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/gallery/02_04.jpg" alt="贊助支票頒贈" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop';">
+                    <div class="gallery-caption"><i class="fa-solid fa-money-check-dollar"></i> 感謝第一郵通熱情贊助</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/gallery/02_05.jpg" alt="頒發感謝錦旗" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop';">
+                    <div class="gallery-caption"><i class="fa-solid fa-award"></i> 致贈感謝錦旗</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/gallery/02_06.jpg" alt="貴賓致詞" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop';">
+                    <div class="gallery-caption"><i class="fa-solid fa-comment-dots"></i> 貴賓致詞與勉勵</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/gallery/02_07.jpg" alt="理監事與會員聯歡" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop';">
+                    <div class="gallery-caption"><i class="fa-solid fa-face-smile"></i> 理監事與會員熱絡聯歡</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/gallery/02_08.jpg" alt="跨界產業交流餐會" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop';">
+                    <div class="gallery-caption"><i class="fa-solid fa-utensils"></i> 跨界產業交流餐會</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/gallery/02_09.jpg" alt="舉杯同慶" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop';">
+                    <div class="gallery-caption"><i class="fa-solid fa-champagne-glasses"></i> 舉杯同慶 迎向新局</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/gallery/02-10.jpg" alt="航空城之夜 尾牙餐會" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop';">
+                    <div class="gallery-caption"><i class="fa-solid fa-glass-cheers"></i> 航空城之夜 歡樂尾牙</div>
+                </div>
             </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop" alt="國際結盟">
-                <div class="gallery-caption"><i class="fa-solid fa-earth-asia"></i> 推動國際產業鏈與物流結盟</div>
-            </div>
+            <!-- Swiper 導航與分頁組件 -->
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
         </div>
     </section>
 
@@ -1117,31 +1220,31 @@
             <div class="sponsors-grid">
                 <div class="sponsor-box">
                     <a href="#" class="sponsor-link" data-index="1" target="_blank">
-                        <img src="sponsor1.png" alt="贊助商 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <img src="images/sponsors/sponsor1.png" alt="贊助商 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="alt-text" style="display:none;">贊助商 1</span>
                     </a>
                 </div>
                 <div class="sponsor-box">
                     <a href="#" class="sponsor-link" data-index="2" target="_blank">
-                        <img src="sponsor2.png" alt="贊助商 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <img src="images/sponsors/sponsor2.png" alt="贊助商 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="alt-text" style="display:none;">贊助商 2</span>
                     </a>
                 </div>
                 <div class="sponsor-box">
                     <a href="#" class="sponsor-link" data-index="3" target="_blank">
-                        <img src="sponsor3.png" alt="贊助商 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <img src="images/sponsors/sponsor3.png" alt="贊助商 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="alt-text" style="display:none;">贊助商 3</span>
                     </a>
                 </div>
                 <div class="sponsor-box">
                     <a href="#" class="sponsor-link" data-index="4" target="_blank">
-                        <img src="sponsor4.png" alt="贊助商 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <img src="images/sponsors/sponsor4.png" alt="贊助商 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="alt-text" style="display:none;">贊助商 4</span>
                     </a>
                 </div>
                 <div class="sponsor-box">
                     <a href="#" class="sponsor-link" data-index="5" target="_blank">
-                        <img src="sponsor5.png" alt="贊助商 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <img src="images/sponsors/sponsor5.png" alt="贊助商 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="alt-text" style="display:none;">贊助商 5</span>
                     </a>
                 </div>
@@ -1280,6 +1383,40 @@
         }
 
         initCountdown();
+    </script>
+
+    <!-- 新增 Swiper JS 與初始化腳本 -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 共用的輪播圖設定
+            const swiperOptions = {
+                loop: true,                     // 循環播放
+                spaceBetween: 20,               // 卡片間距
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,            // 圓點可點擊
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                autoplay: {
+                    delay: 3500,                // 每 3.5 秒自動換頁
+                    disableOnInteraction: false // 使用者滑動後不停止自動播放
+                },
+                breakpoints: {
+                    320: { slidesPerView: 1 },  // 手機版一次顯示 1 張
+                    768: { slidesPerView: 2 }   // 平板與電腦版一次顯示 2 張
+                }
+            };
+
+            // 初始化市長拜訪輪播圖
+            new Swiper('.visit-swiper', swiperOptions);
+            
+            // 初始化尾牙餐會輪播圖
+            new Swiper('.party-swiper', swiperOptions);
+        });
     </script>
 
     <!-- 網站核心邏輯腳本與 Firebase 雲端整合 -->
