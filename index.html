@@ -571,8 +571,16 @@
         .panel-hero {
             height: 45vh; min-height: 350px; position: relative;
             background-color: #8C949D; /* 加入質感灰底色，若使用去背PNG可完美融合 */
-            background-size: cover; background-position: center top;
+            background-size: contain; /* 關鍵修正：改為 contain，避免人像被過度放大裁切 */
+            background-position: right bottom; /* 關鍵修正：靠右且靠底對齊，維持半身像在右側 */
             background-repeat: no-repeat;
+        }
+
+        /* 針對手機版做最佳化，讓人物置中靠底，如市長範例圖的平衡感 */
+        @media (max-width: 768px) {
+            .panel-hero {
+                background-position: center bottom;
+            }
         }
         
         /* 姓名設計 (Serif 字體) */
