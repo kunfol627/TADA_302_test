@@ -16,16 +16,17 @@
     <meta property="og:site_name" content="跨域整合 · 築夢航空 | 桃園市航空城發展協會">
     <meta property="og:title" content="桃園市航空城發展協會 第六屆就職典禮">
     <meta property="og:description" content="桃園市航空城發展協會 (Taoyuan Aerotropolis Development Association) 第六屆理事長暨理監事就職典禮。跨域整合 · 築夢航空｜2026.03.22">
-    <meta property="og:image" content="images/TADA2026.jpg"> 
+    <!-- 替換為絕對路徑，確保 LINE 能正確抓取 -->
+    <meta property="og:image" content="https://tada0303test.netlify.app/images/TADA2026.jpg"> 
     <meta property="og:image:alt" content="桃園市航空城發展協會 第六屆就職典禮主視覺">
-    <!-- 若有正式網址，可將下方 content 替換為實際網址，如 https://tada6th.github.io/ -->
-    <meta property="og:url" content="https://tada6th.github.io/">
+    <meta property="og:url" content="https://tada0303test.netlify.app/">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="桃園市航空城發展協會 第六屆就職典禮">
     <meta name="twitter:description" content="桃園市航空城發展協會 (Taoyuan Aerotropolis Development Association) 第六屆理事長暨理監事就職典禮。跨域整合 · 築夢航空｜2026.03.22">
-    <meta name="twitter:image" content="images/TADA2026.jpg">
+    <!-- 替換為絕對路徑 -->
+    <meta name="twitter:image" content="https://tada0303test.netlify.app/images/TADA2026.jpg">
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -343,8 +344,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 18px;
+            gap: clamp(10px, 3vw, 18px); /* 根據螢幕寬度自動調整間距 */
             margin-bottom: 15px;
+            flex-wrap: nowrap; /* 強制不換行 */
         }
 
         .title-text-section {
@@ -354,29 +356,30 @@
         }
 
         .title-logo {
-            height: 56px;
+            height: clamp(40px, 10vw, 56px); /* 根據螢幕自動縮放 LOGO */
             width: auto;
             display: block;
         }
 
         .title-logo-locked {
-            height: 56px;
+            height: clamp(40px, 10vw, 56px);
             width: auto;
             display: block;
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
         }
 
         .main-org {
-            font-size: 30px;
+            font-size: clamp(20px, 5.5vw, 30px); /* 手機最小 20px，電腦最大 30px */
             font-weight: 900;
             line-height: 1.2;
             color: var(--text-main);
             letter-spacing: 1px;
+            white-space: nowrap; /* 強制不換行 */
         }
 
         .cover-en-title {
             font-family: 'Poppins', sans-serif;
-            font-size: 10px;
+            font-size: clamp(8px, 2vw, 10px);
             color: var(--accent-blue);
             letter-spacing: 0.2px;
             margin: 4px 0 0 0;
@@ -386,19 +389,21 @@
         }
 
         .sub-org {
-            font-size: 24px;
+            font-size: clamp(18px, 4.5vw, 24px); /* 手機最小 18px，電腦最大 24px */
             font-weight: 700;
             line-height: 1.3;
             color: var(--text-main);
             margin-bottom: 6px;
+            white-space: nowrap; /* 強制不換行 */
         }
 
         .main-event {
             color: var(--accent-navy);
-            font-size: 40px;
+            font-size: clamp(32px, 8vw, 40px);
             font-weight: 900;
-            letter-spacing: 4px;
+            letter-spacing: clamp(2px, 1vw, 4px);
             display: block;
+            white-space: nowrap; /* 強制不換行 */
         }
 
         .cover-theme {
