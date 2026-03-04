@@ -1118,8 +1118,8 @@
         <div class="swiper visit-swiper fade-in" style="margin-bottom: 40px;">
             <div class="swiper-wrapper">
                 <div class="swiper-slide gallery-item">
-                    <img src="images/visit/01-01.jpg" alt="溫代欣秘書長合影" loading="lazy">
-                    <div class="gallery-caption"><i class="fa-solid fa-handshake"></i> 與溫代欣 秘書長合影</div>
+                    <img src="images/visit/01-01.jpg" alt="本會理事長致贈本會紀念旗與張善政市長" loading="lazy">
+                    <div class="gallery-caption"><i class="fa-solid fa-handshake"></i> 本會理事長致贈本會紀念旗與張善政市長</div>
                 </div>
                 <div class="swiper-slide gallery-item">
                     <img src="images/visit/01-02.jpg" alt="意見交流" loading="lazy">
@@ -1148,6 +1148,30 @@
                 <div class="swiper-slide gallery-item">
                     <img src="images/visit/01-08.jpg" alt="大合照" loading="lazy">
                     <div class="gallery-caption"><i class="fa-solid fa-users"></i> 拜會行程圓滿大合影</div>
+                </div>
+            </div>
+            <!-- Swiper 導航與分頁組件 -->
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+        <!-- 新增：議長拜訪區塊 -->
+        <h3 class="fade-in" style="color: var(--accent-navy); margin-bottom: 20px; font-weight: 700;"><i class="fa-solid fa-building-user"></i> 桃園市議會 邱奕勝議長拜訪</h3>
+        
+        <div class="swiper visit02-swiper fade-in" style="margin-bottom: 40px;">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide gallery-item">
+                    <img src="images/visit02/03_01.jpg" alt="致贈紀念品與議長大合影" loading="lazy">
+                    <div class="gallery-caption"><i class="fa-solid fa-gift"></i> 致贈紀念品與議長大合影</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/visit02/03_02.jpg" alt="理事長與議長會談" loading="lazy">
+                    <div class="gallery-caption"><i class="fa-solid fa-comments"></i> 廖本生理事長與邱奕勝議長會談</div>
+                </div>
+                <div class="swiper-slide gallery-item">
+                    <img src="images/visit02/03_03.jpg" alt="理事長與議長交流" loading="lazy">
+                    <div class="gallery-caption"><i class="fa-solid fa-handshake"></i> 意見交流與政策探討</div>
                 </div>
             </div>
             <!-- Swiper 導航與分頁組件 -->
@@ -1443,6 +1467,9 @@
             // 初始化市長拜訪輪播圖
             new Swiper('.visit-swiper', swiperOptions);
             
+            // 初始化議長拜訪輪播圖 (新增)
+            new Swiper('.visit02-swiper', swiperOptions);
+
             // 初始化尾牙餐會輪播圖
             new Swiper('.party-swiper', swiperOptions);
         });
