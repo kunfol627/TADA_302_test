@@ -669,6 +669,31 @@
         }
         .btn-pdf:hover { background: var(--panel-gold); color: var(--panel-bg); }
 
+        /* 主頁面 PDF 下載按鈕 (新增) */
+        .main-btn-pdf {
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px; background: var(--surface); color: var(--accent-navy);
+            border: 1px solid var(--accent-navy); padding: 15px; border-radius: 12px;
+            font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 1px;
+            transition: all 0.3s; text-decoration: none; margin-top: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+        .main-btn-pdf:hover { background: var(--accent-navy); color: #FFF; box-shadow: var(--shadow-md); }
+
+        /* 聯絡資訊區塊按鈕設計 */
+        .contact-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: 700;
+            text-decoration: none; color: #FFF; transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 15px;
+        }
+        .contact-btn:last-child { margin-bottom: 0; }
+        .contact-btn:active { transform: scale(0.98); }
+        .btn-fb { background-color: #1877F2; }
+        .btn-fb:hover { background-color: #166FE5; box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3); }
+        .btn-line { background-color: #00C300; }
+        .btn-line:hover { background-color: #00B300; box-shadow: 0 4px 10px rgba(0, 195, 0, 0.3); }
+
         /* 聯絡資訊區塊 */
         .contact-box {
             background: #FFFFFF; border: 1px solid var(--surface-border);
@@ -707,7 +732,7 @@
                     <div class="cover-en-title" style="color: #00f0ff; letter-spacing: 1px;">Taoyuan Aerotropolis Development Association</div>
                 </div>
             </div>
-            <div class="sub-org" style="color: #e2e8f0;">第六屆理事長暨理監事</div>
+            <div class="sub-org" style="color: #e2e8f0;">第六屆理事長暨理監事委員會</div>
             <span class="main-event" style="color: #00f0ff; text-shadow: 0 0 15px rgba(0,240,255,0.6);">就職典禮</span>
         </h1>
         <div class="led-dashboard">
@@ -775,7 +800,7 @@
                         <img src="images/logo.png" alt="TADA Logo" class="title-logo">
                         <div class="title-text-section"><div class="main-org">桃園市航空城發展協會</div><div class="cover-en-title">Taoyuan Aerotropolis Development Association</div></div>
                     </div>
-                    <div class="sub-org">第六屆理事長暨理監事</div>
+                    <div class="sub-org">第六屆理事長暨理監事委員會</div>
                     <span class="main-event">就職典禮</span>
                 </h1>
                 <div class="cover-theme">跨域整合 · 築夢航空<br><span class="cover-date">2026.03.22</span></div>
@@ -902,6 +927,11 @@
                 <div class="card-header"><div class="card-icon"><i class="fa-solid fa-building"></i></div><h3>跨域建築與國際公關</h3></div>
                 <ul><li>舉辦桃園市境內建築美學專題展覽</li><li>舉辦國際公關聯誼活動拓展全球視野</li><li>構築產官學研最佳互動平台與政策建言</li></ul>
             </div>
+            
+            <!-- 115年度工作計畫 PDF下載 -->
+            <a href="#" target="_blank" class="main-btn-pdf fade-in" onclick="alert('PDF 檔案候補中'); return false;">
+                <i class="fa-regular fa-file-pdf"></i> 完整檔請下載PDF
+            </a>
         </section>
         
         <section id="directors">
@@ -1074,15 +1104,22 @@
             <details class="fade-in"><summary>第二章 會員資格</summary><div class="details-content">個人會員：贊同本會宗旨，年滿二十歲，具有中華民國國籍，未受褫奪公權者。會員有表決權、選舉權、被選舉權與罷免權。</div></details>
             <details class="fade-in"><summary>第三章 組織及職權</summary><div class="details-content">以會員大會為最高權力機構。理事會為執行機構，監事會為監察機構。工作人員不得由選任之理事監事擔任。得設各種委員會等內部作業組織。</div></details>
             <details class="fade-in"><summary>第四章 會議規範</summary><div class="details-content">會員大會分定期會議(每年一次)與臨時會議。決議需以會員過半數出席，出席超過半數同意行之；章程變更、財產處分等重大事項需三分之二以上同意。</div></details>
+            
+            <!-- 組織章程 PDF下載 -->
+            <a href="#" target="_blank" class="main-btn-pdf fade-in" onclick="alert('PDF 檔案候補中'); return false;">
+                <i class="fa-regular fa-file-pdf"></i> 完整檔請下載PDF
+            </a>
         </section>
 
         <section id="contact">
             <div class="section-title fade-in"><i class="fa-solid fa-envelope"></i> 與我們聯絡</div>
             <div class="card fade-in">
-                <p class="text-center" style="color: var(--text-muted); padding: 40px 0; font-size: 16px;">
-                    <i class="fa-regular fa-comment-dots" style="font-size: 32px; color: var(--surface-border); display: block; margin-bottom: 15px;"></i>
-                    內容待補充
-                </p>
+                <a href="https://www.facebook.com/profile.php?id=61586577793412" target="_blank" class="contact-btn btn-fb">
+                    <i class="fa-brands fa-facebook" style="font-size: 20px;"></i> Facebook 粉絲專頁
+                </a>
+                <a href="https://line.me/R/ti/p/@388igfxr" target="_blank" class="contact-btn btn-line">
+                    <i class="fa-brands fa-line" style="font-size: 20px;"></i> 立即加入協會
+                </a>
             </div>
         </section>
 
