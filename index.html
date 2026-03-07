@@ -579,10 +579,16 @@
         
         /* 關閉按鈕 */
         .panel-close-btn {
-            position: absolute; top: 20px; right: 20px;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 20px;
+            align-self: flex-end;
+            margin-top: 20px;
+            margin-right: 20px;
+            margin-bottom: -60px; /* 抵消佔用空間，避免推擠下方圖片 */
             width: 40px; height: 40px; border-radius: 50%;
             background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #FFF; font-size: 18px; cursor: pointer; z-index: 10;
+            color: #FFF; font-size: 18px; cursor: pointer; z-index: 100;
             display: flex; align-items: center; justify-content: center;
             backdrop-filter: blur(5px); transition: all 0.3s;
         }
@@ -794,7 +800,6 @@
             <a href="#cover" class="menu-link"><i class="fa-solid fa-plane-departure"></i> 封面首頁</a>
             <a href="#agenda" class="menu-link"><i class="fa-solid fa-clock"></i> 典禮程序</a>
             <a href="#plan" class="menu-link"><i class="fa-solid fa-list-check"></i> 工作計畫</a>
-            <!-- 新增：五大願景導覽連結 -->
             <a href="#vision" class="menu-link"><i class="fa-solid fa-star"></i> 五大願景</a>
             <a href="#directors" class="menu-link"><i class="fa-solid fa-users"></i> 理監事名錄</a>
             <a href="#secretariat" class="menu-link"><i class="fa-solid fa-briefcase"></i> 秘書處</a>
@@ -961,16 +966,17 @@
                 <ul>
                     <li><strong>公關參訪：</strong>每半年舉辦職業參訪、不定期產業拜訪</li>
                     <li><strong>會員聯誼：</strong>每季舉辦全會員例會、不定期會外公關聯誼</li>
-                    <li><strong>年度盛事：</strong>辦理就職典禮與年度國內外旅遊活動</li>
+                    <!-- 此處依指示修改為「年度旅遊活動」 -->
+                    <li><strong>年度盛事：</strong>辦理就職典禮與年度旅遊活動</li>
                 </ul>
             </div>
             
-            <a href="https://drive.google.com/file/d/1iBRqaJN-kDdY5dQt2xE6Y7uq2rzde3jX/view?usp=drive_link" target="_blank" class="main-btn-pdf fade-in">
+            <!-- 此處依指示更新下載連結 -->
+            <a href="https://drive.google.com/file/d/1plsXVFqARG17UuEkiTGND3Bfcc32ZcT9/view?usp=sharing" target="_blank" class="main-btn-pdf fade-in">
                 <i class="fa-regular fa-file-pdf"></i> 完整檔請下載PDF
             </a>
         </section>
 
-        <!-- 新設：航空城五大願景 獨立欄目 -->
         <section id="vision">
             <div class="section-title fade-in"><i class="fa-solid fa-star"></i> 航空城五大願景</div>
 
@@ -1008,7 +1014,7 @@
                 <ul>
                     <li><strong>監事長：</strong> <span class="name-wrap">林萬</span></li>
                     <li><strong>常務監事：</strong> <span class="name-wrap">劉立宏</span></li>
-                    <li><strong>監事：</strong> <span class="name-wrap">簡材安、</span><span class="name-wrap">韓大富、</span><span class="name-wrap">游健成、</span><span class="name-wrap">蔡博志、</span><span class="name-wrap">黃志鵬</span></li>
+                    <li><strong>監事：</strong> <span class="name-wrap">簡材安、</span><span class="name-wrap">韓大富、</span><span class="name-wrap">方孜嘉、</span><span class="name-wrap">張舜勳、</span><span class="name-wrap">張傳俊</span></li>
                 </ul>
             </div>
             
@@ -1266,7 +1272,7 @@
             <div class="panel-takeaways">
                 <h4><i class="fa-solid fa-bolt"></i> Key Takeaways</h4>
                 <ul>
-                    <li><strong>智慧綠能發展</strong>：推டம்桃園航空城基礎建設升級，導入智慧城市與低碳運具概念。</li>
+                    <li><strong>智慧綠能發展</strong>：推動桃園航空城基礎建設升級，導入智慧城市與低碳運具概念。</li>
                     <li><strong>產業進駐招商</strong>：建構完善的跨域產官學研合作平台，吸引指標性跨國企業投資。</li>
                     <li><strong>居住正義落實</strong>：兼顧在地居民權益，推動先建後遷與完善的社區安置計畫。</li>
                 </ul>
@@ -1481,11 +1487,11 @@
                     <li class="donation-item"><div class="donation-info"><span class="donation-role" style="background: var(--panel-silver); color: var(--panel-bg);">候補理事</span><span class="donation-name">黃荺婭</span></div><div class="donation-amount">NT$ 12,000</div></li>
 
                     <li class="donation-item" style="border-top: 2px solid var(--panel-gold); padding-top: 20px; margin-top: 10px; border-bottom: none;">
-                        <div class="donation-info">
+                        <div class="donation-info" style="flex-shrink: 0;">
                             <span class="donation-role" style="background: var(--panel-gold); color: var(--panel-bg); font-size: 14px; padding: 4px 10px; border: 1px solid var(--panel-gold);">總計</span>
-                            <span class="donation-name" style="font-size: 18px; color: var(--panel-gold);">捐款總額</span>
+                            <span class="donation-name" style="font-size: clamp(14px, 4vw, 18px); color: var(--panel-gold); white-space: nowrap;">捐款總額</span>
                         </div>
-                        <div class="donation-amount" style="font-size: 24px; color: var(--panel-gold);">NT$ 756,000</div>
+                        <div class="donation-amount" style="font-size: clamp(16px, 5vw, 22px); color: var(--panel-gold); white-space: nowrap;">NT$ 756,000</div>
                     </li>
                 </ul>
             </div>
@@ -1516,11 +1522,11 @@
                     <li class="donation-item"><div class="donation-info"><span class="donation-role">監事</span><span class="donation-name">張傳俊</span></div><div class="donation-amount">NT$ 20,000</div></li>
 
                     <li class="donation-item" style="border-top: 2px solid var(--panel-gold); padding-top: 20px; margin-top: 10px; border-bottom: none;">
-                        <div class="donation-info">
+                        <div class="donation-info" style="flex-shrink: 0;">
                             <span class="donation-role" style="background: var(--panel-gold); color: var(--panel-bg); font-size: 14px; padding: 4px 10px; border: 1px solid var(--panel-gold);">總計</span>
-                            <span class="donation-name" style="font-size: 18px; color: var(--panel-gold);">捐款總額</span>
+                            <span class="donation-name" style="font-size: clamp(14px, 4vw, 18px); color: var(--panel-gold); white-space: nowrap;">捐款總額</span>
                         </div>
-                        <div class="donation-amount" style="font-size: 24px; color: var(--panel-gold);">NT$ 210,000</div>
+                        <div class="donation-amount" style="font-size: clamp(16px, 5vw, 22px); color: var(--panel-gold); white-space: nowrap;">NT$ 210,000</div>
                     </li>
                 </ul>
             </div>
@@ -1560,11 +1566,11 @@
                     <li class="donation-item"><div class="donation-info"><span class="donation-role">副主委</span><span class="donation-name">賴永盛 Clyde</span></div><div class="donation-amount">NT$ 12,000</div></li>
 
                     <li class="donation-item" style="border-top: 2px solid var(--panel-gold); padding-top: 20px; margin-top: 10px; border-bottom: none;">
-                        <div class="donation-info">
+                        <div class="donation-info" style="flex-shrink: 0;">
                             <span class="donation-role" style="background: var(--panel-gold); color: var(--panel-bg); font-size: 14px; padding: 4px 10px; border: 1px solid var(--panel-gold);">總計</span>
-                            <span class="donation-name" style="font-size: 18px; color: var(--panel-gold);">捐款總額</span>
+                            <span class="donation-name" style="font-size: clamp(14px, 4vw, 18px); color: var(--panel-gold); white-space: nowrap;">捐款總額</span>
                         </div>
-                        <div class="donation-amount" style="font-size: 24px; color: var(--panel-gold);">NT$ 192,000</div>
+                        <div class="donation-amount" style="font-size: clamp(16px, 5vw, 22px); color: var(--panel-gold); white-space: nowrap;">NT$ 192,000</div>
                     </li>
                 </ul>
             </div>
