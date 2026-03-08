@@ -208,7 +208,7 @@
            4. 首頁與末頁背景 (Cover & Back Cover)
            ========================================= */
         #cover, #back-cover {
-            background-image: url('images/TADA2026.jpg');
+            background-color: #f1f5f9; /* Fallback */
             background-size: cover; background-position: center;
             padding: 0; justify-content: space-between;
             /* 確保首尾頁內的動畫元素（如飛機、列車）超出邊界時立刻裁切 */
@@ -463,7 +463,9 @@
             border: 1px solid var(--surface-border); box-shadow: var(--shadow-md); background: #FFF;
             height: auto;
         }
+        /* [改善項目2]: CSS 配合原生的 width/height 屬性自動縮放，避免 CLS */
         .gallery-item img { width: 100%; height: 250px; object-fit: cover; display: block; }
+        
         .gallery-caption {
             padding: 15px 20px; font-size: 15px; font-weight: 700; color: var(--text-main);
             display: flex; align-items: center; gap: 10px;
@@ -554,15 +556,21 @@
         }
         
         .side-panel {
-            /* 將 right 加深退到 -110%，確保隱藏時徹底退出手機螢幕邊界，杜絕黑條 */
-            position: fixed; top: 0; right: -110%; width: 100%; max-width: 480px; height: 100vh;
+            /* [改善項目1]: 修正動畫，改用 transform 以啟動硬體加速，大幅降低 CPU 消耗與卡頓 */
+            position: fixed; top: 0; right: 0; /* 固定在右側作為基準點 */
+            width: 100%; max-width: 480px; height: 100vh;
             background-color: var(--panel-bg); color: var(--panel-silver);
-            /* 加入 box-shadow 的漸變效果，並移除常駐的陰影設定 */
-            z-index: 2001; transition: right 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+            z-index: 2001; 
+            
+            /* 將元素推移到畫面外 110% 的位置 */
+            transform: translateX(110%);
+            /* 將 right 動畫改為 transform 動畫 */
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
             overflow-y: auto; display: flex; flex-direction: column;
+            will-change: transform; /* 提示瀏覽器該元素即將改變 transform 屬性，優化渲染 */
         }
 
-        /* 恢復 PC 版側邊面板為約 30% 的優雅比例 */
+        /* PC 版側邊面板比例設定 */
         @media (min-width: 1024px) {
             .side-panel {
                 max-width: 480px; 
@@ -572,8 +580,8 @@
         /* 狀態控制 */
         .side-panel-overlay.open { opacity: 1; pointer-events: auto; }
         .side-panel.open { 
-            right: 0; 
-            /* 只有在面板開啟時，才加上陰影，避免隱藏時陰影溢出螢幕 */
+            /* 滑回原本的 0 的位置 */
+            transform: translateX(0); 
             box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6); 
         }
         
@@ -731,6 +739,13 @@
             padding: 10px; border-radius: 8px; width: 40px; text-align: center;
         }
 
+        /* 新增：針對使用者要求的各大區塊縮減間隔（解除 100vh 限制並微調內距） */
+        #origin, #agenda, #plan, #vision, #directors, #secretariat, #committees {
+            min-height: auto;
+            padding-top: 75px; /* 保留導覽列高度，避免點擊選單跳轉時被遮擋 */
+            padding-bottom: 15px; /* 縮減底部留白 */
+        }
+
         /* 新增：縮減組織章程與聯絡我們之間的留白空間 */
         #bylaws { min-height: auto; padding-bottom: 20px; }
         #contact { min-height: auto; padding-top: 40px; }
@@ -748,7 +763,8 @@
         </button>
         <h1 class="cover-title-group" style="position:relative; z-index:10; margin-bottom: 40px; text-shadow: var(--shadow-md);">
             <div class="title-top-section">
-                <img src="images/logo.png" alt="TADA Logo" class="title-logo-locked">
+                <!-- 補充 logo 原生長寬比避免 CLS (假設約 5:1 的圖片長寬，具體由原圖決定) -->
+                <img src="images/logo.png" alt="TADA Logo" class="title-logo-locked" width="160" height="32">
                 <div class="title-text-section">
                     <div class="main-org" style="color: #ffffff;">桃園市航空城發展協會</div>
                     <div class="cover-en-title" style="color: #00f0ff; letter-spacing: 1px;">Taoyuan Aerotropolis Development Association</div>
@@ -790,7 +806,7 @@
 
     <div id="main-wrapper">
         <header id="navbar">
-            <div class="logo-text"><img src="images/logo.png" alt="TADA Logo" class="logo-img"> 跨域整合 · 築夢航空</div>
+            <div class="logo-text"><img src="images/logo.png" alt="TADA Logo" class="logo-img" width="160" height="32"> 跨域整合 · 築夢航空</div>
             <div class="header-actions">
                 <button class="menu-btn" id="menu-toggle" aria-label="開啟選單"><i class="fa-solid fa-bars-staggered"></i></button>
             </div>
@@ -798,6 +814,8 @@
 
         <nav class="fullscreen-menu" id="fs-menu">
             <a href="#cover" class="menu-link"><i class="fa-solid fa-plane-departure"></i> 封面首頁</a>
+            <!-- 新增：緣起導覽連結 -->
+            <a href="#origin" class="menu-link"><i class="fa-solid fa-book-open"></i> 緣起</a>
             <a href="#agenda" class="menu-link"><i class="fa-solid fa-clock"></i> 典禮程序</a>
             <a href="#plan" class="menu-link"><i class="fa-solid fa-list-check"></i> 工作計畫</a>
             <a href="#vision" class="menu-link"><i class="fa-solid fa-star"></i> 五大願景</a>
@@ -820,7 +838,7 @@
             <div class="cover-content fade-in">
                 <h1 class="cover-title-group">
                     <div class="title-top-section">
-                        <img src="images/logo.png" alt="TADA Logo" class="title-logo">
+                        <img src="images/logo.png" alt="TADA Logo" class="title-logo" width="160" height="32">
                         <div class="title-text-section"><div class="main-org">桃園市航空城發展協會</div><div class="cover-en-title">Taoyuan Aerotropolis Development Association</div></div>
                     </div>
                     <div class="sub-org">第六屆理事長暨理監事委員會</div>
@@ -864,13 +882,24 @@
 
                 <div class="sponsors-title">POWERED BY</div>
                 <div class="sponsors-grid">
-                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="1"><img src="images/sponsors/sponsor1.png" alt="贊助商"></a></div>
-                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="2"><img src="images/sponsors/sponsor2.png" alt="贊助商"></a></div>
-                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="3"><img src="images/sponsors/sponsor3.png" alt="贊助商"></a></div>
-                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="4"><img src="images/sponsors/sponsor4.png" alt="贊助商"></a></div>
-                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="5"><img src="images/sponsors/sponsor5.png" alt="贊助商"></a></div>
-                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="6"><img src="images/sponsors/sponsor6.png" alt="贊助商"></a></div>
+                    <!-- [改善項目2] 加上原生 width/height -->
+                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="1"><img src="images/sponsors/sponsor1.png" alt="贊助商" width="160" height="60"></a></div>
+                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="2"><img src="images/sponsors/sponsor2.png" alt="贊助商" width="160" height="60"></a></div>
+                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="3"><img src="images/sponsors/sponsor3.png" alt="贊助商" width="160" height="60"></a></div>
+                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="4"><img src="images/sponsors/sponsor4.png" alt="贊助商" width="160" height="60"></a></div>
+                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="5"><img src="images/sponsors/sponsor5.png" alt="贊助商" width="160" height="60"></a></div>
+                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="6"><img src="images/sponsors/sponsor6.png" alt="贊助商" width="160" height="60"></a></div>
                 </div>
+            </div>
+        </section>
+
+        <!-- 新設：緣起 獨立欄目 -->
+        <section id="origin">
+            <div class="section-title fade-in"><i class="fa-solid fa-book-open"></i> 緣起</div>
+            <div class="card fade-in">
+                <p style="font-size: 15px; color: var(--text-muted); line-height: 1.8; text-align: justify; margin: 0;">
+                    作為臺灣門戶城市，桃園國際機場位處國際物流運籌優勢區位，也是亞太城市連結的核心戰略位置。桃園國際機場同時擁有緊鄰臺北港的龐大海運腹地，完整便捷的高速公路、高速鐵路以及機場捷運網路系統。<br><br>因應第三跑道興建需求，必須取得土地的需要，「桃園航空城計畫」透過都市計畫程序，重新調整機場周圍的土地使用，提升桃園國際機場的競爭力，也促進桃園整體發展，並帶動臺灣產業轉型及國際化。<br><br>非常榮幸在此躬逢其盛，桃園市航空城發展協會新任第六屆，期待能承先啟後，結合資源！展現活力！共創願景！
+                </p>
             </div>
         </section>
 
@@ -946,7 +975,7 @@
             <div class="card fade-in">
                 <div class="card-header"><div class="card-icon"><i class="fa-solid fa-users"></i></div><h3>會務與組織營運</h3></div>
                 <ul>
-                    <li><strong>會議召開：</strong>十二月份舉辦年度會員大會</li>
+                    <li><strong>會議召開：</strong>十二月份舉辦年度會員大會(併辦例會)</li>
                     <li><strong>理監事會：</strong>每月召開一次聯席會（併辦參訪或例會）</li>
                     <li><strong>臨時會議：</strong>視實際會務需要適時舉行各項會議</li>
                 </ul>
@@ -956,18 +985,17 @@
                 <div class="card-header"><div class="card-icon"><i class="fa-solid fa-folder-open"></i></div><h3>行政財務與數位化</h3></div>
                 <ul>
                     <li><strong>帳務管理：</strong>適時辦理各項經費收支、登帳與核銷工作</li>
-                    <li><strong>預決算編列：</strong>定期編列下年度預算與上年度經決算報告</li>
-                    <li><strong>出納與採購：</strong>隨到隨辦收取會費、採購及其他收入管理</li>
+                    <li><strong>預決算編列：</strong>定期編列年度預算與決算報告</li>
+                    <li><strong>出納與採購：</strong>收取會費、採購及其他收入管理</li>
                 </ul>
             </div>
             
             <div class="card fade-in">
-                <div class="card-header"><div class="card-icon"><i class="fa-solid fa-building"></i></div><h3>跨域建築與國際公關</h3></div>
+                <div class="card-header"><div class="card-icon"><i class="fa-solid fa-building"></i></div><h3>跨域活動與產業串聯</h3></div>
                 <ul>
                     <li><strong>公關參訪：</strong>每半年舉辦職業參訪、不定期產業拜訪</li>
-                    <li><strong>會員聯誼：</strong>每季舉辦全會員例會、不定期會外公關聯誼</li>
-                    <!-- 此處依指示修改為「年度旅遊活動」 -->
-                    <li><strong>年度盛事：</strong>辦理就職典禮與年度旅遊活動</li>
+                    <li><strong>會內外聯誼：</strong>每季舉辦例會、不定期會外公關聯誼</li>
+                    <li><strong>年度盛事：</strong>辦理就職典禮與年度國內外旅遊活動</li>
                 </ul>
             </div>
             
@@ -977,6 +1005,7 @@
             </a>
         </section>
 
+        <!-- 新設：航空城五大願景 獨立欄目 -->
         <section id="vision">
             <div class="section-title fade-in"><i class="fa-solid fa-star"></i> 航空城五大願景</div>
 
@@ -1066,36 +1095,37 @@
             <h3 class="fade-in" style="color: var(--accent-navy); margin-bottom: 20px; font-weight: 700;"><i class="fa-solid fa-landmark"></i> 桃園市政府 張善政市長拜訪</h3>
             <div class="swiper visit-swiper fade-in" style="margin-bottom: 40px;">
                 <div class="swiper-wrapper">
+                    <!-- [改善項目2] 加上原生 width/height，比例約 3:2，防止圖片載入前的 CLS 排版偏移 -->
                     <div class="swiper-slide gallery-item">
-                        <img src="images/visit/01-01.jpg" alt="本會理事長致贈本會紀念旗與張善政市長" loading="lazy">
+                        <img src="images/visit/01-01.jpg" alt="本會理事長致贈本會紀念旗與張善政市長" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-handshake"></i> 本會理事長致贈本會紀念旗與張善政市長</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/visit/01-02.jpg" alt="意見交流" loading="lazy">
+                        <img src="images/visit/01-02.jpg" alt="意見交流" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-comments"></i> 產業意見交流與政策探討</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/visit/01-03.jpg" alt="拜會會議" loading="lazy">
+                        <img src="images/visit/01-03.jpg" alt="拜會會議" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-people-group"></i> 桃園市政府拜會座談</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/visit/01-04.jpg" alt="會議交流" loading="lazy">
+                        <img src="images/visit/01-04.jpg" alt="會議交流" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-microphone-lines"></i> 航空城發展願景交流</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/visit/01-05.jpg" alt="張市長與秘書長周君蔚" loading="lazy">
+                        <img src="images/visit/01-05.jpg" alt="張市長與秘書長周君蔚" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-business-time"></i> 張市長與秘書長周君蔚 產業意見交流</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/visit/01-06.jpg" alt="張市長、秘書長周君蔚、主委謝清鴻" loading="lazy">
+                        <img src="images/visit/01-06.jpg" alt="張市長、秘書長周君蔚、主委謝清鴻" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-camera"></i> 張市長與秘書長周君蔚、主委謝清鴻 圓滿交流合影</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/visit/01-07.jpg" alt="張市長與常務監事劉立宏" loading="lazy">
+                        <img src="images/visit/01-07.jpg" alt="張市長與常務監事劉立宏" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-camera"></i> 張市長與常務監事劉立宏 圓滿交流合影</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/visit/01-08.jpg" alt="大合照" loading="lazy">
+                        <img src="images/visit/01-08.jpg" alt="大合照" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-users"></i> 拜會行程圓滿大合影</div>
                     </div>
                 </div>
@@ -1108,15 +1138,15 @@
             <div class="swiper visit02-swiper fade-in" style="margin-bottom: 40px;">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide gallery-item">
-                        <img src="images/visit02/03_01.jpg" alt="致贈紀念品與議長大合影" loading="lazy">
+                        <img src="images/visit02/03_01.jpg" alt="致贈紀念品與議長大合影" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-gift"></i> 致贈紀念品與議長大合影</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/visit02/03_02.jpg" alt="理事長與議長會談" loading="lazy">
+                        <img src="images/visit02/03_02.jpg" alt="理事長與議長會談" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-comments"></i> 廖本生理事長與邱奕勝議長會談</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/visit02/03_03.jpg" alt="理事長與議長交流" loading="lazy">
+                        <img src="images/visit02/03_03.jpg" alt="理事長與議長交流" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-handshake"></i> 意見交流與政策探討</div>
                     </div>
                 </div>
@@ -1129,43 +1159,43 @@
             <div class="swiper party-swiper fade-in">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide gallery-item">
-                        <img src="images/gallery/02_01.jpg" alt="理事長與貴賓合影" loading="lazy">
+                        <img src="images/gallery/02_01.jpg" alt="理事長與貴賓合影" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-users"></i> 理事長與貴賓合影</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/gallery/02_02.jpg" alt="第一郵聯通運 駱董事長致詞" loading="lazy">
+                        <img src="images/gallery/02_02.jpg" alt="第一郵聯通運 駱董事長致詞" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-microphone"></i> 第一郵聯通運 駱董事長致詞</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/gallery/02_03.jpg" alt="桃園市政府 溫代欣 秘書長致詞" loading="lazy">
+                        <img src="images/gallery/02_03.jpg" alt="桃園市政府 溫代欣 秘書長致詞" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-microphone-lines"></i> 桃園市政府 溫代欣 秘書長致詞</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/gallery/02_04.jpg" alt="總顧問 第一郵聯通運 駱董事長 慨捐壹拾萬元，與本會共創桃園航空城新未來。" loading="lazy">
+                        <img src="images/gallery/02_04.jpg" alt="總顧問 第一郵聯通運 駱董事長 慨捐壹拾萬元，與本會共創桃園航空城新未來。" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-money-check-dollar"></i> 總顧問 第一郵聯通運 駱董事長 慨捐壹拾萬元，與本會共創桃園航空城新未來。</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/gallery/02_05.jpg" alt="理事長 廖本生致贈感謝錦旗予監事長 林萬" loading="lazy">
+                        <img src="images/gallery/02_05.jpg" alt="理事長 廖本生致贈感謝錦旗予監事長 林萬" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-award"></i> 理事長 廖本生致贈感謝錦旗予監事長 林萬</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/gallery/02_06.jpg" alt="桃園市政府地政局 蔡金鐘局長 專題演講" loading="lazy">
+                        <img src="images/gallery/02_06.jpg" alt="桃園市政府地政局 蔡金鐘局長 專題演講" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-microphone-lines"></i> 桃園市政府地政局 蔡金鐘局長 專題演講</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/gallery/02_07.jpg" alt="理監事與會員聯歡" loading="lazy">
+                        <img src="images/gallery/02_07.jpg" alt="理監事與會員聯歡" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-face-smile"></i> 理監事與會員熱絡聯歡</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/gallery/02_08.jpg" alt="跨界產業交流餐會" loading="lazy">
+                        <img src="images/gallery/02_08.jpg" alt="跨界產業交流餐會" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-utensils"></i> 跨界產業交流餐會</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/gallery/02_09.jpg" alt="舉杯同慶" loading="lazy">
+                        <img src="images/gallery/02_09.jpg" alt="舉杯同慶" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-champagne-glasses"></i> 舉杯同慶 迎向新局</div>
                     </div>
                     <div class="swiper-slide gallery-item">
-                        <img src="images/gallery/02_10.jpg" alt="航空城之夜 尾牙餐會" loading="lazy">
+                        <img src="images/gallery/02_10.jpg" alt="航空城之夜 尾牙餐會" loading="lazy" width="800" height="533">
                         <div class="gallery-caption"><i class="fa-solid fa-glass-cheers"></i> 航空城之夜 歡樂尾牙</div>
                     </div>
                 </div>
@@ -1218,12 +1248,12 @@
             <div class="sponsors-container fade-in">
                 <div class="sponsors-title">POWERED BY</div>
                 <div class="sponsors-grid">
-                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="1"><img src="images/sponsors/sponsor1.png" alt="贊助商"></a></div>
-                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="2"><img src="images/sponsors/sponsor2.png" alt="贊助商"></a></div>
-                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="3"><img src="images/sponsors/sponsor3.png" alt="贊助商"></a></div>
-                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="4"><img src="images/sponsors/sponsor4.png" alt="贊助商"></a></div>
-                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="5"><img src="images/sponsors/sponsor5.png" alt="贊助商"></a></div>
-                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="6"><img src="images/sponsors/sponsor6.png" alt="贊助商"></a></div>
+                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="1"><img src="images/sponsors/sponsor1.png" alt="贊助商" width="160" height="60"></a></div>
+                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="2"><img src="images/sponsors/sponsor2.png" alt="贊助商" width="160" height="60"></a></div>
+                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="3"><img src="images/sponsors/sponsor3.png" alt="贊助商" width="160" height="60"></a></div>
+                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="4"><img src="images/sponsors/sponsor4.png" alt="贊助商" width="160" height="60"></a></div>
+                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="5"><img src="images/sponsors/sponsor5.png" alt="贊助商" width="160" height="60"></a></div>
+                    <div class="sponsor-box"><a href="#" class="sponsor-link" data-index="6"><img src="images/sponsors/sponsor6.png" alt="贊助商" width="160" height="60"></a></div>
                 </div>
             </div>
         </section>
@@ -1515,7 +1545,7 @@
                 <ul class="donation-list">
                     <li class="donation-item"><div class="donation-info"><span class="donation-role">監事長</span><span class="donation-name">林萬</span></div><div class="donation-amount">NT$ 50,000</div></li>
                     <li class="donation-item"><div class="donation-info"><span class="donation-role">常務監事</span><span class="donation-name">劉立宏</span></div><div class="donation-amount">NT$ 40,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">監事</span><span class="donation-name">簡材安</span></div><div class="donation-amount">NT$ 40,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">監事</span><span class="donation-name">簡材安</span></div><div class="donation-amount">NT$ 20,000</div></li>
                     <li class="donation-item"><div class="donation-info"><span class="donation-role">監事</span><span class="donation-name">韓大富</span></div><div class="donation-amount">NT$ 20,000</div></li>
                     <li class="donation-item"><div class="donation-info"><span class="donation-role">監事</span><span class="donation-name">方孜嘉</span></div><div class="donation-amount">NT$ 20,000</div></li>
                     <li class="donation-item"><div class="donation-info"><span class="donation-role">監事</span><span class="donation-name">張舜勳</span></div><div class="donation-amount">NT$ 20,000</div></li>
@@ -1526,7 +1556,7 @@
                             <span class="donation-role" style="background: var(--panel-gold); color: var(--panel-bg); font-size: 14px; padding: 4px 10px; border: 1px solid var(--panel-gold);">總計</span>
                             <span class="donation-name" style="font-size: clamp(14px, 4vw, 18px); color: var(--panel-gold); white-space: nowrap;">捐款總額</span>
                         </div>
-                        <div class="donation-amount" style="font-size: clamp(16px, 5vw, 22px); color: var(--panel-gold); white-space: nowrap;">NT$ 210,000</div>
+                        <div class="donation-amount" style="font-size: clamp(16px, 5vw, 22px); color: var(--panel-gold); white-space: nowrap;">NT$ 190,000</div>
                     </li>
                 </ul>
             </div>
@@ -1548,22 +1578,22 @@
                     本會承蒙各位委員鼎力支持，慷慨解囊，特立此芳名錄以表謝忱。
                 </p>
                 <ul class="donation-list">
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">廖仁巍 Webber</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">副主委</span><span class="donation-name">楊芳羽 Nana</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">李泓澔 Ian Li</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">副主委</span><span class="donation-name">顧源倫 Leo Ku</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">廖仁巍</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">副主委</span><span class="donation-name">楊芳羽</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">李泓澔</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">副主委</span><span class="donation-name">顧源倫</span></div><div class="donation-amount">NT$ 12,000</div></li>
                     <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">江宏瑜</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">副主委</span><span class="donation-name">戴子強 Johnny Tai</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">魏新樺 Martin</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">任欣元 Koko</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">李宏澤 Wilson</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">鍾政甫 Ray Chung</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">蕭育仁 Aaron Hsiao</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">楊睿槿 Doreen</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">副主委</span><span class="donation-name">黃舒琳 Joyce</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">副主委</span><span class="donation-name">戴子強</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">魏新樺</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">任欣元</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">李宏澤</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">鍾政甫</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">蕭育仁</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">楊睿槿</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">副主委</span><span class="donation-name">黃舒琳</span></div><div class="donation-amount">NT$ 12,000</div></li>
                     <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">廖玥琪</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">謝清鴻 Steven</span></div><div class="donation-amount">NT$ 12,000</div></li>
-                    <li class="donation-item"><div class="donation-info"><span class="donation-role">副主委</span><span class="donation-name">賴永盛 Clyde</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">主委</span><span class="donation-name">謝清鴻</span></div><div class="donation-amount">NT$ 12,000</div></li>
+                    <li class="donation-item"><div class="donation-info"><span class="donation-role">副主委</span><span class="donation-name">賴永盛</span></div><div class="donation-amount">NT$ 12,000</div></li>
 
                     <li class="donation-item" style="border-top: 2px solid var(--panel-gold); padding-top: 20px; margin-top: 10px; border-bottom: none;">
                         <div class="donation-info" style="flex-shrink: 0;">
