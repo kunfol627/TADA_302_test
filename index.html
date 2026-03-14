@@ -263,7 +263,8 @@
             gap: clamp(10px, 3vw, 18px); margin-bottom: 15px; flex-wrap: nowrap;
         }
 
-        .title-text-section { display: flex; flex-direction: column; align-items: center; }
+        /* 讓子元素等寬延展，英文標題即可對齊中文長度 */
+        .title-text-section { display: flex; flex-direction: column; align-items: stretch; text-align: center; }
         .title-logo { height: clamp(40px, 10vw, 56px); width: auto; display: block; }
         .title-logo-locked {
             height: clamp(40px, 10vw, 56px); width: auto; display: block;
@@ -275,9 +276,10 @@
             color: var(--text-main); letter-spacing: 1px; white-space: nowrap;
         }
 
+        /* 將英文的字間距設為 0.16em，達成與中文標題視覺等長 */
         .cover-en-title {
             font-family: 'Poppins', sans-serif; font-size: clamp(8px, 2vw, 10px);
-            color: var(--accent-blue); letter-spacing: 0.2px; margin: 4px 0 0 0;
+            color: var(--accent-blue); letter-spacing: 0.16em; margin: 4px 0 0 0;
             font-weight: 500; line-height: 1.2; white-space: nowrap; 
         }
 
@@ -767,7 +769,7 @@
                 <img src="images/logo.png" alt="TADA Logo" class="title-logo-locked" width="160" height="32">
                 <div class="title-text-section">
                     <div class="main-org" style="color: #ffffff;">桃園市航空城發展協會</div>
-                    <div class="cover-en-title" style="color: #00f0ff; letter-spacing: 1px;">Taoyuan Aerotropolis Development Association</div>
+                    <div class="cover-en-title" style="color: #00f0ff;">Taoyuan Aerotropolis Development Association</div>
                 </div>
             </div>
             <div class="sub-org" style="color: #e2e8f0;">第六屆理事長暨理監事委員會</div>
@@ -937,7 +939,7 @@
                             - 總顧問 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-04">駱啟明 <i class="fa-solid fa-chevron-right"></i></a> 致詞
                         </div>
                         <div class="speaker-list-item">
-                            - 桃園市航空城公司前董事長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-05">王義川 <i class="fa-solid fa-chevron-right"></i></a> 致詞
+                            - 立法委員 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-05">王義川 <i class="fa-solid fa-chevron-right"></i></a> 致詞
                         </div>
                         <div class="speaker-list-item">
                             - 本會監事長 <a href="javascript:void(0)" class="speaker-trigger" data-panel="speaker-panel-07">林 萬 <i class="fa-solid fa-chevron-right"></i></a> 致詞
@@ -1297,7 +1299,7 @@
                 <div class="panel-hook-line"><i class="fa-solid fa-quote-left"></i><span>持續打造宜居新生活圈</span></div>
             </div>
             <div class="panel-takeaways">
-                <h4><i class="fa-solid fa-bolt"></i> Key Takeaways</h4>
+                <h4><i class="fa-solid fa-bolt"></i> 核心焦點</h4>
                 <ul>
                     <li><strong>智慧綠能發展</strong>：推動桃園航空城基礎建設升級，導入智慧城市與低碳運具概念。</li>
                     <li><strong>產業進駐招商</strong>：建構完善的跨域產官學研合作平台，吸引指標性跨國企業投資。</li>
@@ -1315,14 +1317,14 @@
         <div class="panel-body">
             <div class="panel-title">桃園市議會 議長<br>SPEAKER OF TAOYUAN CITY COUNCIL</div>
             <div class="panel-hook">
-                <div class="panel-hook-line"><i class="fa-solid fa-quote-left"></i><span>金句金句金句金句金句</span></div>
+                <div class="panel-hook-line"><i class="fa-solid fa-quote-left"></i><span>洞察城市脈動，領航智慧桃園</span></div>
             </div>
             <div class="panel-takeaways">
-                <h4><i class="fa-solid fa-bolt"></i> Key Takeaways</h4>
+                <h4><i class="fa-solid fa-bolt"></i> 核心焦點</h4>
                 <ul>
-                    <li><strong>重點項目一</strong>：1.金句金句金句金句金句金句。</li>
-                    <li><strong>重點項目二</strong>：2.金句金句金句金句金句金句。</li>
-                    <li><strong>重點項目三</strong>：3.金句金句金句金句金句金句。</li>
+                    <li>積極監督並推動航空城計畫的執行，主張帶動地方產業升級與國際化。</li>
+                    <li>支持桃園捷運綠線、機場捷運延伸線及鐵路地下化等重大交通基礎建設。</li>
+                    <li>重視基層鄰里服務，推動社區發展、老人長照及青年創業環境的優化。</li>
                 </ul>
             </div>
         </div>
@@ -1336,14 +1338,14 @@
         <div class="panel-body">
             <div class="panel-title">總顧問<br>CHIEF ADVISOR</div>
             <div class="panel-hook">
-                <div class="panel-hook-line"><i class="fa-solid fa-quote-left"></i><span>金句金句金句金句金句</span></div>
+                <div class="panel-hook-line"><i class="fa-solid fa-quote-left"></i><span>台灣跨境電商物流與郵政物流領域的資深領導者</span></div>
             </div>
             <div class="panel-takeaways">
-                <h4><i class="fa-solid fa-bolt"></i> Key Takeaways</h4>
+                <h4><i class="fa-solid fa-bolt"></i> 核心焦點</h4>
                 <ul>
-                    <li><strong>重點項目一</strong>：1.金句金句金句金句金句金句。</li>
-                    <li><strong>重點項目二</strong>：2.金句金句金句金句金句金句。</li>
-                    <li><strong>重點項目三</strong>：3.金句金句金句金句金句金句。</li>
+                    <li><strong>跨境物流先鋒</strong>：帶領第一郵聯成為台灣首家取得「海關自主管理」資格的民營郵件轉運中心。</li>
+                    <li><strong>創新轉型</strong>：致力於將傳統貨運轉型為現代化「智慧物流」，利用大數據與 AI 優化倉儲管理。</li>
+                    <li><strong>產業合作</strong>：頻繁與政府單位（如交通部、財政部關務署）溝通，共同優化跨境電商的通關環境。</li>
                 </ul>
             </div>
         </div>
@@ -1355,16 +1357,16 @@
             <h2 class="panel-name">王義川</h2>
         </div>
         <div class="panel-body">
-            <div class="panel-title">桃園市航空城公司前董事長<br>FORMER CHAIRMAN OF TAOYUAN AEROTROPOLIS CO., LTD.</div>
+            <div class="panel-title">立法委員<br>MEMBER OF THE LEGISLATIVE YUAN</div>
             <div class="panel-hook">
-                <div class="panel-hook-line"><i class="fa-solid fa-quote-left"></i><span>金句金句金句金句金句</span></div>
+                <div class="panel-hook-line"><i class="fa-solid fa-quote-left"></i><span>專業與幽默兼具的交通博士</span></div>
             </div>
             <div class="panel-takeaways">
-                <h4><i class="fa-solid fa-bolt"></i> Key Takeaways</h4>
+                <h4><i class="fa-solid fa-bolt"></i> 核心焦點</h4>
                 <ul>
-                    <li><strong>重點項目一</strong>：1.金句金句金句金句金句金句。</li>
-                    <li><strong>重點項目二</strong>：2.金句金句金句金句金句金句。</li>
-                    <li><strong>重點項目三</strong>：3.金句金句金句金句金句金句。</li>
+                    <li><strong>前桃園航空城公司董事長</strong>：參與推動航空城相關開發計畫。</li>
+                    <li>持續監督《交通安全基本法》的實施與道路設計改善。</li>
+                    <li>關注都市計畫、區域開發與公共建設的合理性。</li>
                 </ul>
             </div>
         </div>
@@ -1378,14 +1380,14 @@
         <div class="panel-body">
             <div class="panel-title">本會監事長<br>HEAD OF SUPERVISORY BOARD</div>
             <div class="panel-hook">
-                <div class="panel-hook-line"><i class="fa-solid fa-quote-left"></i><span>金句金句金句金句金句</span></div>
+                <div class="panel-hook-line"><i class="fa-solid fa-quote-left"></i><span>把品質堅持到最好，蓋出自己都喜歡的房子</span></div>
             </div>
             <div class="panel-takeaways">
-                <h4><i class="fa-solid fa-bolt"></i> Key Takeaways</h4>
+                <h4><i class="fa-solid fa-bolt"></i> 核心焦點</h4>
                 <ul>
-                    <li><strong>重點項目一</strong>：1.金句金句金句金句金句金句。</li>
-                    <li><strong>重點項目二</strong>：2.金句金句金句金句金句金句。</li>
-                    <li><strong>重點項目三</strong>：3.金句金句金句金句金句金句。</li>
+                    <li>由於塗料背景，特別注重抗 UV 照射、防海水侵蝕及長效防水，提出區域罕見的「10 年防水保固」。</li>
+                    <li>主張每一棟建築都是獨立的「作品」而非商品，強調因地制宜，不套用固定模板。</li>
+                    <li>積極導入智慧人臉辨識系統與電動車充電儲值系統，接軌國際趨勢。</li>
                 </ul>
             </div>
         </div>
