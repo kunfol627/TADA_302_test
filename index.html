@@ -21,7 +21,7 @@
     <meta property="og:title" content="桃園市航空城發展協會 第六屆就職典禮">
     <meta property="og:description" content="桃園市航空城發展協會 (Taoyuan Aerotropolis Development Association) 第六屆理事長暨理監事就職典禮。跨域整合 · 築夢航空｜2026.03.22">
     <!-- 替換為絕對路徑，確保 LINE 能正確抓取 -->
-    <meta property="og:image" content="https://tada6th.netlify.app/images/TADA2026.jpg"> 
+    <meta property="og:image" content="https://tada6th.netlify.app/images/tadanew.jpg"> 
     <meta property="og:image:alt" content="桃園市航空城發展協會 第六屆就職典禮主視覺">
     <meta property="og:url" content="https://tada6th.netlify.app/">
 
@@ -30,7 +30,7 @@
     <meta name="twitter:title" content="桃園市航空城發展協會 第六屆就職典禮">
     <meta name="twitter:description" content="桃園市航空城發展協會 (Taoyuan Aerotropolis Development Association) 第六屆理事長暨理監事就職典禮。跨域整合 · 築夢航空｜2026.03.22">
     <!-- 替換為絕對路徑 -->
-    <meta name="twitter:image" content="https://tada6th.netlify.app/images/TADA2026.jpg">
+    <meta name="twitter:image" content="https://tada6th.netlify.app/images/tadanew.jpg">
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -209,7 +209,10 @@
            ========================================= */
         #cover, #back-cover {
             background-color: #f1f5f9; /* Fallback */
-            background-size: cover; background-position: center;
+            background-image: url('images/tadanew.jpg'); /* 加入新的背景圖 */
+            background-size: cover; 
+            background-position: center bottom; /* 讓城市剪影靠下對齊 */
+            background-repeat: no-repeat;
             padding: 0; justify-content: space-between;
             /* 確保首尾頁內的動畫元素（如飛機、列車）超出邊界時立刻裁切 */
             overflow-x: hidden;
