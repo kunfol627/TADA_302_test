@@ -218,6 +218,13 @@
             overflow-x: hidden;
         }
 
+        /* 針對手機版，讓背景圖靠右對齊以顯示右側建築群 */
+        @media (max-width: 768px) {
+            #cover, #back-cover {
+                background-position: right bottom;
+            }
+        }
+
         .cover-overlay {
             background: linear-gradient(to bottom, rgba(255,255,255,0.70) 0%, rgba(244,247,249,0.85) 100%);
             position: absolute; inset: 0; z-index: 1;
