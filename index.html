@@ -274,6 +274,15 @@
             filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)); /* 鎖定畫面背景暗，加上白光暈確保文字可見 */
         }
 
+        /* 鎖定畫面遮罩的響應式切換 */
+        .locked-title-desktop { display: flex; width: 100%; justify-content: center; }
+        .locked-title-mobile { display: none; width: 100%; flex-direction: column; align-items: center; }
+
+        @media (max-width: 768px) {
+            .locked-title-desktop { display: none; }
+            .locked-title-mobile { display: flex; }
+        }
+
         .cover-theme {
             font-family: 'Poppins', 'Noto Sans TC', sans-serif; font-size: 16px;
             color: var(--accent-navy); letter-spacing: 4px; margin-bottom: 30px;
@@ -739,13 +748,28 @@
     <div id="toast-container"></div>
 
     <div id="countdown-overlay">
-        <button id="btn-open-lock">
+        <button id="btn-open-lock" style="z-index: 50;">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
         </button>
-        <h1 class="cover-title-group" style="position:relative; z-index:10; margin-bottom: 40px;">
-            <img src="titlelogo.png" alt="桃園市航空城發展協會 第六屆就職典禮" class="main-cover-img-locked">
+        <h1 class="cover-title-group" style="position:relative; z-index:10; margin-bottom: 40px; text-shadow: var(--shadow-md);">
+            <!-- 電腦版顯示圖片 -->
+            <div class="locked-title-desktop">
+                <img src="titlelogo.png" alt="桃園市航空城發展協會 第六屆就職典禮" class="main-cover-img-locked">
+            </div>
+            <!-- 手機版顯示原本的文字排版 -->
+            <div class="locked-title-mobile">
+                <div class="title-top-section">
+                    <img src="images/logo.png" alt="TADA Logo" class="title-logo-locked" width="160" height="32">
+                    <div class="title-text-section">
+                        <div class="main-org" style="color: #ffffff;">桃園市航空城發展協會</div>
+                        <div class="cover-en-title" style="color: #00f0ff;">Taoyuan Aerotropolis Development Association</div>
+                    </div>
+                </div>
+                <div class="sub-org" style="color: #e2e8f0;">第六屆理事長暨理監事委員會</div>
+                <span class="main-event" style="color: #00f0ff; text-shadow: 0 0 15px rgba(0,240,255,0.6);">就職典禮</span>
+            </div>
         </h1>
         <div class="led-dashboard">
             <div class="led-item"><div class="led-circle-wrap"><svg><circle cx="64" cy="64" r="56" stroke="rgba(0, 240, 255, 0.15)" stroke-width="5" fill="none" stroke-dasharray="6 4" /><circle id="days-progress" cx="64" cy="64" r="56" stroke="#00f0ff" stroke-width="5" fill="none" class="shadow-glow" style="transition: stroke-dashoffset 1s linear;" /></svg><div class="led-val-wrap"><span class="font-led glow-text" id="days-val">00</span></div></div><span class="led-label">DAYS</span></div>
